@@ -20,7 +20,7 @@ var mentorSchema = mongoose.Schema({
         required: true
     },
     username: {
-        type: String,,
+        type: String,
         unique: true,
         required: true
     },
@@ -33,6 +33,5 @@ var mentorSchema = mongoose.Schema({
 // PASSWORD HASHING ADDED
 
 mentorSchema.plugin(passportLocalMongoose);
-
 
 module.exports = mongoose.model("Mentor", mentorSchema);

@@ -1,23 +1,37 @@
 {
   "name": "entrytohack3.0",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shivam-kapila/EntryToHack3.0.git"
   },
-  "author": "",
+  "author": "Shivam and Utkarsh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/shivam-kapila/EntryToHack3.0/issues"
   },
   "homepage": "https://github.com/shivam-kapila/EntryToHack3.0#readme",
   "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
-    "express": "^4.16.4"
-  }
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "flash": "^1.1.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.4.4",
+    "nodemailer": "^5.1.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.1"
+  },
+  "devDependencies": {},
+  "description": ""
 }

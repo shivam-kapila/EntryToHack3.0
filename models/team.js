@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const passportLocalMongoose = require("passport-local-mongoose");
 
 var teamSchema = mongoose.Schema({
-    username: {
+    teamUsername: {
         type: String,
         unique: true,
         required: true
@@ -18,4 +18,4 @@ var teamSchema = mongoose.Schema({
 teamSchema.plugin(passportLocalMongoose);
 
 
-module.exports = mongoose.model("Team", mentorSchema);
+module.exports = mongoose.model("Team", teamSchema);
