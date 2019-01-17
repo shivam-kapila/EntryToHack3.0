@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
-const passportLocalMongoose = require("passport-local-mongoose");
 
-var mentorSchema = mongoose.Schema({
+var studentSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
     },
     email: {
-        type: String,
+        type: String,   
         unique: true,                   // TODO: VALIDATOR TO BE ADDED
         required: true
     },
@@ -20,19 +19,30 @@ var mentorSchema = mongoose.Schema({
         required: true
     },
     username: {
-        type: String,,
+        type: String,
         unique: true,
         required: true
     },
     password: {
         type: String,
         required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        required: true
+    },
+    teamName: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Team"
+            },
+        name: String
     }
 });
 
-// PASSWORD HASHING ADDED
-
-mentorSchema.plugin(passportLocalMongoose);
 
 
-module.exports = mongoose.model("Mentor", mentorSchema);
+// PASSWORD HASHING TO BE ADDED
+
+
+module.exports = mongoose.model("Student", studentSchema);
