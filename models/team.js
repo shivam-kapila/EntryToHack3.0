@@ -7,10 +7,41 @@ var teamSchema = mongoose.Schema({
         unique: true,
         required: true
     },
-    password: {
+    teamPassword: {
         type: String,
         required: true
-    }
+    },
+    user1: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student"
+            },
+        name: String
+    },    user2: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student"
+            },
+        name: String
+    },    user3: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student"
+            },
+        name: String
+    },    user4: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student"
+            },
+        name: String
+    },    user5: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student"
+            },
+        name: String
+    },
 });
 
 // PASSWORD HASHING ADDED

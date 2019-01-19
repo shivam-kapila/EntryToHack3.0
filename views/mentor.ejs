@@ -1,0 +1,41 @@
+<% include ./partials/header %>
+
+    		<div class= "col-md-12 text-center form">
+                      <h1 class="text-uppercase">Mentor Registration</h1>    
+
+    			<form action="/mentor" method="POST">
+    				<input type="text" name="name" placeholder="Name" required autofocus class="form-control">
+            <input type="text" name="rollno" placeholder="Roll No." required class="form-control">
+    				<input type="email" name="email" placeholder="Email" required class="form-control">
+    				<input type="text" name="phone" placeholder="Phone No." class="form-control" required pattern="[0-9]{10}">
+            <input type="test" name="username" placeholder="User Name" required class="form-control">
+            <input type="password" name="password" placeholder="Password" required class="form-control">  
+            <p class="mt-2"><strong>Year of study:</strong></p>
+            <select class="form-control" name="mentor[year]">
+              <option value="5th">5th</option>
+              <option value="4th">4th</option>
+              <option value="3rd">3rd</option>
+          </select>
+    				<p class="mt-2"><strong>Enter your top three skills:</strong></p>
+            <select class="form-control" name="skills[0]">
+  						<option value="volvo">Volvo</option>
+  						<option value="saab">Saab</option>
+  						<option value="mercedes">Mercedes</option>
+  						<option value="audi">Audi</option>
+					</select>
+					<select class="form-control" name="skills[1]">
+  						<option value="volvo">Volvo</option>
+  						<option value="saab">Saab</option>
+  						<option value="mercedes">Mercedes</option>
+  						<option value="audi">Audi</option>
+					</select>
+					<select class="form-control" name="skills[2]">
+  						<option value="volvo">Volvo</option>
+  						<option value="saab">Saab</option>
+  						<option value="mercedes">Mercedes</option>
+  						<option value="audi">Audi</option>
+					</select>
+					<input type="submit" name="Register" class="ui primary button">
+    			</form>    		</div>
+ <% include ./partials/footer %>
+   	

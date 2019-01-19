@@ -8,17 +8,16 @@ var mentorSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,                   // TODO: VALIDATOR TO BE ADDED
         required: true
     },
     rollNumber: {
         type: String,
         required: true
     },
-    year: {
-        type: Number,
-        required: true
-    },
+    // year: {
+    //     type: Number,
+    //     required: true
+    // },
     username: {
         type: String,
         unique: true,
@@ -26,6 +25,13 @@ var mentorSchema = mongoose.Schema({
     },
     password: {
         type: String,
+    },
+    skills: {
+       type: [],
+    required: true
+},
+    isVerified: {
+        type: Boolean,
         required: true
     }
 });

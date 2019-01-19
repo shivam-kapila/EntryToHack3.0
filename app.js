@@ -6,6 +6,7 @@ var express     = require("express"),
     mongoose    = require("mongoose"),
     flash       = require("connect-flash"),
     passport    = require("passport"),
+    passport1    = require("passport"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     Mentor   = require("./models/mentor"),
@@ -30,12 +31,12 @@ app.use(require("express-session")({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(Mentor.authenticate()));
+passport.use('mentor', new LocalStrategy(Mentor.authenticate()));
 passport.serializeUser(Mentor.serializeUser());
 passport.deserializeUser(Mentor.deserializeUser());
-passport.use(new LocalStrategy(Team.authenticate()));
-passport.serializeUser(Team.serializeUser());
-passport.deserializeUser(Team.deserializeUser());
+passport1.use('team', new LocalStrategy(Team.authenticate()));
+passport1.serializeUser(Team.serializeUser());
+passport1.deserializeUser(Team.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentTeam = req.teamUsername;
