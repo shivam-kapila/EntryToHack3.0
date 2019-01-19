@@ -9,8 +9,10 @@ var passport = require("passport");
 
 //root route
 router.get("/", function (req, res) {
-  res.render("index"); 
-});
+res.render('index', {
+        title: "Home", 
+        user: "Participants"
+    });});
 
 router.get("/mentor", function (req, res) {
   res.render("mentor"); 
