@@ -7,7 +7,6 @@ var express     = require("express"),
     mongoose    = require("mongoose"),
     flash       = require("connect-flash"),
     passport    = require("passport"),
-    passport1    = require("passport"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     Mentor   = require("./models/mentor"),
@@ -16,6 +15,8 @@ var express     = require("express"),
 
 //requiring routes
 var indexRoutes      = require("./routes/index");
+var mentorRoutes      = require("./routes/mentor");
+var teamRoutes      = require("./routes/team");
 var url = process.env.DATABASEURL || "mongodb://localhost/entry_to_hack3";
 mongoose.connect(url);
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,9 +36,9 @@ app.use(passport.session());
 passport.use('mentor', new LocalStrategy(Mentor.authenticate()));
 passport.serializeUser(Mentor.serializeUser());
 passport.deserializeUser(Mentor.deserializeUser());
-passport1.use('team', new LocalStrategy(Team.authenticate()));
-passport1.serializeUser(Team.serializeUser());
-passport1.deserializeUser(Team.deserializeUser());
+passport.use('team', new LocalStrategy(Team.authenticate()));
+passport.serializeUser(Team.serializeUser());
+passport.deserializeUser(Team.deserializeUser());
 
 app.use(function (req, res, next) {
   res.locals.currentTeam = req.teamUsername;
@@ -48,6 +49,9 @@ app.use(function (req, res, next) {
 });
 
 app.use("/", indexRoutes);
+app.use("/mentor", mentorRoutes);
+app.use("/team", teamRoutes);
+
 
 console.log(process.env.PORT);
 

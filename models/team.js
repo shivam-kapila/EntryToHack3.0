@@ -2,14 +2,12 @@ const mongoose = require('mongoose');
 const passportLocalMongoose = require("passport-local-mongoose");
 
 var teamSchema = mongoose.Schema({
-    teamUsername: {
+    username: {
         type: String,
         unique: true,
-        required: true
     },
-    teamPassword: {
+    password: {
         type: String,
-        required: true
     },
     user1: {
         id:{
