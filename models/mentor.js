@@ -10,6 +10,10 @@ var mentorSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    phone: {
+        type: String,
+        required: true
+    },
     rollNumber: {
         type: String,
         required: true
@@ -24,6 +28,9 @@ var mentorSchema = mongoose.Schema({
         required: true
     },
     password: {
+        type: String,
+    },
+    area: { 
         type: String,
     },
     skills: {

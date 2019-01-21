@@ -9,6 +9,10 @@ var teamSchema = mongoose.Schema({
     password: {
         type: String,
     },
+    projectCategory:{
+        type: String,
+        required: true
+    },
     user1: {
         id:{
             type: mongoose.Schema.Types.ObjectId,

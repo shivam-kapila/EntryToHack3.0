@@ -18,6 +18,10 @@ var studentSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    skills: {
+       type: [],
+    required: true
+    },
     isAdmin: {
         type: Boolean,
         required: true
