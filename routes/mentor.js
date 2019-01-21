@@ -19,7 +19,15 @@ router.get("/challenge", function(req, res){
 	res.render("mentorChallenge");
 });
 
-
+router.post("/challenge", function(req, res){
+	console.log(req.body.challenge)
+	MentorChallenge.create(req.body.challenge, function(err) {
+        if (err) {
+          return res.redirect('back');
+        }
+        res.redirect('/mentor');
+});
+});
 //handling login logic
 router.post("/login", passport.authenticate("mentor",
     {
@@ -41,7 +49,6 @@ router.post("/", function(req, res) {
             year: req.body.year,
             skills: req.body.skills
         });
-    console.log(req.body.skills)
         newMentor.isVerified = false;
         console.log(req.body.password)
     Mentor.register(newMentor, req.body.password, function(err, user){

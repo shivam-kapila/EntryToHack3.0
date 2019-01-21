@@ -10,6 +10,7 @@ var express     = require("express"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     Mentor   = require("./models/mentor"),
+    MentorChallenge   = require("./models/mentorChallenge"),
     Student      = require("./models/student"),
     Team         = require("./models/team");
 

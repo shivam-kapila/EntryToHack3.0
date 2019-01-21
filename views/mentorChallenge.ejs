@@ -3,7 +3,7 @@
     		<div class= "col-md-12 text-center form">
                       <h1 class="text-uppercase">Mentor Challenge</h1>    
 
-    			<form action="/mentor" method="POST">
+    			<form action="/mentor/challenge" method="POST">
     				<input type="text" name="challenge[title]" placeholder="Title" required autofocus class="form-control">
       				<p class="mt-2"><strong>Enter challenge category:</strong></p>
               <select class="form-control" name="challenge[category]">
@@ -21,7 +21,7 @@
                 <option value="back_end_development">Back End Development</option>
     						<option value="database_management">Database Management</option>
   					</select>
-            <textarea name="challenge[description]">Challenge Description</textarea>
+            <textarea name="challenge[description]" rows="5" class=" mt-2 form-control" placeholder="Challenge Description"></textarea>
             <input type="submit" name="Register" class="ui primary button">
     			</form>    		</div>
  <% include ./partials/footer %>
