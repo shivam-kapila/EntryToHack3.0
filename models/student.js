@@ -14,8 +14,12 @@ var studentSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    phone: {
+        type: String,
+        required: true
+    },
     year: {
-        type: Number,
+        type: String,
         required: true
     },
     skills: {

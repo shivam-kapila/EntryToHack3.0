@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Team = require("../models/team");
+var Student = require("../models/student");
 var passport = require("passport");
 
 router.get("/", function (req, res) {
@@ -20,6 +21,21 @@ router.post("/login", passport.authenticate("team",
     
 });
 
+router.get('/student1', function(req, res){
+  res.render("student1")
+});
+
+router.post('/student1', function(req, res){
+  console.log(req.body.student);
+  req.body.student.isAdmin = true;
+Student.create(req.body.student, function(err) {
+        if (err) {
+          console.log(err);
+          return res.redirect('back');
+        }
+        res.redirect('/');
+      });
+});
 
 router.post("/", function(req, res) {
     var newTeam = new Team({

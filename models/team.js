@@ -43,7 +43,7 @@ var teamSchema = mongoose.Schema({
             ref: "Student"
             },
         name: String
-    },
+    }
 });
 
 // PASSWORD HASHING ADDED

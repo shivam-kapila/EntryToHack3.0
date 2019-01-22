@@ -13,6 +13,13 @@ var mentorChallengeSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    mentor: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Mentor"
+        },
+        name: String
+    }
 });
 
 // PASSWORD HASHING ADDED

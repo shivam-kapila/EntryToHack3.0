@@ -40,6 +40,13 @@ var mentorSchema = mongoose.Schema({
     isVerified: {
         type: Boolean,
         required: true
+    },
+    mentorChallenge: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "MentorChallenge"
+            },
+        name: String
     }
 });
 
