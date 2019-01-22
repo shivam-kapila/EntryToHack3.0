@@ -26,7 +26,7 @@ var studentSchema = mongoose.Schema({
        type: [],
     required: true
     },
-    isAdmin: {
+    isLeader: {
         type: Boolean,
         required: true
     },
