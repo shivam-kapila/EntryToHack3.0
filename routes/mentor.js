@@ -63,6 +63,18 @@ router.post("/", function(req, res) {
    }); 
 });
 
-
+router.get("/mentorChallengeList", function(req, res){
+      var noMatch = null;
+      MentorChallenge.find({}, function(err, allMentorChallenges){
+      if(err){
+        console.log(err);
+      } else {
+         if(allMentorChallenges.length < 1){
+           noMatch ="No Mentor Challenges have yet been posted.";
+       }
+  res.render("mentorChallengeList", {challenges :allMentorChallenges, noMatch: noMatch});    
+   }
+  });
+});
 module.exports = router;
 

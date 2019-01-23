@@ -17,9 +17,13 @@ var mentorChallengeSchema = mongoose.Schema({
         id:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Mentor"
-        },
-        name: String
-    }
+        }
+    },
+        name: String,
+        applicants:
+        {
+            type: []
+        }
 });
 
 // PASSWORD HASHING ADDED
