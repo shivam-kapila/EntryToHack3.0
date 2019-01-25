@@ -21,8 +21,9 @@ router.post("/login", passport.authenticate("team",
     
 });
 
-router.get('/student1', function(req, res){
-  res.render("student1")
+router.get('/student', function(req, res){
+  // res.render("student1")
+  res.render("teamRegistration");
 });
 
 router.post('/student1', function(req, res){
