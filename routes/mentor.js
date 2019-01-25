@@ -23,6 +23,15 @@ router.get("/dashboard", isLoggedIn, function(req, res){
   res.render("mentorDashboard", {mentor: req.user});          
 });
 
+router.get("/update", isLoggedIn, function(req, res){
+Mentor.findById("5c4b638c48d00d440b01dc6c", async function(err, mentor){
+            mentor.isVerified = true;
+
+            mentor.save();
+console.log("done");        
+});
+})
+
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   console.log(req.user);
   Mentor.findOne({username: req.user.username}, function(err, mentor){

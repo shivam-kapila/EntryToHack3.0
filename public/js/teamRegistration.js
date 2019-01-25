@@ -6,7 +6,8 @@ var submitForm = jQuery('input[name=Register]');
 submitForm.css('display', 'none');
 
 jQuery('#saveDetails').on('click', function () {
-    var memberInput = takeInputValues(memberNumber++);
+    var memberInput = takeInputValues(memberNumber);
+    memberNumber++;
     if(validateMemberYear(memberInput))
     {
         jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
@@ -21,12 +22,13 @@ jQuery('#saveDetails').on('click', function () {
             submitForm.css('display', 'block');
         }
     } else {
-        memberInput--;
+        memberNumber--;
         alert("Roll Number and Year do not match! Enter member details again.")
     }        
 });
 
 submitForm.on('click', function () {
+    console.log(teamDetails);
     if(validateForm()) {
 
         jQuery.post('/team/student', teamDetails, function (data, e) {
@@ -41,31 +43,36 @@ submitForm.on('click', function () {
     }
 });
 
-function validateForm() {                                         
+function validateForm() {  
+    console.log('Entered function validating form');                                       
     var second = 0, third = 0, first = 0, fourth = 0, fifth = 0;
     teamDetails.forEach(function (member) {
         switch(member.year) {
-            case 2: second++;
+            case "2": second++;
                 break;
-            case 3: third++;
+            case "3": third++;
                 break;
-            case 4: fourth++;
+            case "4": fourth++;
                 break;
-            case 5: fifth++;
+            case "5": fifth++;
                 break;
-            case 1: first++;
+            case "1": first++;
                 break;
             default: break;     // No use        
         }
-        if(second > 0) {
+    });
+    console.log(`Second: ${second}\nThird: ${third}\nFourth: ${fourth}\nFirst: ${first}`);
+        if(second > 1) {        // If there are three second years
             if(third > 0 || fourth > 0 || fifth > 0 || second > 3) {
+                console.log('Caught at first if');
                 return false;
             } else {
                 return true;
             }
         }
-        if(third > 0) {
-            if (second > 0 || fourth > 0 || fifth > 0 || third > 2) {
+        if(third > 0) {         // If there are two third years
+            if (second > 1 || fourth > 0 || fifth > 0 || third > 2) {
+                console.log('Caught at second if');
                 return false;
             } else {
                 return true;
@@ -85,7 +92,6 @@ function validateForm() {
                 return true;
             }
         }
-    });
 }
 
 function takeInputValues(memberNumber) {
