@@ -11,7 +11,6 @@ var teamSchema = mongoose.Schema({
     },
     projectCategory:{
         type: String,
-        required: true
     },
     user1: {
         id:{

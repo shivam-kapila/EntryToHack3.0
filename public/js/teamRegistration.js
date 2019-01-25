@@ -23,8 +23,7 @@ jQuery('#saveDetails').on('click', function () {
     } else {
         memberInput--;
         alert("Roll Number and Year do not match! Enter member details again.")
-    }
-        
+    }        
 });
 
 submitForm.on('click', function () {

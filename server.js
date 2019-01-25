@@ -10,7 +10,6 @@ var express     = require("express"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     Mentor   = require("./models/mentor"),
-    MentorChallenge   = require("./models/mentorChallenge"),
     Student      = require("./models/student"),
     Team         = require("./models/team");
 
@@ -42,8 +41,10 @@ passport.serializeUser(Team.serializeUser());
 passport.deserializeUser(Team.deserializeUser());
 
 app.use(function (req, res, next) {
-  res.locals.currentTeam = req.teamUsername;
-  res.locals.mentor = req.username;
+  // res.locals.currentTeam = req.username;
+  console.log(req.user);
+  res.locals.mentor = req.user;
+  res.locals.team = req.user;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
   next();

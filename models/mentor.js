@@ -18,10 +18,10 @@ var mentorSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // year: {
-    //     type: Number,
-    //     required: true
-    // },
+    year: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         unique: true,
@@ -41,13 +41,26 @@ var mentorSchema = mongoose.Schema({
         type: Boolean,
         required: true
     },
-    mentorChallenge: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "MentorChallenge"
+    mentorChallenges: 
+       [
+        {
+            title: {
+                type: String,
             },
-        name: String
-    }
+            category: {
+                type: String,
+            },
+            description: {
+                type: String,
+            },
+            teamusername: {
+                type: String,
+            },
+            applicants:{
+                type: [],
+            }
+            }
+       ]
 });
 
 // PASSWORD HASHING ADDED

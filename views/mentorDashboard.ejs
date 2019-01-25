@@ -1,0 +1,35 @@
+<% include ./partials/header%>
+<div class="col-md-12">
+            <p><strong>Username: </strong><%= mentor.username %></p>
+            <p><strong>Name: </strong><%= mentor.name %></p>
+            <p><strong>Email ID: </strong><%= mentor.email %></p>
+            <p><strong>Phone No.: </strong><%= mentor.phone %></p>
+            <p><strong>Roll No.: </strong><%= mentor.rollNumber %></p>
+            <p><strong>Year of Study: </strong><%= mentor.year %></p>
+            <p><strong>Area of Interest: </strong><%= mentor.area %></p>
+            <p><strong>Skills: </strong>
+              <ul>
+                <% for(var i = 0; i < mentor.skills.length; i++) {%>
+                <li>
+                  <%= mentor.skills[i]; %>              
+                </li>
+                <% } %>
+              </ul>
+            </p>
+            <p>
+              <strong>Account Verification Status: </strong>
+              <% if(mentor.isVerified) {%>
+                Verified
+              <%} else {%>
+                  Not Verified
+              <% } %>
+            </p>
+                <% if(mentor.isVerified) {%>
+                <form action="/mentor/<%= mentor._id %>/challenge" method="POST">></form>
+                  <button class = "btn btn-lg btn-success btn-block"> Post Challenge</button>
+            <%} else {%>
+                  <button class = "btn btn-lg btn-success btn-block" disabled> Post Challenge</button>
+            <% } %>
+
+</div>
+  <% include ./partials/footer%>

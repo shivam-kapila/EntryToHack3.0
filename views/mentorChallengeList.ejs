@@ -1,3 +1,4 @@
+<% include ./partials/header%>
         <div class="col-md-12">
              <% if(noMatch !== null) {%>
                 <h3><%= noMatch %></h3>
@@ -13,20 +14,26 @@
               <th>Mentor Name</th>
               <th>Applicants</th>
             </tr>
-                <% challenges.forEach(function(challenge){ %>
+                <% challenges.forEach(function(challenge){
+                challenge.mentorChallenges.forEach(function(chall) {
+                    console.log(chall);%>
                 <tr>
-                  <td><%= challenge.title %></td>
-                  <td><%= challenge.category %></td>
-                  <td><%= challenge.description %></td>
-                  <td><%= challenge.mentor %></td>
+                  <td><%= chall.title %></td>
+                  <td><%= chall.category %></td>
+                  <td><%= chall.description %></td>
+                  <td><%= challenge.name %></td>
                   <td>
                     <ul>
-                        <% for(var i = 0; i < challenge.applicants.length; i++){ %>
+                        <% for(var i = 0; i < chall.applicants.length; i++){ %>
                           <li>
-                            <%= challenge.applicants[i];%>
+                            <%= chall.applicants[i];%>
                           </li>
                           <% } %>
                     </ul> 
-                  </td>           
+                  </td>
+                  </tr>
+                  <% }); %>
+                  console.log("our");           
         <% }); %>
           </table>   
+<% include ./partials/footer%>
