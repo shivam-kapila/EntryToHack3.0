@@ -23,17 +23,17 @@ router.get("/dashboard", isLoggedIn, function(req, res){
   res.render("mentorDashboard", {mentor: req.user});          
 });
 
-router.get("/update", isLoggedIn, function(req, res){
-Mentor.findById("5c4b638c48d00d440b01dc6c", async function(err, mentor){
-            mentor.isVerified = true;
+// router.get("/update", isLoggedIn, function(req, res){
+// Mentor.findById("5c4b638c48d00d440b01dc6c", async function(err, mentor){
+//             mentor.mentorChallenges.splice(0,mentor.mentorChallenges.length)
 
-            mentor.save();
-console.log("done");        
-});
-})
+
+//             mentor.save();
+// console.log("done");        
+// });
+// })
 
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
-  console.log(req.user);
   Mentor.findOne({username: req.user.username}, function(err, mentor){
     console.log(mentor);
     mentor.mentorChallenges.push(req.body.challenge);
@@ -55,6 +55,7 @@ router.post("/login", passport.authenticate("mentor",
 
 
 router.post("/signup", function(req, res) {
+  console.log(req.body.skills);
     var newMentor = new Mentor({
             name: req.body.name,
             rollNumber: req.body.rollno,
@@ -65,7 +66,7 @@ router.post("/signup", function(req, res) {
             year: req.body.year,
             skills: req.body.skills
         });
-        newMentor.isVerified = false;
+        newMentor.isVerified = true;
         console.log(newMentor);
     Mentor.register(newMentor, req.body.password, function(err, user){
        if(err){

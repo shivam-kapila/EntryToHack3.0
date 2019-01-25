@@ -25,9 +25,18 @@
               <% } %>
             </p>
                 <% if(mentor.isVerified) {%>
-                <form action="/mentor/<%= mentor._id %>/challenge" method="POST"></form>
+                <form action="/mentor/challenge" method="GET">
                   <button class = "btn btn-lg btn-success btn-block"> Post Challenge</button>
-                  <% %>
+                </form>
+
+                  <% var i = 0;
+                  mentor.mentorChallenges.forEach(function(chall) {
+                    i++;});
+                  if(i >0) {%>
+                  <form action="/mentor/mentorChallengeList" method="GET">
+                    <button class = "btn btn-lg btn-primary btn-block"> View Challenges</button>
+                  </form>
+                  <% } %>
             <%} else {%>
                   <button class = "btn btn-lg btn-success btn-block" disabled> Post Challenge</button>
             <% } %>
