@@ -1,8 +1,10 @@
 var express = require("express");
 var router = express.Router();
+var passport = require("passport");
+var bodyParser = require('body-parser');
+
 var Team = require("../models/team");
 var Student = require("../models/student");
-var passport = require("passport");
 
 router.get("/", function (req, res) {
   res.render("team"); 
@@ -23,80 +25,18 @@ router.post("/login", passport.authenticate("team",
 
 router.get('/student', function(req, res){
   // res.render("student1")
-  res.render("teamRegistration");
+  res.render('teamRegistration');
 });
 
-router.post('/student1', function(req, res){
-  console.log(req.body.student);
-  req.body.student.isLeader = true;
-Student.create(req.body.student, function(err) {
-        if (err) {
-          console.log(err);
-          return res.redirect('back');
-        }
+router.post('/student', function(req, res){
+  console.log('Data Received!', req.body);
+  var teamDetails = req.body;
+  teamDetails.forEach(student => {
+    
+  });
+  
         res.redirect('/');
-      });
-});
-
-router.get('/student2', function(req, res){
-  res.render("student2")
-});
-
-router.post('/student2', function(req, res){
-  req.body.student.isLeader = false;
-Student.create(req.body.student, function(err) {
-        if (err) {
-          console.log(err);
-          return res.redirect('back');
-        }
-        res.redirect('/');
-      });
-});
-
-router.get('/student3', function(req, res){
-  res.render("student3")
-});
-
-router.post('/student3', function(req, res){
-  req.body.student.isLeader = false;
-Student.create(req.body.student, function(err) {
-        if (err) {
-          console.log(err);
-          return res.redirect('back');
-        }
-        res.redirect('/');
-      });
-});
-
-router.get('/student4', function(req, res){
-  res.render("student4")
-});
-
-router.post('/student4', function(req, res){
-  req.body.student.isLeader = false;
-Student.create(req.body.student, function(err) {
-        if (err) {
-          console.log(err);
-          return res.redirect('back');
-        }
-        res.redirect('/');
-      });
-});
-
-router.get('/student5', function(req, res){
-  res.render("student5")
-});
-
-router.post('/student5', function(req, res){
-  console.log(req.body.student);
-  req.body.student.isLeader = fasle;
-Student.create(req.body.student, function(err) {
-        if (err) {
-          console.log(err);
-          return res.redirect('back');
-        }
-        res.redirect('/');
-      });
+      // });
 });
 
 router.post("/", function(req, res) {
