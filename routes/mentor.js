@@ -82,15 +82,30 @@ router.post("/signup", function(req, res) {
 
 router.get("/mentorChallengeList", function(req, res){
       var noMatch = null;
+      Mentor.find({username: req.user.username}, function(err, mentor){
+      if(err){
+        console.log(err);
+      } else {
+        allMentorChallenges = mentor;
+         if(allMentorChallenges.length < 1){
+           noMatch ="No Challenges have yet been posted.";
+       }
+  res.render("mentorChallengeList", {challenges: allMentorChallenges, noMatch: noMatch});    
+   }
+  });
+});
+
+router.get("/allMentorChallenges", function(req, res){
+      var noMatch = null;
       Mentor.find({}, function(err, mentor){
       if(err){
         console.log(err);
       } else {
         allMentorChallenges = mentor;
          if(allMentorChallenges.length < 1){
-           noMatch ="No Mentor Challenges have yet been posted.";
+           noMatch ="No Challenges have yet been posted.";
        }
-  res.render("mentorChallengeList", {challenges: allMentorChallenges, noMatch: noMatch});    
+  res.render("allMentorChallenges", {challenges: allMentorChallenges, noMatch: noMatch});    
    }
   });
 });

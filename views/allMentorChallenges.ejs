@@ -14,6 +14,7 @@
               <th>Mentor Name</th>
               <th>Mentor Username</th>
               <th>Applicants</th>
+              <th>Apply For It</th>
             </tr>
                 <% challenges.forEach(function(challenge){
                 challenge.mentorChallenges.forEach(function(chall) {
@@ -32,6 +33,11 @@
                           </li>
                           <% } %>
                     </ul> 
+                  </td>
+                  <td>
+                    <form action="addChallenge" method = "POST"> 
+                      <button class = "btn btn-primary">Apply</button>
+                    </form>
                   </td>
                   </tr>
                   <% }); %>
