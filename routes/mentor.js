@@ -32,18 +32,7 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 // console.log("done");        
 // });
 // })
-router.post("/addChallenge/:id", function(req,res){
-Mentor.applicants.findById(req.aprams.id, function(err, applicant){
-  if(err){
-    console.log(err);
-    res.redirect("back");
-  } else {
-  applicant.applicants.push(req.user.username)
-  applicant.save();
-  res.redirect("/team/dashboard");
-}
-});
-});
+
 
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
@@ -107,20 +96,6 @@ router.get("/mentorChallengeList", isLoggedIn, function(req, res){
   });
 });
 
-router.get("/allMentorChallenges", function(req, res){
-      var noMatch = null;
-      Mentor.find({}, function(err, mentor){
-      if(err){
-        console.log(err);
-      } else {
-        allMentorChallenges = mentor;
-         if(allMentorChallenges.length < 1){
-           noMatch ="No Challenges have yet been posted.";
-       }
-  res.render("allMentorChallenges", {challenges: allMentorChallenges, noMatch: noMatch});    
-   }
-  });
-});
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){

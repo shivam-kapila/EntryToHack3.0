@@ -10,7 +10,6 @@ var express     = require("express"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     Mentor   = require("./models/mentor"),
-    Student      = require("./models/student"),
     Team         = require("./models/team");
 
 //requiring routes
