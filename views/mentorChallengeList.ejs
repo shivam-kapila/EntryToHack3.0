@@ -13,6 +13,7 @@
               <th>Description</th>
               <th>Mentor Name</th>
               <th>Mentor Username</th>
+              <th>Accepted Team</th>
               <th>Applicants</th>
             </tr>
                 <% challenges.forEach(function(challenge){
@@ -24,11 +25,15 @@
                   <td><%= chall.description %></td>
                   <td><%= challenge.name %></td>
                   <td><%= challenge.username %></td>
+                  <td><%= chall.username %></td>
                   <td>
                     <ul>
                         <% for(var i = 0; i < chall.applicants.length; i++){ %>
                           <li>
                             <%= chall.applicants[i];%>
+                            <form action="/mentor/<%= challenge._id%>/consider/<%= chall._id%>" method = "POST">
+                              <button class = "btn btn-info btn-sm">Finalise</button>
+                            </form>
                           </li>
                           <% } %>
                     </ul> 
