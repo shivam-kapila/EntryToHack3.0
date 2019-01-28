@@ -38,6 +38,19 @@ Student.create(req.body.student, function(err) {
       });
 });
 
+router.post("/addChallenge/:id", function(req,res){
+Mentor.applicants.findById(req.aprams.id, function(err, applicant){
+  if(err){
+    console.log(err);
+    res.redirect("back");
+  } else {
+  applicant.applicants.push(req.user.username)
+  applicant.save();
+  res.redirect("/team/dashboard");
+}
+});
+});
+
 router.post("/", function(req, res) {
     var newTeam = new Team({
             username: req.body.username,

@@ -32,6 +32,18 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 // console.log("done");        
 // });
 // })
+router.post("/addChallenge/:id", function(req,res){
+Mentor.applicants.findById(req.aprams.id, function(err, applicant){
+  if(err){
+    console.log(err);
+    res.redirect("back");
+  } else {
+  applicant.applicants.push(req.user.username)
+  applicant.save();
+  res.redirect("/team/dashboard");
+}
+});
+});
 
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
@@ -80,7 +92,7 @@ router.post("/signup", function(req, res) {
    }); 
 });
 
-router.get("/mentorChallengeList", function(req, res){
+router.get("/mentorChallengeList", isLoggedIn, function(req, res){
       var noMatch = null;
       Mentor.find({username: req.user.username}, function(err, mentor){
       if(err){

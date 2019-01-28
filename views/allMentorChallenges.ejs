@@ -13,7 +13,7 @@
               <th>Description</th>
               <th>Mentor Name</th>
               <th>Mentor Username</th>
-              <th>Applicants</th>
+              <th> No. of Applicants</th>
               <th>Apply For It</th>
             </tr>
                 <% challenges.forEach(function(challenge){
@@ -25,17 +25,10 @@
                   <td><%= chall.description %></td>
                   <td><%= challenge.name %></td>
                   <td><%= challenge.username %></td>
+                  <td><%= chall.applicants.length %></td>
                   <td>
-                    <ul>
-                        <% for(var i = 0; i < chall.applicants.length; i++){ %>
-                          <li>
-                            <%= chall.applicants[i];%>
-                          </li>
-                          <% } %>
-                    </ul> 
-                  </td>
-                  <td>
-                    <form action="addChallenge" method = "POST"> 
+                    <% console.log(chall._id);%>
+                    <form action="addChallenge/<%= chall._id%>" method = "POST"> 
                       <button class = "btn btn-primary">Apply</button>
                     </form>
                   </td>
