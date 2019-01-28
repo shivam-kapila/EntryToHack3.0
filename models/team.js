@@ -4,7 +4,8 @@ const passportLocalMongoose = require("passport-local-mongoose");
 var teamSchema = mongoose.Schema({
     username: {
         type: String,
-        unique: true,
+        // unique: true,
+        default: "team1"
     },
     password: {
         type: String,
@@ -12,37 +13,39 @@ var teamSchema = mongoose.Schema({
     projectCategory:{
         type: String,
     },
-    user1: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Student"
+    members: [
+        {
+            name: {
+                type: String,
+                required: true
             },
-        name: String
-    },    user2: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Student"
+            isLeader: {
+                type: Boolean,
+                default: false
             },
-        name: String
-    },    user3: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Student"
+            email: {
+                type: String,
+                unique: true,                   // TODO: VALIDATOR TO BE ADDED
+                required: true
             },
-        name: String
-    },    user4: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Student"
+            rollNumber: {
+                type: String,
+                required: true
             },
-        name: String
-    },    user5: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Student"
+            phone: {
+                type: String,
+                required: true
             },
-        name: String
-    }
+            year: {
+                type: String,
+                required: true
+            },
+            skills: {
+                type: [],
+                required: true
+            }
+        }
+    ]
 });
 
 // PASSWORD HASHING ADDED

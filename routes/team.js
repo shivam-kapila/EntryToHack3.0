@@ -27,15 +27,20 @@ router.get('/student', function(req, res){
 });
 
 router.post('/student', function(req, res){
-  console.log(req.body.student);
-  req.body.student.isLeader = true;
-Student.create(req.body.student, function(err) {
-        if (err) {
-          console.log(err);
-          return res.redirect('back');
-        }
-        res.redirect('/');
-      });
+  console.log(req.body);
+  req.body[0]["isLeader"] = true;
+  var team = new Team({
+      username: "Team1",
+      password: "12345",
+      members: req.body
+  });
+
+  team.save().then((saved) => {
+      res.send(saved);
+  }).catch(e => {
+      console.log(e);
+      res.sendStatus(404);
+  });
 });
 
 router.post("/addChallenge/:id", function(req,res){
