@@ -18,7 +18,7 @@ var mentorRoutes      = require("./routes/mentor");
 var teamRoutes      = require("./routes/team");
 var url = process.env.DATABASEURL || "mongodb://localhost/entry_to_hack3";
 mongoose.connect(url);
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
