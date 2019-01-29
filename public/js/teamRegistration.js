@@ -8,23 +8,23 @@ submitForm.css('display', 'none');
 jQuery('#saveDetails').on('click', function () {
     var memberInput = takeInputValues(memberNumber);
     memberNumber++;
-    if(validateData()) {}
-    if(validateMemberYear(memberInput))
-    {
-        jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
-        clearInputValues();
-        console.log(teamDetails);
-        teamDetails.push(memberInput);
-        if (memberNumber === 4) {
-            submitForm.css('display', 'block');
-            jQuery('#saveDetails').css('display', 'none');
+    if(validateData()) {
+        if(validateMemberYear(memberInput)) {
+            jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
+            clearInputValues();
+            console.log(teamDetails);
+            teamDetails.push(memberInput);
+            if (memberNumber === 4) {
+                submitForm.css('display', 'block');
+                jQuery('#saveDetails').css('display', 'none');
+            }
+            if (memberNumber === 3) {
+                submitForm.css('display', 'block');
+            }
+        } else {
+            memberNumber--;
+            alert("Roll Number and Year do not match! Enter member details again.")
         }
-        if (memberNumber === 3) {
-            submitForm.css('display', 'block');
-        }
-    } else {
-        memberNumber--;
-        alert("Roll Number and Year do not match! Enter member details again.")
     }
 });
 
