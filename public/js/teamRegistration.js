@@ -156,3 +156,13 @@ function validateMemberYear(member) {
     }
     
 }
+
+function updateYear() {
+    console.log('Hello');
+    var roll = $('#roll').val();
+    if(roll.toLowerCase().search('iiitu') !== -1) {
+        $('#year').val(19 - parseInt(roll.split('')[5] + roll.split('')[6]));
+    } else if(roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
+        $('#year').val(19 - parseInt(roll.split('')[0] + roll.split('')[1]));
+    } else { }
+}
