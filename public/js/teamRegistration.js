@@ -28,7 +28,9 @@ jQuery('#saveDetails').on('click', function () {
 });
 
 submitForm.on('click', function (e) {
-    var memberInput = takeInputValues(memberNumber);     // Use only for 4 member bug.
+    var memberInput = takeInputValues(memberNumber);
+    console.log(memberInput.skill0);
+         // Use only for 4 member bug.
     teamDetails.push(memberInput);
     console.log('Team Details in submitForm: ', teamDetails);
     console.log(validateForm());
@@ -45,6 +47,7 @@ submitForm.on('click', function (e) {
             async: false,
             success: function (msg) {
                 alert(msg);
+
             }
         });
     } else {
@@ -117,7 +120,8 @@ function takeInputValues(memberNumber) {
         skill1: jQuery('input[name=skills1]').val(),
         skill2: jQuery('input[name=skills2]').val(),
         skill3: jQuery('input[name=skills3]').val(),
-        isLeader: false
+        isLeader: false,
+        // skills[]: [skill0, skill1, skill2, skill3]
     }        
 }
 

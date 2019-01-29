@@ -34,13 +34,8 @@ router.post('/student', isTeamLoggedIn, function(req, res){
 Team.findOne({username: req.user.username}, function(err, team){
   console.log(team);
   team.members = req.body.members;
-
-  team.save().then((saved) => {
-      res.send(saved);
-  }).catch(e => {
-      console.log(e);
-      res.sendStatus(404);
-  });
+  team.save();
+  res.redirect("/team/allMentorChallenges");
 });
 });
 
@@ -120,7 +115,7 @@ router.post("/", function(req, res) {
        }
        passport.authenticate("team")(req, res, function(){
        	console.log("qwertyujkl");
-           res.redirect("/team/student");
+        res.redirect("/team/student");
        });
    }); 
 });
