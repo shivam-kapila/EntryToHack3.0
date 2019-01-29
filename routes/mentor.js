@@ -33,6 +33,7 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 // });
 // })
 
+
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
     console.log(mentor);
@@ -80,7 +81,7 @@ router.post("/signup", function(req, res) {
    }); 
 });
 
-router.get("/mentorChallengeList", function(req, res){
+router.get("/mentorChallengeList", isLoggedIn, function(req, res){
       var noMatch = null;
       Mentor.find({username: req.user.username}, function(err, mentor){
       if(err){
@@ -95,20 +96,6 @@ router.get("/mentorChallengeList", function(req, res){
   });
 });
 
-router.get("/allMentorChallenges", function(req, res){
-      var noMatch = null;
-      Mentor.find({}, function(err, mentor){
-      if(err){
-        console.log(err);
-      } else {
-        allMentorChallenges = mentor;
-         if(allMentorChallenges.length < 1){
-           noMatch ="No Challenges have yet been posted.";
-       }
-  res.render("allMentorChallenges", {challenges: allMentorChallenges, noMatch: noMatch});    
-   }
-  });
-});
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){

@@ -13,30 +13,39 @@
               <th>Description</th>
               <th>Mentor Name</th>
               <th>Mentor Username</th>
-              <th>Applicants</th>
+              <th> No. of Applicants</th>
               <th>Apply For It</th>
             </tr>
                 <% challenges.forEach(function(challenge){
-                challenge.mentorChallenges.forEach(function(chall) {
-                    console.log(chall);%>
+                challenge.mentorChallenges.forEach(function(chall) { %>
                 <tr>
                   <td><%= chall.title %></td>
                   <td><%= chall.category %></td>
                   <td><%= chall.description %></td>
                   <td><%= challenge.name %></td>
                   <td><%= challenge.username %></td>
+                  <td><%= chall.applicants.length %></td>
                   <td>
-                    <ul>
-                        <% for(var i = 0; i < chall.applicants.length; i++){ %>
-                          <li>
-                            <%= chall.applicants[i];%>
-                          </li>
-                          <% } %>
-                    </ul> 
-                  </td>
-                  <td>
-                    <form action="addChallenge" method = "POST"> 
-                      <button class = "btn btn-primary">Apply</button>
+                    <form action="/team/<%= challenge._id%>/participate/<%= chall._id%>" method = "POST"> <% 
+                      if(chall.teamusername != null){
+                      <button class = "btn btn-warning" disabled>Team Finalised</button>
+                    } else {
+                      var k = 0;
+                      for( var j = 0; j < chall.applicants.length; j++){
+                            if(team == chall.applicants[j])
+                              {
+                              k = 1;
+                              break;
+                              console.log("yes");
+                              }
+                          }
+                          if(k === 1)
+                          { %>
+                        <button class = "btn btn-success" disabled>Applied</button>
+                      <% } else { %>
+                        <button class = "btn btn-primary">Apply</button>
+                      <% }
+                      } %>
                     </form>
                   </td>
                   </tr>

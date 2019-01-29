@@ -1,7 +1,11 @@
 var express = require("express");
 var router = express.Router();
+var Mentor = require("../models/mentor");
 var Team = require("../models/team");
+<<<<<<< HEAD
 // var Student = require("../models/student");
+=======
+>>>>>>> 22daeb2f0324065e6880311109a9034be14d7fdf
 var passport = require("passport");
 
 router.get("/", function (req, res) {
@@ -15,7 +19,7 @@ router.get("/login", function(req, res){
 //handling login logic
 router.post("/login", passport.authenticate("team",
     {
-        successRedirect: "/test",
+        successRedirect: "/team/allMentorChallenges",
         failureRedirect: "/team/login", 
 }),function(req, res) {
     
@@ -30,8 +34,6 @@ router.post('/student', function(req, res){
   console.log(req.body);
   req.body[0]["isLeader"] = true;
   var team = new Team({
-      username: "Team1",
-      password: "12345",
       members: req.body
   });
 
@@ -40,6 +42,71 @@ router.post('/student', function(req, res){
   }).catch(e => {
       console.log(e);
       res.sendStatus(404);
+  });
+});
+
+
+// router.post("/:id/participate/:challengeid/empty",isTeamLoggedIn, function(req,res){
+// Mentor.findById(req.params.id, function(err, challenge){
+//   if(err){
+//     console.log(err);
+//     res.redirect("back");
+//   } else {
+//   challenge.mentorChallenges.forEach(function(chall) {  
+//     if(chall.id === req.params.challengeid){
+//           chall.applicants = [];
+//       challenge.save();
+//       res.redirect("/team/dashboard");
+
+// }
+//   });
+// }
+//   });
+// });
+
+router.post("/:id/participate/:challengeid",isTeamLoggedIn, function(req,res){
+Mentor.findById(req.params.id, function(err, challenge){
+  if(err){
+    console.log(err);
+    res.redirect("back");
+  } else {
+  challenge.mentorChallenges.forEach(function(chall) {    
+    if(chall.id === req.params.challengeid){
+      var k = 0;
+      for( var j = 0; j < chall.applicants.length; j++){
+        console.log(req.user.user +" and "+ chall.applicants[j]);
+        if(req.user.username == chall.applicants[j])
+          {
+          k = 1;
+          break;
+          }
+      }
+      if(k === 1)
+      {
+        console.log("Already applied");
+      } else {
+      chall.applicants.push(req.user.username);
+      challenge.save();
+      res.redirect("/team/allMentorChallenges");
+      }
+}
+});
+}
+});
+});
+
+router.get("/allMentorChallenges", isTeamLoggedIn, function(req, res){
+      var noMatch = null;
+      Mentor.find({}, function(err, mentor){
+      if(err){
+        console.log(err);
+      } else {
+        allMentorChallenges = mentor;
+         if(allMentorChallenges.length < 1){
+           noMatch ="No Challenges have yet been posted.";
+       }
+  res.render("allMentorChallenges", {challenges: allMentorChallenges, noMatch: noMatch, team: req.user.username});    
+   }
   });
 });
 
@@ -59,6 +126,14 @@ router.post("/", function(req, res) {
        });
    }); 
 });
+
+function isTeamLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    req.flash("error", "You need to be logged in to do that");
+    res.redirect("/team/login");
+}
 
 
 module.exports = router;
