@@ -125,9 +125,18 @@ function validateMemberYear(member) {
     var currentYear = 19;
     var memberYear = currentYear - member.year;            // Will return 18, 17, 16, etc
     var memberRollNumber = member.rollNumber;
-    if (memberRollNumber.search(memberYear) === -1 || memberRollNumber.search(memberYear) === memberRollNumber.length - 2) {        // MemberYear wasn't found in MemberRollNumber
-        return false;
+    if(memberRollNumber.search(/IIITU/i) !== -1) {
+        if (memberRollNumber.search(memberYear) === 5) {        // MemberYear wasn't found in MemberRollNumber
+            return true;
+        } else {
+            return false;
+        }
     } else {
-        return true;
+        if (memberRollNumber.search(memberYear) === 0) {        // MemberYear wasn't found in MemberRollNumber
+            return true;
+        } else {
+            return false;
+        }
     }
+    
 }

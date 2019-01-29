@@ -2,10 +2,8 @@ var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
 var Team = require("../models/team");
-<<<<<<< HEAD
 // var Student = require("../models/student");
-=======
->>>>>>> 22daeb2f0324065e6880311109a9034be14d7fdf
+
 var passport = require("passport");
 
 router.get("/", function (req, res) {
