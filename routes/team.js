@@ -29,10 +29,11 @@ router.get('/student', function(req, res){
 });
 
 router.post('/student', function(req, res){
-  console.log(req.body);
-  req.body[0]["isLeader"] = true;
+  console.log('Request Body: ', req.body);
+//   console.log('Request: ', req);
+  req.body.members[0]["isLeader"] = true;
   var team = new Team({
-      members: req.body
+      members: req.body.members
   });
 
   team.save().then((saved) => {

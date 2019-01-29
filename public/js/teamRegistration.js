@@ -27,20 +27,29 @@ jQuery('#saveDetails').on('click', function () {
     }        
 });
 
-submitForm.on('click', function () {
-    console.log(teamDetails);
-    // if(validateForm()) {
+submitForm.on('click', function (e) {
+    var memberInput = takeInputValues(memberNumber);     // Use only for 4 member bug.
+    teamDetails.push(memberInput);
+    console.log('Team Details in submitForm: ', teamDetails);
+    console.log(validateForm());
+    e.preventDefault();
+    
+    if(validateForm()) {
 
-    //     jQuery.post('/team/student', teamDetails, function (data, e) {
-    //         if(e) {
-    //             alert('Some error has occurred');
-    //         } else {
-    //             alert('Congratulations, you have registered!');
-    //         }
-    //     });
-    // } else {
-    //     alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
-    // }
+        $.ajax({
+            url: '/team/student',
+            type: 'POST',
+            data: JSON.stringify({members: teamDetails}),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: false,
+            success: function (msg) {
+                alert(msg);
+            }
+        });
+    } else {
+        alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
+    }
 });
 
 function validateForm() {  
@@ -62,6 +71,7 @@ function validateForm() {
         }
     });
     console.log(`Second: ${second}\nThird: ${third}\nFourth: ${fourth}\nFirst: ${first}`);
+    console.log('Team Details in Validate Form: ', teamDetails);
         if(second > 1) {        // If there are three second years
             if(third > 0 || fourth > 0 || fifth > 0 || second > 3) {
                 console.log('Caught at first if');
@@ -105,7 +115,8 @@ function takeInputValues(memberNumber) {
         skill0: jQuery('input[name=skills0]').val(),
         skill1: jQuery('input[name=skills1]').val(),
         skill2: jQuery('input[name=skills2]').val(),
-        skill3: jQuery('input[name=skills3]').val()
+        skill3: jQuery('input[name=skills3]').val(),
+        isLeader: false
     }        
 }
 
