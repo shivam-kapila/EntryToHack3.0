@@ -125,7 +125,7 @@ function validateMemberYear(member) {
     var currentYear = 19;
     var memberYear = currentYear - member.year;            // Will return 18, 17, 16, etc
     var memberRollNumber = member.rollNumber;
-    if(memberRollNumber.search(memberYear) === -1) {        // MemberYear wasn't found in MemberRollNumber
+    if (memberRollNumber.search(memberYear) === -1 || memberRollNumber.search(memberYear) === memberRollNumber.length - 2) {        // MemberYear wasn't found in MemberRollNumber
         return false;
     } else {
         return true;
