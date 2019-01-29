@@ -10,20 +10,10 @@ jQuery('#saveDetails').on('click', function () {
     memberNumber++;
     if(validateMemberYear(memberInput))
     {
-        jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
-        clearInputValues();
-        console.log(teamDetails);
-        teamDetails.push(memberInput);
-        if (memberNumber === 4) {
-            submitForm.css('display', 'block');
-            jQuery('#saveDetails').css('display', 'none');
-        }
-        if (memberNumber === 3) {
-            submitForm.css('display', 'block');
-        }
+       displayNext(); 
     } else {
         memberNumber--;
-        alert("Roll Number and Year do not match! Enter member details again.")
+        alert("Roll Number and Year do not match! Enter member details again.");
     }        
 });
 
@@ -42,6 +32,20 @@ submitForm.on('click', function () {
     //     alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
     // }
 });
+
+function displayNext() {
+    jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
+        clearInputValues();
+        console.log(teamDetails);
+        teamDetails.push(memberInput);
+        if (memberNumber === 4) {
+            submitForm.css('display', 'block');
+            jQuery('#saveDetails').css('display', 'none');
+        }
+        if (memberNumber === 3) {
+            submitForm.css('display', 'block');
+        }
+}
 
 function validateForm() {  
     console.log('Entered function validating form');                                       
@@ -106,7 +110,7 @@ function takeInputValues(memberNumber) {
         skill1: jQuery('input[name=skills1]').val(),
         skill2: jQuery('input[name=skills2]').val(),
         skill3: jQuery('input[name=skills3]').val()
-    }        
+    };
 }
 
 function clearInputValues() {
@@ -125,7 +129,8 @@ function validateMemberYear(member) {
     var currentYear = 19;
     var memberYear = currentYear - member.year;            // Will return 18, 17, 16, etc
     var memberRollNumber = member.rollNumber;
-    if(memberRollNumber.search(memberYear) === -1) {        // MemberYear wasn't found in MemberRollNumber
+    var firstDigits = memberRollNumber.split('')[0] + memberRollNumber.split('')[1]; //17218 should not apply as 1st year
+    if(firstDigits.search(memberYear) === -1) {        // MemberYear wasn't found in MemberRollNumber
         return false;
     } else {
         return true;
