@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
 var Team = require("../models/team");
+// var Student = require("../models/student");
+
 var passport = require("passport");
 
 router.get("/", function (req, res) {
@@ -31,14 +33,16 @@ router.post('/student', isTeamLoggedIn, function(req, res){
   req.body[0]["isLeader"] = true;
 Team.findOne({username: req.user.username}, function(err, team){
   console.log(team);
-  team.members = req.body;
-});
+  team.members = req.body.members;
+  
   team.save().then((saved) => {
       res.send(saved);
   }).catch(e => {
       console.log(e);
       res.sendStatus(404);
   });
+});
+
 });
 
 
