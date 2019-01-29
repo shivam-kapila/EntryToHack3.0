@@ -8,6 +8,7 @@ submitForm.css('display', 'none');
 jQuery('#saveDetails').on('click', function () {
     var memberInput = takeInputValues(memberNumber);
     memberNumber++;
+    if(validateData()) {}
     if(validateMemberYear(memberInput))
     {
         jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
@@ -108,6 +109,30 @@ function validateForm() {
         return true;
 }
 
+function validateData() {
+    if($('input[name=name]').val().trim() === '') {
+        alert('Enter name');
+        return false;
+    }
+    var re = /\S+@\S+\.\S+/;
+    if(!re.test($('input[name=email]').val().trim())) {
+        alert('Enter valid email');
+        return false;
+    }
+    re = /[1-9]{1}[0-9]{9}/;
+    if(!re.test($('input[name=phone]').val().trim())) {
+        alert("Enter valid number");
+        return false;
+    }
+    if(($('input[name=skills0]').val().trim() + $('input[name=skills1]').val().trim() 
+        + $('input[name=skills3]').val().trim() + $('input[name=skills2]').val().trim()) === '') {
+            alert('Enter at least one skill');
+            return false;
+    }
+
+    return true;
+}
+
 function takeInputValues(memberNumber) {
     return {
         memberNumber: memberNumber,
@@ -164,5 +189,7 @@ function updateYear() {
         $('#year').val(19 - parseInt(roll.split('')[5] + roll.split('')[6]));
     } else if(roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
         $('#year').val(19 - parseInt(roll.split('')[0] + roll.split('')[1]));
-    } else { }
+    } else {
+        $('#year').val('');
+    }
 }
