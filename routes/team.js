@@ -30,11 +30,11 @@ router.get('/student', isTeamLoggedIn, function(req, res){
 
 router.post('/student', isTeamLoggedIn, function(req, res){
   console.log(req.body);
-  req.body[0]["isLeader"] = true;
+  req.body.members[0]["isLeader"] = true;
 Team.findOne({username: req.user.username}, function(err, team){
   console.log(team);
   team.members = req.body.members;
-  
+
   team.save().then((saved) => {
       res.send(saved);
   }).catch(e => {
@@ -42,7 +42,6 @@ Team.findOne({username: req.user.username}, function(err, team){
       res.sendStatus(404);
   });
 });
-
 });
 
 
@@ -64,7 +63,7 @@ Team.findOne({username: req.user.username}, function(err, team){
 //   });
 // });
 
-router.post("/:id/participate/:challengeid",isTeamLoggedIn, function(req,res){
+router.post("/:id/participate/:challengeid", isTeamLoggedIn, function(req,res){
 Mentor.findById(req.params.id, function(err, challenge){
   if(err){
     console.log(err);
@@ -121,18 +120,19 @@ router.post("/", function(req, res) {
        }
        passport.authenticate("team")(req, res, function(){
        	console.log("qwertyujkl");
-           res.redirect("/test");
+           res.redirect("/team/student");
        });
    }); 
 });
 
 function isTeamLoggedIn(req, res, next){
     if(req.isAuthenticated()){
+      console.log("Yes")
         return next();
     }
+    console.log("No")
     req.flash("error", "You need to be logged in to do that");
     res.redirect("/team/login");
 }
-
 
 module.exports = router;

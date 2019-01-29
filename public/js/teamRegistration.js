@@ -102,6 +102,7 @@ function validateForm() {
                 return true;
             }
         }
+        return true;
 }
 
 function takeInputValues(memberNumber) {
