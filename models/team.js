@@ -4,13 +4,10 @@ const passportLocalMongoose = require("passport-local-mongoose");
 var teamSchema = mongoose.Schema({
     username: {
         type: String,
-        // unique: true,
-        default: "team1"
+        unique: true,
+        // default: "team1"
     },
     password: {
-        type: String,
-    },
-    projectCategory:{
         type: String,
     },
     members: [

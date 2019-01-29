@@ -31,8 +31,8 @@
                         <% for(var i = 0; i < chall.applicants.length; i++){ %>
                           <li>
                             <%= chall.applicants[i];%>
-                            <form action="/mentor/<%= challenge._id%>/consider/<%= chall._id%>" method = "POST">
-                              <button class = "btn btn-info btn-sm">Finalise</button>
+                            <form action="/mentor/<%= challenge._id%>/view/<%=chall._id%>/<%=chall.applicants[i]%>" method = "GET">
+                              <button class = "btn btn-info btn-sm">View</button>
                             </form>
                           </li>
                           <% } %>

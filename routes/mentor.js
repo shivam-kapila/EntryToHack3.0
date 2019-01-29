@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
+var Team  = require("../models/team");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var passport = require("passport");
@@ -33,6 +34,26 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 // });
 // })
 
+router.get("/:id/view/:challengeid/:username", function(req, res){
+  Mentor.findById(req.params.id, function(err, mentor){
+    mentor.mentorChallenges.forEach(function(chall){
+      var k = 0;
+      for(var i = 0; i < chall.applicants.length; i ++){
+        if(chall.applicants[i] == req.params.username){
+          k = 1;
+          break;
+        }
+      }
+      if(k === 1){
+        Team.find({username: req.params.username}, function(err, team){
+          console.log(team);
+          res.render("teamDetails", {team: team, mentorId: req.params.id, challengeid: req.params.challengeid});
+        });
+      }
+    })
+
+  });
+});
 
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){

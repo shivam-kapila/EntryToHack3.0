@@ -15,24 +15,24 @@ router.get("/login", function(req, res){
 //handling login logic
 router.post("/login", passport.authenticate("team",
     {
-        successRedirect: "/team/allMentorChallenges",
+        successRedirect: "/team/student",
         failureRedirect: "/team/login", 
 }),function(req, res) {
     
 });
 
-router.get('/student', function(req, res){
+router.get('/student', isTeamLoggedIn, function(req, res){
   // res.render("student1")
   res.render("teamRegistration");
 });
 
-router.post('/student', function(req, res){
+router.post('/student', isTeamLoggedIn, function(req, res){
   console.log(req.body);
   req.body[0]["isLeader"] = true;
-  var team = new Team({
-      members: req.body
-  });
-
+Team.findOne({username: req.user.username}, function(err, team){
+  console.log(team);
+  team.members = req.body;
+});
   team.save().then((saved) => {
       res.send(saved);
   }).catch(e => {
@@ -70,7 +70,6 @@ Mentor.findById(req.params.id, function(err, challenge){
     if(chall.id === req.params.challengeid){
       var k = 0;
       for( var j = 0; j < chall.applicants.length; j++){
-        console.log(req.user.user +" and "+ chall.applicants[j]);
         if(req.user.username == chall.applicants[j])
           {
           k = 1;

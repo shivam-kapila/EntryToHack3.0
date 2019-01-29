@@ -29,18 +29,18 @@ jQuery('#saveDetails').on('click', function () {
 
 submitForm.on('click', function () {
     console.log(teamDetails);
-    // if(validateForm()) {
+    if(validateForm()) {
 
-    //     jQuery.post('/team/student', teamDetails, function (data, e) {
-    //         if(e) {
-    //             alert('Some error has occurred');
-    //         } else {
-    //             alert('Congratulations, you have registered!');
-    //         }
-    //     });
-    // } else {
-    //     alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
-    // }
+        jQuery.post('/team/student', teamDetails, function (data, e) {
+            if(e) {
+                alert('Some error has occurred');
+            } else {
+                alert('Congratulations, you have registered!');
+            }
+        });
+    } else {
+        alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
+    }
 });
 
 function validateForm() {  
