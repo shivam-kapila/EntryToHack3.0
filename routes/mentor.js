@@ -57,7 +57,6 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
 
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
-    console.log(mentor);
     mentor.mentorChallenges.push(req.body.challenge);
      mentor.save(function(err) {
         });

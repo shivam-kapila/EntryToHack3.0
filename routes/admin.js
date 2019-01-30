@@ -37,9 +37,21 @@ router.post("/signup", function(req, res) {
    }); 
 });
 
-router.get("/dashboard", function(req, res){
+router.get("/dashboard", isAdminLoggedIn, function(req, res){
   res.render("adminDashboard");
 });
+
+function isAdminLoggedIn(req, res, next){
+      console.log("Display");
+       console.log(req.user);
+    if(req.isAuthenticated()){
+      console.log("Yes")
+        return next();
+    }
+    console.log("No")
+    req.flash("error", "You need to be logged in to do that");
+    res.redirect("/admin/login");
+}
 
 
 module.exports = router;

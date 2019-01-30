@@ -34,20 +34,65 @@ app.use(require("express-session")({
    saveUninitialized: false
 }));
 app.use(passport.initialize());
+
 app.use(passport.session());
 passport.use('mentor', new LocalStrategy(Mentor.authenticate()));
-passport.serializeUser(Mentor.serializeUser());
-passport.deserializeUser(Mentor.deserializeUser());
+// passport.serializeUser(Mentor.serializeUser());
+// passport.deserializeUser(Mentor.deserializeUser());
 passport.use('team', new LocalStrategy(Team.authenticate()));
-passport.serializeUser(Team.serializeUser());
-passport.deserializeUser(Team.deserializeUser());
+// passport.serializeUser(Team.serializeUser());
+// passport.deserializeUser(Team.deserializeUser());
 passport.use('admin', new LocalStrategy(Admin.authenticate()));
-passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());
+passport.serializeUser(
+ function(user, done){
+  if(isMentor(user)){
+    console.log(user);
+    Mentor.serializeUser();
+  done(null, user);
+  } else if (isTeam(user)){
+    console.log(user);
+    Team.serializeUser();
+  done(null, user);
+  } else {
+    console.log(user);
+   Admin.serializeUser();
+  done(null, user);
+  }
+ }); 
+passport.deserializeUser(
+ function(user, done){
+  if(isMentor(user)){
+    Mentor.deserializeUser();
+  done(null, user);
+  } else if (isTeam(user)){
+    Team.deserializeUser();
+  done(null, user);
+  } else {
+   Admin.deserializeUser();
+  done(null, user);
+  }
+ }); 
+// // passport.deserializeUser(Admin.deserializeUser());
+
+function isMentor(user){
+  if (user instanceof Mentor)
+        console.log("Mentor");
+    return true;
+}
+function isMTeam(user){
+  if (user instanceof Team)
+        console.log("Team");
+    return true;
+}
+function isAdmin(user){
+  if (user instanceof Admin)
+        console.log("Admin");
+    return true;
+}
 
 app.use(function (req, res, next) {
   // res.locals.currentTeam = req.username;
-  console.log(req.user);
+  console.log("print"+req.user);
   res.locals.mentor = req.user;
   res.locals.team = req.user;
   res.locals.admin = req.user;
