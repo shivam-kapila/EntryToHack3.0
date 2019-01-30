@@ -36,13 +36,15 @@ app.use(require("express-session")({
 app.use(passport.initialize());
 
 app.use(passport.session());
-passport.use('mentor', new LocalStrategy(Mentor.authenticate()));
+
+passport.use('mentor', new LocalStrategy(usedStrategy = 'mentor', Mentor.authenticate()));
 // passport.serializeUser(Mentor.serializeUser());
 // passport.deserializeUser(Mentor.deserializeUser());
-passport.use('team', new LocalStrategy(Team.authenticate()));
+passport.use('team', new LocalStrategy(usedStrategy = 'team', Team.authenticate()));
 // passport.serializeUser(Team.serializeUser());
 // passport.deserializeUser(Team.deserializeUser());
-passport.use('admin', new LocalStrategy(Admin.authenticate()));
+passport.use('admin', new LocalStrategy(usedStrategy = 'admin', Admin.authenticate()));
+
 passport.serializeUser(
  function(user, done){
   if(isMentor(user)){
@@ -50,10 +52,10 @@ passport.serializeUser(
     Mentor.serializeUser();
   done(null, user);
   } else if (isTeam(user)){
-    console.log(user);
+        console.log("Team");
     Team.serializeUser();
   done(null, user);
-  } else {
+  } else if(isAdmin(user)){
     console.log(user);
    Admin.serializeUser();
   done(null, user);
@@ -67,7 +69,7 @@ passport.deserializeUser(
   } else if (isTeam(user)){
     Team.deserializeUser();
   done(null, user);
-  } else {
+  } else if(isAdmin(user)){
    Admin.deserializeUser();
   done(null, user);
   }
@@ -79,7 +81,7 @@ function isMentor(user){
         console.log("Mentor");
     return true;
 }
-function isMTeam(user){
+function isTeam(user){
   if (user instanceof Team)
         console.log("Team");
     return true;
@@ -92,7 +94,6 @@ function isAdmin(user){
 
 app.use(function (req, res, next) {
   // res.locals.currentTeam = req.username;
-  console.log("print"+req.user);
   res.locals.mentor = req.user;
   res.locals.team = req.user;
   res.locals.admin = req.user;

@@ -10,6 +10,10 @@ var teamSchema = mongoose.Schema({
     password: {
         type: String,
     },
+    role: {
+        type: String,
+        default: "team"
+    },
     members: [
         {
             name: {

@@ -127,20 +127,15 @@ router.post("/", function(req, res) {
 });
 
 function isTeamLoggedIn(req, res, next){
-      console.log("Display");
-       console.log(req.user);
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated() && req.user.role === "team"){
+      // console.log("Displayttt");
+       // console.log(req.user)
       console.log("Yes")
         return next();
     }
     console.log("No")
     req.flash("error", "You need to be logged in to do that");
     res.redirect("/team/login");
-}
-
-function display(req, res, next){
-      console.log("Display1");
-      console.log(req.user);
 }
 
 module.exports = router;
