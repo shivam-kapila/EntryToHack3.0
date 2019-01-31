@@ -10,6 +10,10 @@ var teamSchema = mongoose.Schema({
     password: {
         type: String,
     },
+    role: {
+        type: String,
+        default: "team"
+    },
     members: [
         {
             name: {
@@ -22,7 +26,6 @@ var teamSchema = mongoose.Schema({
             },
             email: {
                 type: String,
-                unique: true,                   // TODO: VALIDATOR TO BE ADDED
                 required: true
             },
             rollNumber: {

@@ -17,10 +17,15 @@ router.get("/login", function(req, res){
 //handling login logic
 router.post("/login", passport.authenticate("team",
     {
-        successRedirect: "/team/student",
+        // successRedirect: "/team/teamDashboard",
         failureRedirect: "/team/login", 
 }),function(req, res) {
-    
+  console.log(req.user);
+  res.redirect("/team/teamDashboard")
+});
+
+router.get("/teamDashboard", isTeamLoggedIn, function(req, res){
+  res.render("teamDashboard");
 });
 
 router.get('/student', isTeamLoggedIn, function(req, res){
@@ -107,10 +112,11 @@ router.post("/", function(req, res) {
     var newTeam = new Team({
             username: req.body.username,
         });
-
+// console.log(req.body.teamusername);
+// console.log(req.body.teampassword);
     Team.register(newTeam, req.body.password, function(err, user){
        if(err){
-           console.log(err);
+           console.log("yes"+err);
            return res.render("team", {error: err.message});
        }
        passport.authenticate("team")(req, res, function(){
@@ -121,7 +127,9 @@ router.post("/", function(req, res) {
 });
 
 function isTeamLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated() && req.user.role === "team"){
+      // console.log("Displayttt");
+       // console.log(req.user)
       console.log("Yes")
         return next();
     }

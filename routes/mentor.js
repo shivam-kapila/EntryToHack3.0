@@ -4,7 +4,8 @@ var Mentor = require("../models/mentor");
 var Team  = require("../models/team");
 var async = require("async");
 var nodemailer = require("nodemailer");
-var passport = require("passport");
+var passport = require("passport"),
+    LocalStrategy = require('passport-local').Strategy;;
 
 router.get("/signup", function (req, res) {
   res.render("mentor"); 
@@ -57,7 +58,6 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
 
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
-    console.log(mentor);
     mentor.mentorChallenges.push(req.body.challenge);
      mentor.save(function(err) {
         });
@@ -88,7 +88,7 @@ router.post("/signup", function(req, res) {
             year: req.body.year,
             skills: req.body.skills
         });
-        newMentor.isVerified = true;
+        newMentor.isVerified = "NotVerified";
         console.log(newMentor);
     Mentor.register(newMentor, req.body.password, function(err, user){
        if(err){
@@ -119,7 +119,8 @@ router.get("/mentorChallengeList", isLoggedIn, function(req, res){
 
 
 function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated() && req.user.role === "mentor"){
+      console.log(req.user);
         return next();
     }
     req.flash("error", "You need to be logged in to do that");
@@ -127,7 +128,7 @@ function isLoggedIn(req, res, next){
 }
 
 function isVerified(req, res, next){
-    if(req.user.isVerified){
+    if(req.user.isVerified == "Verified"){
         return next();
     }
     req.flash("error", "You need to be logged in to do that");

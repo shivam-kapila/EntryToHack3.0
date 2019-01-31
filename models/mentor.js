@@ -38,8 +38,12 @@ var mentorSchema = mongoose.Schema({
     required: true
 },
     isVerified: {
-        type: Boolean,
+        type: String,
         required: true
+    },
+    role: {
+        type: String,
+        default: "mentor"
     },
     mentorChallenges: 
        [

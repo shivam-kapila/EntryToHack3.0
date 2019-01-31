@@ -18,13 +18,15 @@
             </p>
             <p>
               <strong>Account Verification Status: </strong>
-              <% if(mentor.isVerified) {%>
+              <% if(mentor.isVerified == "Verified") {%>
                 Verified
-              <%} else {%>
+              <%} else if(mentor.isVerified == "NotVerified"){%>
                   Not Verified
-              <% } %>
+              <% } else {%>
+                  Rejected
+                <% } %>
             </p>
-                <% if(mentor.isVerified) {%>
+                <% if(mentor.isVerified == "Verified") {%>
                 <form action="/mentor/challenge" method="GET">
                   <button class = "btn btn-lg btn-success btn-block"> Post Challenge</button>
                 </form>
@@ -37,7 +39,7 @@
                     <button class = "btn btn-lg btn-primary btn-block"> View Challenges</button>
                   </form>
                   <% } %>
-            <%} else {%>
+            <%} else if(mentor.isVerified == "NotVerified"){%>
                   <button class = "btn btn-lg btn-success btn-block" disabled> Post Challenge</button>
             <% } %>
 

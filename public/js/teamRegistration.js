@@ -30,7 +30,7 @@ jQuery('#saveDetails').on('click', function () {
 
 submitForm.on('click', function (e) {
     var memberInput = takeInputValues(memberNumber);
-    console.log(memberInput.skill0);
+    console.log(memberInput.skill0+ "qwwqwqwqqw");
          // Use only for 4 member bug.
     teamDetails.push(memberInput);
     console.log('Team Details in submitForm: ', teamDetails);
