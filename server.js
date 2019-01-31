@@ -1,26 +1,28 @@
 require("dotenv").load();
 
-var express     = require("express"),
+var express = require("express"),
     ejs = require("ejs"),
-    app         = express(),
-    bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose"),
-    flash       = require("connect-flash"),
-    passport    = require("passport"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose"),
+    flash = require("connect-flash"),
+    passport = require("passport"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
-    Mentor   = require("./models/mentor"),
-    Admin   = require("./models/admin"),
-    Team         = require("./models/team");
+    Mentor = require("./models/mentor"),
+    Admin = require("./models/admin"),
+    Team = require("./models/team");
 
 //requiring routes
-var indexRoutes      = require("./routes/index");
-var mentorRoutes      = require("./routes/mentor");
-var teamRoutes      = require("./routes/team");
-var adminRoutes      = require("./routes/admin");
+var indexRoutes = require("./routes/index");
+var mentorRoutes = require("./routes/mentor");
+var teamRoutes = require("./routes/team");
+var adminRoutes = require("./routes/admin");
 var url = process.env.DATABASEURL || "mongodb://localhost/entry_to_hack3";
-mongoose.connect(url);
-app.use(bodyParser.urlencoded({ extended: true }))
+mongoose.connect(url, {
+    useNewUrlParser: true
+});
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -29,9 +31,9 @@ app.use(flash());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-   secret: "Hack hai ye hack",
-   resave: false,
-   saveUninitialized: false
+    secret: "Hack hai ye hack",
+    resave: false,
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 
@@ -46,60 +48,62 @@ passport.use('team', new LocalStrategy(usedStrategy = 'team', Team.authenticate(
 passport.use('admin', new LocalStrategy(usedStrategy = 'admin', Admin.authenticate()));
 
 passport.serializeUser(
- function(user, done){
-  if(isMentor(user)){
-    console.log(user);
-    Mentor.serializeUser();
-  done(null, user);
-  } else if (isTeam(user)){
-        console.log("Team");
-    Team.serializeUser();
-  done(null, user);
-  } else if(isAdmin(user)){
-    console.log(user);
-   Admin.serializeUser();
-  done(null, user);
-  }
- }); 
+    function(user, done) {
+        if (isMentor(user)) {
+            console.log(user);
+            Mentor.serializeUser();
+            done(null, user);
+        } else if (isTeam(user)) {
+            console.log("Team");
+            Team.serializeUser();
+            done(null, user);
+        } else if (isAdmin(user)) {
+            console.log(user);
+            Admin.serializeUser();
+            done(null, user);
+        }
+    });
 passport.deserializeUser(
- function(user, done){
-  if(isMentor(user)){
-    Mentor.deserializeUser();
-  done(null, user);
-  } else if (isTeam(user)){
-    Team.deserializeUser();
-  done(null, user);
-  } else if(isAdmin(user)){
-   Admin.deserializeUser();
-  done(null, user);
-  }
- }); 
+    function(user, done) {
+        if (isMentor(user)) {
+            Mentor.deserializeUser();
+            done(null, user);
+        } else if (isTeam(user)) {
+            Team.deserializeUser();
+            done(null, user);
+        } else if (isAdmin(user)) {
+            Admin.deserializeUser();
+            done(null, user);
+        }
+    });
 // // passport.deserializeUser(Admin.deserializeUser());
 
-function isMentor(user){
-  if (user instanceof Mentor)
+function isMentor(user) {
+    if (user instanceof Mentor)
         console.log("Mentor");
     return true;
 }
-function isTeam(user){
-  if (user instanceof Team)
+
+function isTeam(user) {
+    if (user instanceof Team)
         console.log("Team");
     return true;
 }
-function isAdmin(user){
-  if (user instanceof Admin)
+
+function isAdmin(user) {
+    if (user instanceof Admin)
         console.log("Admin");
     return true;
 }
 
-app.use(function (req, res, next) {
-  // res.locals.currentTeam = req.username;
-  res.locals.mentor = req.user;
-  res.locals.team = req.user;
-  res.locals.admin = req.user;
-  res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success");
-  next();
+app.use(function(req, res, next) {
+    // res.locals.currentTeam = req.username;
+    res.locals.mentor = req.user;
+    res.locals.team = req.user;
+    res.locals.admin = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    next();
 });
 
 app.use("/", indexRoutes);
