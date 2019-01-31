@@ -17,8 +17,7 @@
               <th>Applicants</th>
             </tr>
                 <% challenges.forEach(function(challenge){
-                challenge.mentorChallenges.forEach(function(chall) {
-                    console.log(chall);%>
+                challenge.mentorChallenges.forEach(function(chall) { %>
                 <tr>
                   <td><%= chall.title %></td>
                   <td><%= chall.category %></td>
