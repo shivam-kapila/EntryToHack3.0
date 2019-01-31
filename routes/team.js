@@ -6,8 +6,6 @@ var Team = require("../models/team");
 
 var passport = require("passport");
 
-var user;
-
 router.get("/", function (req, res) {
   res.render("team"); 
 });
@@ -27,10 +25,23 @@ router.post("/login", passport.authenticate("team",
 });
 
 router.get("/teamDashboard", isTeamLoggedIn, function(req, res){
-  res.render("teamDashboard");
+  Team.findOne({username: req.user.username}, function(err, team){
+    if(err){
+      console.log(err);
+    } else {
+    // var arr = [];
+    // for(var i=0 ; i<team.members.length; i++) {
+    //   arr.push(team.members[i]);
+    // }
+    // console.log("---------------------------");
+    // console.log(arr);
+    // console.log("---------------------------");
+    res.render("teamDashboard", {team: JSON.parse(JSON.stringify(team))});
+  }    
+    });
 });
 
-router.get('/student', isTeamLoggedIn, function(req, res){
+// router.get('/student', isTeamLoggedIn, function(req, res){
   // console.log(user);
   // console.log("HEEEEEEEEEEEEEEEEEEEEEEE");
   // Team.findOne({username: user.username}, function(err, team){
@@ -39,6 +50,10 @@ router.get('/student', isTeamLoggedIn, function(req, res){
   //   console.log("HELELELELELE");
   //   res.send(team);
   // });
+// });
+
+router.get("/student", isTeamLoggedIn, function(req, res){
+  res.render('teamRegistration');
 });
 
 router.post('/student', isTeamLoggedIn, function(req, res){
@@ -138,7 +153,6 @@ function isTeamLoggedIn(req, res, next){
       // console.log("Displayttt");
        // console.log(req.user)
       console.log("Yes");
-      user = req.user;
         return next();
     }
     console.log("No");
