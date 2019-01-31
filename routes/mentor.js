@@ -5,7 +5,7 @@ var Team  = require("../models/team");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var passport = require("passport"),
-    LocalStrategy = require('passport-local').Strategy;;
+    LocalStrategy = require('passport-local').Strategy;
 
 router.get("/signup", function (req, res) {
   res.render("mentor"); 
@@ -51,7 +51,7 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
           res.render("teamDetails", {team: team, mentorId: req.params.id, challengeid: req.params.challengeid});
         });
       }
-    })
+    });
 
   });
 });
@@ -72,7 +72,7 @@ router.post("/login", passport.authenticate("mentor",
         failureRedirect: "/mentor/login",
 
 }),function(req, res) {
-          mentor: req.body.username 
+          mentor: req.body.username; 
 });
 
 
