@@ -20,9 +20,17 @@ router.get("/challenge", isLoggedIn, isVerified, function(req, res){
 	res.render("mentorChallenge");
 });
 
-router.get("/dashboard", isLoggedIn, function(req, res){
-  console.log(res.locals.mentorid);
-  res.render("mentorDashboard", {mentor: req.user});          
+router.get("/dashboard", isLoggedIn,  function(req, res){
+  Mentor.find({username: req.user.username}, function(err, mentor){
+    if(err){
+      console.log(err);
+      res.redirect("back");
+    }
+     // else {
+    //   // req.user.mentorChallenges = (mentor.mentorChallenges[0]);
+    // }
+  res.render("mentorDashboard", {mentor: req.user});              
+  });
 });
 
 // router.get("/update", isLoggedIn, function(req, res){
@@ -59,8 +67,10 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
     mentor.mentorChallenges.push(req.body.challenge);
+    req.user.mentorChallenges.push(req.body.challenge)
      mentor.save(function(err) {
         });
+     console.log("See" + mentor);
      res.redirect("/mentor/dashboard");
   });
 });

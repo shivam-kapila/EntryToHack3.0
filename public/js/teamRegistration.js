@@ -3,7 +3,23 @@ var teamDetails = [];
 var memberNumber = 0;
 
 var submitForm = jQuery('input[name=Register]');
+var fourMember = jQuery('input[type=checkbox]');
+var label4member = jQuery('#label4member').css('display', 'none');
+fourMember.css('display', 'none');
 submitForm.css('display', 'none');
+
+var checkboxToggler = true;
+fourMember.on('click', function () {
+    if(checkboxToggler) {
+        submitForm.css('display', 'block');
+        jQuery('#saveDetails').css('display', 'none');
+        checkboxToggler = false;
+    } else {
+        submitForm.css('display', 'none');
+        jQuery('#saveDetails').css('display', 'block');
+        checkboxToggler = true;
+    }
+});
 
 jQuery('#saveDetails').on('click', function () {
     var memberInput = takeInputValues(memberNumber);
@@ -12,14 +28,15 @@ jQuery('#saveDetails').on('click', function () {
         if(validateMemberYear(memberInput)) {
             jQuery('#memberNumber')[0].innerHTML = `Enter Member ${memberNumber + 1}'s details:`;
             clearInputValues();
-            console.log(teamDetails);
+            console.log(memberInput);
             teamDetails.push(memberInput);
             if (memberNumber === 4) {
-                submitForm.css('display', 'block');
-                jQuery('#saveDetails').css('display', 'none');
+                    submitForm.css('display', 'block');
+                    jQuery('#saveDetails').css('display', 'none');
             }
             if (memberNumber === 3) {
-                submitForm.css('display', 'block');
+                fourMember.css('display', 'block');
+                label4member.css('display', 'block');
             }
         } else {
             memberNumber--;
@@ -29,10 +46,15 @@ jQuery('#saveDetails').on('click', function () {
 });
 
 submitForm.on('click', function (e) {
-    var memberInput = takeInputValues(memberNumber);
-    console.log(memberInput.skill0+ "qwwqwqwqqw");
-         // Use only for 4 member bug.
-    teamDetails.push(memberInput);
+    console.log('fourMember: ', fourMember);
+    console.log(fourMember.prop('checked'));
+    if(fourMember.prop('checked')) {
+        console.log("Entered in checkbox attribute");
+        var memberInput = takeInputValues(memberNumber);  
+        teamDetails.push(memberInput);      // Otherwise it will make the POST request just with the 3 members
+    }
+    // console.log(memberInput.skill0+ "qwwqwqwqqw");
+      
     console.log('Team Details in submitForm: ', teamDetails);
     console.log(validateForm());
     e.preventDefault();
@@ -57,6 +79,10 @@ submitForm.on('click', function (e) {
 });
 
 function validateForm() {  
+    if(memberNumber < 3) {                                  // Just in case anyone tries to change style properties in inspect element and enables submit button
+        console.log("Member Number: ", memberNumber);
+        return false;
+    }
     console.log('Entered function validating form');                                       
     var second = 0, third = 0, first = 0, fourth = 0, fifth = 0;
     teamDetails.forEach(function (member) {
@@ -134,6 +160,10 @@ function validateData() {
 }
 
 function takeInputValues(memberNumber) {
+    var skill0= jQuery('input[name=skills0]').val(),
+        skill1= jQuery('input[name=skills1]').val(),
+        skill2= jQuery('input[name=skills2]').val(),
+        skill3= jQuery('input[name=skills3]').val();
     return {
         memberNumber: memberNumber,
         name: jQuery('input[name=name]').val(),
@@ -141,10 +171,7 @@ function takeInputValues(memberNumber) {
         email: jQuery('input[name=email]').val(),
         phone: jQuery('input[name=phone]').val(),
         year: jQuery('select.form-control').val(),
-        skill0: jQuery('input[name=skills0]').val(),
-        skill1: jQuery('input[name=skills1]').val(),
-        skill2: jQuery('input[name=skills2]').val(),
-        skill3: jQuery('input[name=skills3]').val(),
+        skills: [skill0, skill1, skill2, skill3],
         isLeader: false,
         // skills[]: [skill0, skill1, skill2, skill3]
     }        

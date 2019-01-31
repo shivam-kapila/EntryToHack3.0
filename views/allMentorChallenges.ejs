@@ -31,7 +31,7 @@
                       <button class = "btn btn-warning" disabled>Team Finalised</button>
                     } else {
                       var k = 0;
-                      for( var j = 0; j < chall.applicants.length; j++){
+                      for( var j = 0; j != chall.applicants.length; j++){     <!-- Cannot use '<' in condition of loop-->
                             if(team == chall.applicants[j])
                               {
                               k = 1;
