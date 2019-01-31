@@ -55,6 +55,10 @@ router.get("/:id/view/:challengeid/:username", isLoggedIn, function(req, res){
       }
       if(k === 1){
         Team.find({username: req.params.username}, function(err, team){
+          if(err){
+            console.log(err)
+            res.redirect("back")
+          }
           res.render("teamDetails", {team: team});
         });
       }
