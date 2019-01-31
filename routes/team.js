@@ -6,6 +6,8 @@ var Team = require("../models/team");
 
 var passport = require("passport");
 
+var user;
+
 router.get("/", function (req, res) {
   res.render("team"); 
 });
@@ -20,7 +22,7 @@ router.post("/login", passport.authenticate("team",
         // successRedirect: "/team/teamDashboard",
         failureRedirect: "/team/login", 
 }),function(req, res) {
-  console.log(req.user);
+  // console.log(req.user);
   res.redirect("/team/teamDashboard");
 });
 
@@ -29,15 +31,20 @@ router.get("/teamDashboard", isTeamLoggedIn, function(req, res){
 });
 
 router.get('/student', isTeamLoggedIn, function(req, res){
-  // res.render("student1")
-  res.render("teamRegistration");
+  // console.log(user);
+  // console.log("HEEEEEEEEEEEEEEEEEEEEEEE");
+  // Team.findOne({username: user.username}, function(err, team){
+  //   // console.log(team);
+  //   // team.members = req.body.members;
+  //   console.log("HELELELELELE");
+  //   res.send(team);
+  // });
 });
 
 router.post('/student', isTeamLoggedIn, function(req, res){
-  console.log(req.body);
   req.body.members[0]["isLeader"] = true;
 Team.findOne({username: req.user.username}, function(err, team){
-  console.log(team);
+  // console.log(team);
   team.members = req.body.members;
   team.save();
   res.redirect("/team/allMentorChallenges");
@@ -131,6 +138,7 @@ function isTeamLoggedIn(req, res, next){
       // console.log("Displayttt");
        // console.log(req.user)
       console.log("Yes");
+      user = req.user;
         return next();
     }
     console.log("No");
