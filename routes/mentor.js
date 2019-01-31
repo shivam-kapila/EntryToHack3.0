@@ -43,7 +43,7 @@ router.get("/dashboard", isLoggedIn,  function(req, res){
 // });
 // })
 
-router.get("/:id/view/:challengeid/:username", function(req, res){
+router.get("/:id/view/:challengeid/:username", isLoggedIn, function(req, res){
   Mentor.findById(req.params.id, function(err, mentor){
     mentor.mentorChallenges.forEach(function(chall){
       var k = 0;
@@ -55,8 +55,7 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
       }
       if(k === 1){
         Team.find({username: req.params.username}, function(err, team){
-          console.log(team);
-          res.render("teamDetails", {team: team, mentorId: req.params.id, challengeid: req.params.challengeid});
+          res.render("teamDetails", {team: team});
         });
       }
     });

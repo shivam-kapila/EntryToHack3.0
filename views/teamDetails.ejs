@@ -1,4 +1,5 @@
 <% include ./partials/header%>
+<% console.log("yup"+team)%>
           <table class="table-striped table table-bordered">
             <tr class="thead-dark">
               <th>Name</th>
@@ -6,15 +7,14 @@
               <th>Skills</th>
               <th>Leader</th>
             </tr>
-                <% team.members.forEach(function(member){
-                challenge.mentorChallenges.forEach(function(chall) {
-                    console.log(chall);%>
+                <% for(i = 0; i < team.members.length; i++){
+                var member = team.members[i];%>
                 <tr>
                   <td><%= member.name %></td>
                   <td><%= member.year %></td>
                   <td>
                     <ul>
-                        <% for(var i = 0; i < applicant.skills.length; i++){ %>
+                        <% for(var i = 0; i < member.skills.length; i++){ %>
                           <li>
                             <%= member.skills[i];%>
                           </li>
@@ -28,7 +28,6 @@
                   	<% } %>
                   </td>
                   </tr>
-                  <% }); %>
-        <% }); %>
+                  <% } %>
           </table>   
 <% include ./partials/footer%>
