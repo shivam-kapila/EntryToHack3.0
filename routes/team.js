@@ -28,29 +28,13 @@ router.get("/teamDashboard", isTeamLoggedIn, function(req, res){
   Team.findOne({username: req.user.username}, function(err, team){
     if(err){
       console.log(err);
+    } else if(team.members.length < 4) {
+      res.render("teamRegistration");
     } else {
-    // var arr = [];
-    // for(var i=0 ; i<team.members.length; i++) {
-    //   arr.push(team.members[i]);
-    // }
-    // console.log("---------------------------");
-    // console.log(arr);
-    // console.log("---------------------------");
     res.render("teamDashboard", {team: JSON.parse(JSON.stringify(team))});
-  }    
-    });
+    }    
+  });
 });
-
-// router.get('/student', isTeamLoggedIn, function(req, res){
-  // console.log(user);
-  // console.log("HEEEEEEEEEEEEEEEEEEEEEEE");
-  // Team.findOne({username: user.username}, function(err, team){
-  //   // console.log(team);
-  //   // team.members = req.body.members;
-  //   console.log("HELELELELELE");
-  //   res.send(team);
-  // });
-// });
 
 router.get("/student", isTeamLoggedIn, function(req, res){
   res.render('teamRegistration');
