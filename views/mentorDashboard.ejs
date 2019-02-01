@@ -1,5 +1,6 @@
 <% include ./partials/header%>
 <div class="col-md-12">
+<% console.log("BBHAAA"+ mentor)%>
             <p><strong>Username: </strong><%= mentor.username %></p>
             <p><strong>Name: </strong><%= mentor.name %></p>
             <p><strong>Email ID: </strong><%= mentor.email %></p>
@@ -33,8 +34,10 @@
 
                   <% var i = 0;
                   mentor.mentorChallenges.forEach(function(chall) {
-                    i++;});
-                  if(i >0) {%>
+                    i++;
+                  });
+                  console.log("value"+i)
+                  if(i > 0) {%>
                   <form action="/mentor/mentorChallengeList" method="GET">
                     <button class = "btn btn-lg btn-primary btn-block"> View Challenges</button>
                   </form>

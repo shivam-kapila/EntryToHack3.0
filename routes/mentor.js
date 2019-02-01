@@ -5,7 +5,7 @@ var Team  = require("../models/team");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var passport = require("passport"),
-    LocalStrategy = require('passport-local').Strategy;;
+    LocalStrategy = require('passport-local').Strategy;
 
 router.get("/signup", function (req, res) {
   res.render("mentor"); 
@@ -20,9 +20,17 @@ router.get("/challenge", isLoggedIn, isVerified, function(req, res){
 	res.render("mentorChallenge");
 });
 
-router.get("/dashboard", isLoggedIn, function(req, res){
-  console.log(res.locals.mentorid);
-  res.render("mentorDashboard", {mentor: req.user});          
+router.get("/dashboard", isLoggedIn,  function(req, res){
+  Mentor.find({username: req.user.username}, function(err, mentor){
+    if(err){
+      console.log(err);
+      res.redirect("back");
+    }
+     // else {
+    //   // req.user.mentorChallenges = (mentor.mentorChallenges[0]);
+    // }
+  res.render("mentorDashboard", {mentor: req.user});              
+  });
 });
 
 // router.get("/update", isLoggedIn, function(req, res){
@@ -35,7 +43,7 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 // });
 // })
 
-router.get("/:id/view/:challengeid/:username", function(req, res){
+router.get("/:id/view/:challengeid/:username", isLoggedIn, function(req, res){
   Mentor.findById(req.params.id, function(err, mentor){
     mentor.mentorChallenges.forEach(function(chall){
       var k = 0;
@@ -47,11 +55,14 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
       }
       if(k === 1){
         Team.find({username: req.params.username}, function(err, team){
-          console.log(team);
-          res.render("teamDetails", {team: team, mentorId: req.params.id, challengeid: req.params.challengeid});
+          if(err){
+            console.log(err)
+            res.redirect("back")
+          }
+          res.render("teamDetails", {team: team});
         });
       }
-    })
+    });
 
   });
 });
@@ -59,8 +70,10 @@ router.get("/:id/view/:challengeid/:username", function(req, res){
 router.post("/challenge", isLoggedIn, isVerified, function(req, res){
   Mentor.findOne({username: req.user.username}, function(err, mentor){
     mentor.mentorChallenges.push(req.body.challenge);
+    req.user.mentorChallenges.push(req.body.challenge)
      mentor.save(function(err) {
         });
+     console.log("See" + mentor);
      res.redirect("/mentor/dashboard");
   });
 });
@@ -72,7 +85,7 @@ router.post("/login", passport.authenticate("mentor",
         failureRedirect: "/mentor/login",
 
 }),function(req, res) {
-          mentor: req.body.username 
+          mentor: req.body.username; 
 });
 
 
