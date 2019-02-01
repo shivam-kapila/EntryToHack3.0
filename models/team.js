@@ -60,7 +60,8 @@ var teamSchema = mongoose.Schema({
         }
     },
     mentor: {
-        type: String
+        type: String,
+        default: ""
     }
 });
 
