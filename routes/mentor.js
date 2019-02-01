@@ -152,6 +152,21 @@ router.post("/signup", function (req, res) {
   });
 });
 
+// router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
+//   var noMatch = null;
+//   Mentor.find({ username: req.user.username }, function (err, mentor) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       allMentorChallenges = mentor;
+//       if (allMentorChallenges.length < 1) {
+//         noMatch = "No Challenges have yet been posted.";
+//       }
+//       res.render("mentorChallengeList", { challenges: allMentorChallenges, noMatch: noMatch });
+//     }
+//   });
+// });
+
 router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
   var noMatch = null;
   Mentor.find({ username: req.user.username }, function (err, mentor) {
@@ -159,14 +174,27 @@ router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
       console.log(err);
     } else {
       allMentorChallenges = mentor;
+      // console.log(JSON.stringify(allMentorChallenges));
       if (allMentorChallenges.length < 1) {
         noMatch = "No Challenges have yet been posted.";
       }
-      res.render("mentorChallengeList", { challenges: allMentorChallenges, noMatch: noMatch });
+      var arr = [];
+      allMentorChallenges[0].mentorChallenges.forEach((challenge) => {
+        // console.log("Challenge" + challenge);
+        challenge.applicants.forEach((applicant) => {
+          // console.log(applicant);
+          Team.find({username: applicant}, function(err, team) {
+            // console.log(JSON.stringify(team));
+            arr.push(team[0].username);
+            arr.push(team[0].mentor);
+          });
+        });
+      });
+      console.log(arr);
+      res.render("mentorChallengeList", { challenges: allMentorChallenges, applicant: arr, noMatch: noMatch });
     }
   });
 });
-
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() && req.user.role === "mentor") {

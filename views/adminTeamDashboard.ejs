@@ -1,7 +1,5 @@
 <% include ./partials/header %>
-<form action="/team/allMentorChallenges" method="GET">
-  <button class="btn btn-info btn-sm">See all mentor challenges</button>
-</form>
+<% include ./partials/adminGoHome%>
 <table class="table-striped table table-bordered">
   <tr class="thead-dark">
     <th>Name</th>
@@ -39,9 +37,7 @@
     <% }); %>
 </table>
 <% if(!team.challenge) { %>
-<form action="/team/postChallenge" method="GET">
-  <button class="btn btn-info btn-sm">Self challenge</button>
-</form>
+<p>No Challenge Posted </p>
 <% } else {%>
 <p>
   Challenge posted:
