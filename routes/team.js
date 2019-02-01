@@ -115,6 +115,12 @@ router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function (req, res
 router.post("/", function (req, res) {
   var newTeam = new Team({
     username: req.body.username,
+    mentorchallenge: {
+      mentorname: "",
+        title : "",
+        category : "",
+        description : ""
+    }
   });
   Team.register(newTeam, req.body.password, function (err, user) {
     if (err) {
