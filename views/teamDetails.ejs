@@ -3,17 +3,17 @@
   <tr class="thead-dark">
     <th>Name</th>
     <th>Year</th>
-    <th>Skills</th>
+    <th>Skills</th> 
     <th>Leader</th>
   </tr>
   <% console.log(typeof team.members)%>
-  <% team.members.forEach(function(member){%>
+  <% [...team.members].forEach(function(member){%>
     <tr>
       <td><%= member.name %></td>
       <td><%= member.year %></td>
       <td>
         <ul>
-          <% for(var i = 0; i < applicant.skills.length; i++){ %>
+          <% for(var i = 0; i < member.skills.length; i++){ %>
             <li>
               <%= member.skills[i];%>
             </li>

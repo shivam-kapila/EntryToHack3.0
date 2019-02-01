@@ -58,8 +58,9 @@ router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
           if (err) {
             console.log(err);
             res.redirect("back");
-          }
-          res.render("teamDetails", { team: team });
+          } 
+          var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
+          res.render("teamDetails", { team: JSON.parse(s) });
         });
       }
     });
