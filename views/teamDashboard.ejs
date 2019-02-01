@@ -19,5 +19,16 @@
                                 skills = skills.slice(0, skills.length - 1)%>
                             <td><%= skills %></td>
                 <% }); %>
-          </table>   
-<% include ./partials/footer%>
+          </table>
+          <% if(!team.challenge) { %>
+          <form action="/team/postChallenge" method="GET">   
+            <button>Self challenge</button>
+          </form>
+          <% } else {%>
+            You have a challenge: <%=JSON.stringify(team.challenge) %>
+          <% }%>
+        </div>
+    </div>
+    </body>   
+    <script src="/js/teamChallenge.js"></script>
+    </html>

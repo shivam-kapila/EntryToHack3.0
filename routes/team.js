@@ -114,6 +114,21 @@ router.get("/allMentorChallenges", isTeamLoggedIn, function(req, res){
   });
 });
 
+router.get("/postChallenge", isTeamLoggedIn, function(req, res) {
+  res.render("teamChallenge");
+});
+
+router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function(req, res){
+  Team.findOne({username: req.user.username}, function(err, team){
+    team.challenge = (req.body.challenge);
+    // req.user.mentorChallenges.push(req.body.challenge)
+     team.save(function(err) {
+        });
+    //  console.log("See" + mentor);
+     res.redirect("/team/teamDashboard");
+  });
+});
+
 router.post("/", function(req, res) {
     var newTeam = new Team({
             username: req.body.username,
