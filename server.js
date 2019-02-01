@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 require("dotenv").load();
 
 var express = require("express"),
