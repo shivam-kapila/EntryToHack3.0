@@ -43,10 +43,13 @@
     <td>
       <form action="/team/<%= challenge._id%>/participate/<%= chall._id%>" method="POST">
         <% 
-                      if(chall.teamusername != null){ %>
+                      if(chall.teamusername != null && chall.teamusername == team){ %>
+        <button class="btn btn-info" disabled>You're Selected</button>
+        <% } else if(chall.teamusername != null && chall.teamusername != team){ %>
         <button class="btn btn-warning" disabled>Team Finalised</button>
-        <% } else {
-                      var k = 0;
+                     <%} else {
+
+                    var k = 0;
                       for( var j = 0; j != chall.applicants.length; j++){     
                             if(team == chall.applicants[j])
                               {

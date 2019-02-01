@@ -26,10 +26,12 @@ var teamSchema = mongoose.Schema({
             },
             email: {
                 type: String,
+                unique: true,
                 required: true
             },
             rollNumber: {
                 type: String,
+                unique: true,
                 required: true
             },
             phone: {
@@ -58,7 +60,8 @@ var teamSchema = mongoose.Schema({
         }
     },
     mentor: {
-        type: String
+        type: String,
+        default: ""
     }
 });
 

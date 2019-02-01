@@ -44,30 +44,77 @@ router.get("/dashboard", isLoggedIn, function (req, res) {
 // })
 
 router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
-  Mentor.findById(req.params.id, function (err, mentor) {
-    mentor.mentorChallenges.forEach(function (chall) {
-      var k = 0;
-      for (var i = 0; i < chall.applicants.length; i++) {
-        if (chall.applicants[i] == req.params.username) {
-          k = 1;
-          break;
-        }
-      }
-      if (k === 1) {
+  // console.log("start" + req.params +" finish");
+  // Mentor.findById(req.params.id, function (err, mentor) {
+  //   mentor.mentorChallenges.forEach(function (chall) {
+  //     var k = 0;
+  //     for (var i = 0; i < chall.applicants.length; i++) {
+  //       if (chall.applicants[i] == req.params.username) {
+  //         k = 1;
+  //         break;
+  //       }
+  //     }
+  //     if (k === 1) {
         Team.find({ username: req.params.username }, function (err, team) {
           if (err) {
             console.log(err);
             res.redirect("back");
           } 
-          console.log(team);
+          console.log("dekh");
+  console.log("start" + req.params +" finish");
           // var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
           res.render("teamDetails", { team: team[0], mentorid: req.params.id, 
                                       challengeid: req.params.challengeid, username: req.params.username });
         });
-      }
-    });
+      // }
+  //   });
+  // });
+});
 
-  });
+router.post("/:id/view/:challengeid/:username/accept", isLoggedIn, function (req, res) {
+var user;
+Mentor.findById(req.params.id, function(err, mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+    if(mentor.mentorChallenges[i].id == req.params.challengeid){
+user = mentor.username;
+var challenge = mentor.mentorChallenges[i];
+  mentor.mentorChallenges[i].teamusername = req.params.username;
+  mentor.mentorChallenges[i].applicants = [];
+    mentor.save();
+        }
+  }
+});
+Team.find({username: req.params.username}, function(err, team){
+if(err){
+  console.log(err)
+  res.redirect("back");
+}
+else {
+  console.log(team)
+  team[0].mentor = user;
+  console.log(team[0]);
+  team[0].save();
+    res.redirect("/mentor/mentorChallengeList");
+}
+})
+});
+
+router.post("/:id/view/:challengeid/:username/reject", isLoggedIn, function (req, res) {
+Mentor.findById(req.params.id, function(err, mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+    if(mentor.mentorChallenges[i].id == req.params.challengeid){
+      var appl = mentor.mentorChallenges[i].applicants;
+      mentor.mentorChallenges[i].applicants = [];
+      for(var j = 0; j < appl.length; j++){
+        if(appl[j] != req.params.username){
+          mentor.mentorChallenges[i].applicants.push(appl[j]);
+        }
+      }
+    mentor.save();      
+    res.redirect("/mentor/mentorChallengeList");
+        }
+  }
+});
 });
 
 router.post("/challenge", isLoggedIn, isVerified, function (req, res) {
