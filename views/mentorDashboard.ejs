@@ -1,50 +1,64 @@
 <% include ./partials/header%>
 <div class="col-md-12">
-<% console.log("BBHAAA"+ mentor)%>
-            <p><strong>Username: </strong><%= mentor.username %></p>
-            <p><strong>Name: </strong><%= mentor.name %></p>
-            <p><strong>Email ID: </strong><%= mentor.email %></p>
-            <p><strong>Phone No.: </strong><%= mentor.phone %></p>
-            <p><strong>Roll No.: </strong><%= mentor.rollNumber %></p>
-            <p><strong>Year of Study: </strong><%= mentor.year %></p>
-            <p><strong>Area of Interest: </strong><%= mentor.area %></p>
-            <p><strong>Skills: </strong>
-              <ul>
-                <% for(var i = 0; i < mentor.skills.length; i++) {%>
-                <li>
-                  <%= mentor.skills[i]; %>              
-                </li>
-                <% } %>
-              </ul>
-            </p>
-            <p>
-              <strong>Account Verification Status: </strong>
-              <% if(mentor.isVerified == "Verified") {%>
-                Verified
-              <%} else if(mentor.isVerified == "NotVerified"){%>
-                  Not Verified
-              <% } else {%>
-                  Rejected
-                <% } %>
-            </p>
-                <% if(mentor.isVerified == "Verified") {%>
-                <form action="/mentor/challenge" method="GET">
-                  <button class = "btn btn-lg btn-success btn-block"> Post Challenge</button>
-                </form>
+  <% console.log("BBHAAA"+ mentor)%>
+  <p><strong>Username: </strong>
+    <%= mentor.username %>
+  </p>
+  <p><strong>Name: </strong>
+    <%= mentor.name %>
+  </p>
+  <p><strong>Email ID: </strong>
+    <%= mentor.email %>
+  </p>
+  <p><strong>Phone No.: </strong>
+    <%= mentor.phone %>
+  </p>
+  <p><strong>Roll No.: </strong>
+    <%= mentor.rollNumber %>
+  </p>
+  <p><strong>Year of Study: </strong>
+    <%= mentor.year %>
+  </p>
+  <p><strong>Area of Interest: </strong>
+    <%= mentor.area %>
+  </p>
+  <p><strong>Skills: </strong>
+    <ul>
+      <% for(var i = 0; i < mentor.skills.length; i++) {%>
+      <li>
+        <%= mentor.skills[i]; %>
+      </li>
+      <% } %>
+    </ul>
+  </p>
+  <p>
+    <strong>Account Verification Status: </strong>
+    <% if(mentor.isVerified == "Verified") {%>
+    Verified
+    <%} else if(mentor.isVerified == "NotVerified"){%>
+    Not Verified
+    <% } else {%>
+    Rejected
+    <% } %>
+  </p>
+  <% if(mentor.isVerified == "Verified") {%>
+  <form action="/mentor/challenge" method="GET">
+    <button class="btn btn-lg btn-success btn-block"> Post Challenge</button>
+  </form>
 
-                  <% var i = 0;
+  <% var i = 0;
                   mentor.mentorChallenges.forEach(function(chall) {
                     i++;
                   });
                   console.log("value"+i)
                   if(i > 0) {%>
-                  <form action="/mentor/mentorChallengeList" method="GET">
-                    <button class = "btn btn-lg btn-primary btn-block"> View Challenges</button>
-                  </form>
-                  <% } %>
-            <%} else if(mentor.isVerified == "NotVerified"){%>
-                  <button class = "btn btn-lg btn-success btn-block" disabled> Post Challenge</button>
-            <% } %>
+  <form action="/mentor/mentorChallengeList" method="GET">
+    <button class="btn btn-lg btn-primary btn-block"> View Challenges</button>
+  </form>
+  <% } %>
+  <%} else if(mentor.isVerified == "NotVerified"){%>
+  <button class="btn btn-lg btn-success btn-block" disabled> Post Challenge</button>
+  <% } %>
 
 </div>
-  <% include ./partials/footer%>
+<% include ./partials/footer%>

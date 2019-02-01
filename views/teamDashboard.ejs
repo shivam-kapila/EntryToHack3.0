@@ -1,23 +1,42 @@
 <% include ./partials/header %>
-          <table class="table-striped table table-bordered">
-            <tr class="thead-dark">
-              <th>Name</th>
-              <th>Roll No.</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Skills</th>
-            </tr>
-                <% [...team.members].forEach(function (member) { 
-                    var skills = '';%>
-                    <tr>
-                            <td><%= member.name %></td>
-                            <td><%= member.rollNumber %></td>
-                            <td><%= member.email %></td>
-                            <td><%= member.phone %></td>
-                            <% member.skills.forEach(function (skill) { 
-                                skills += skill + ","; }); 
-                                skills = skills.slice(0, skills.length - 1)%>
-                            <td><%= skills %></td>
-                <% }); %>
-          </table>   
-<% include ./partials/footer%>
+<table class="table-striped table table-bordered">
+  <tr class="thead-dark">
+    <th>Name</th>
+    <th>Roll No.</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Skills</th>
+  </tr>
+  <% [...team.members].forEach(function (member) { 
+      var skills = '';%>
+  <tr>
+    <td>
+      <%= member.name %>
+    </td>
+    <td>
+      <%= member.rollNumber %>
+    </td>
+    <td>
+      <%= member.email %>
+    </td>
+    <td>
+      <%= member.phone %>
+    </td>
+    <% member.skills.forEach(function (skill) { 
+          skills += skill + ","; }); 
+          skills = skills.slice(0, skills.length - 1)%>
+    <td>
+      <%= skills %>
+    </td>
+    <% }); %>
+</table>
+<% if(!team.challenge) { %>
+<form action="/team/postChallenge" method="GET">
+  <button>Self challenge</button>
+</form>
+<% } else {%>
+You have a challenge:
+<%=JSON.stringify(team.challenge) %>
+<% }%>
+
+<% include ./partials/footer %>

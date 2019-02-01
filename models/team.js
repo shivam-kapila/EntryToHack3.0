@@ -45,7 +45,18 @@ var teamSchema = mongoose.Schema({
                 required: true
             }
         }
-    ]
+    ],
+    challenge: {
+        title: {
+            type: String
+        },
+        category: {
+            type: String
+        },
+        description: {
+            type: String
+        }
+    }
 });
 
 // PASSWORD HASHING ADDED

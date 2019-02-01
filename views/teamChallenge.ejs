@@ -1,0 +1,28 @@
+<% include ./partials/header %>
+
+<div class="col-md-12 text-center form">
+    <h1 class="text-uppercase">Team Challenge</h1>
+
+    <form action="/team/postChallenge" method="POST">
+        <input type="text" name="challenge[title]" placeholder="Title" required autofocus class="form-control">
+        <p class="mt-2"><strong>Enter challenge category:</strong></p>
+        <select class="form-control" name="challenge[category]">
+            <option value="android_app_development">Android App Development</option>
+            <option value="web_development">Web Development</option>
+            <option value="deep_learning">Deep Learning</option>
+            <option value="machine_learning">Machine Learning</option>
+            <option value="artificial_intelligence">Artificial Intelligence</option>
+            <option value="data_science">Data Science</option>
+            <option value="cloud_computing">Cloud Computing</option>
+            <option value="embedded_systems">Embedded Systems</option>
+            <option value="game_development">Game Development</option>
+            <option value="blockchain">Blockchain</option>
+            <option value="front_end_development">Front End Development</option>
+            <option value="back_end_development">Back End Development</option>
+            <option value="database_management">Database Management</option>
+        </select>
+        <textarea name="challenge[description]" rows="5" class=" mt-2 form-control" placeholder="Challenge Description"></textarea>
+        <input type="submit" name="Register" class="ui primary button">
+    </form>
+</div>
+<% include ./partials/footer %>
