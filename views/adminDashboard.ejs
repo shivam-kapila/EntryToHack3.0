@@ -1,63 +1,12 @@
-<% include ./partials/header%>
-<table class="table-striped table table-bordered">
-  <tr class="thead-dark">
-    <th>Name</th>
-    <th>Email:</th>
-    <th>Phone</th>
-    <th>Roll No.</th>
-    <th>Year</th>
-    <th>Username</th>
-    <th>Area of Interest</th>
-    <th>Skills</th>
-    <th>Verification Status</th>
-    <th>Action</th>
-  </tr>
-  <% mentors.forEach(function(mentor){ %>
-  <tr>
-    <td>
-      <%= mentor.name %>
-    </td>
-    <td>
-      <%= mentor.email %>
-    </td>
-    <td>
-      <%= mentor.phone %>
-    </td>
-    <td>
-      <%= mentor.rollNumber %>
-    </td>
-    <td>
-      <%= mentor.year %>
-    </td>
-    <td>
-      <%= mentor.username %>
-    </td>
-    <td>
-      <%= mentor.area %>
-    </td>
-    <td>
-      <ul>
-        <% for(var i =0; i < mentor.skills.length; i++){%>
-        <li>
-          <%= mentor.skills[i]%>
-        </li>
-        <% } %>
-      </ul>
-    </td>
-    <td>
-      <%= mentor.isVerified %>
-    </td>
-    <td>
-      <% if(mentor.isVerified == "NotVerified") { %>
-      <form action="/admin/<%= mentor._id%>/verify" method="POST">
-        <button class="btn btn-info btn-sm">Verify</button>
-      </form>
-      <form action="/admin/<%= mentor._id%>/reject" method="POST">
-        <button class="btn btn-danger btn-sm">Reject</button>
-      </form>
-      <% } %>
-    </td>
-  </tr>
-  <% }); %>
-</table>
-<% include ./partials/footer%>
+<% include ./partials/header %>
+<form action="/admin/teams">
+    <input type="submit" value="Teams">
+</form>
+<form action="/admin/mentors">
+    <input type="submit" value="Mentors">
+</form>
+<form action="/admin/mentorChallenges">
+    <input type="submit" value="Mentor Challenges">
+</form>
+
+<% include ./partials/footer %>
