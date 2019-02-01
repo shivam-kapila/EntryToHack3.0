@@ -22,11 +22,16 @@
     <td>
       <%= member.phone %>
     </td>
-    <% member.skills.forEach(function (skill) { 
-          skills += skill + ","; }); 
-          skills = skills.slice(0, skills.length - 1)%>
     <td>
-      <%= skills %>
+      <ul>
+        <% for(var i = 0; i < member.skills.length; i++){ %>
+          <li>
+            <% if(member.skills[i] !== '') {%>
+            <%= member.skills[i];%>
+            <% } %>
+          </li>
+        <% } %>
+      </ul> 
     </td>
     <% }); %>
 </table>
@@ -35,8 +40,15 @@
   <button>Self challenge</button>
 </form>
 <% } else {%>
-You have a challenge:
-<%=JSON.stringify(team.challenge) %>
-<% }%>
+<p>
+  Challenge posted:
+  <br />
+  <strong>Title:</strong> <%= team.challenge.title%>
+  <br />
+  <strong>Description:</strong> <%= team.challenge.description%>
+  <br />
+  <strong>Category:</strong> <%= team.challenge.category%>
+  </p>
+  <% }%>
 
 <% include ./partials/footer %>
