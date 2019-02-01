@@ -1,0 +1,52 @@
+<% include ./partials/header %>
+<table class="table-striped table table-bordered">
+  <tr class="thead-dark">
+    <th>Name</th>
+    <th>Roll No.</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Skills</th>
+  </tr>
+  <% [...team.members].forEach(function (member) { 
+      var skills = '';%>
+  <tr>
+    <td>
+      <%= member.name %>
+    </td>
+    <td>
+      <%= member.rollNumber %>
+    </td>
+    <td>
+      <%= member.email %>
+    </td>
+    <td>
+      <%= member.phone %>
+    </td>
+    <td>
+      <ul>
+        <% for(var i = 0; i < member.skills.length; i++){ %>
+          <li>
+            <% if(member.skills[i] !== '') {%>
+            <%= member.skills[i];%>
+            <% } %>
+          </li>
+        <% } %>
+      </ul> 
+    </td>
+    <% }); %>
+</table>
+<% if(!team.challenge) { %>
+<p>No Challenge Posted </p>
+<% } else {%>
+<p>
+  Challenge posted:
+  <br />
+  <strong>Title:</strong> <%= team.challenge.title%>
+  <br />
+  <strong>Description:</strong> <%= team.challenge.description%>
+  <br />
+  <strong>Category:</strong> <%= team.challenge.category%>
+  </p>
+  <% }%>
+
+<% include ./partials/footer %>

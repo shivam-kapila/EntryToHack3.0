@@ -1,0 +1,34 @@
+<% include ./partials/header%>
+<table class="table-striped table table-bordered">
+  <tr class="thead-dark">
+    <th>Team Name</th>
+    <th>Member 1</th>
+    <th>Member 2</th>
+    <th>Member 3</th>
+    <th>Member 4</th>
+    <th>Member 5</th>
+    <th>View</th>
+  </tr>
+  <% teams.forEach(function(team){ %>
+  <tr>
+    <td>
+      <%= team.username %>
+    </td>
+    <% team.members.forEach((member) => { %>
+        <td>
+            <%=member.name %>
+        </td>
+    <% }); 
+    if(team.members.length !== 5) { %>
+        <td></td>
+    <% } %>
+    <td>
+        <form action="/admin/team/<%= team._id%>" method="GET">
+            <button class="btn btn-info btn-sm">View</button>
+        </form>
+    </td>
+    </tr>
+    <% }); %>
+    
+</table>
+<% include ./partials/footer%>
