@@ -69,12 +69,15 @@ submitForm.on('click', function (e) {
             dataType: 'json',
             async: false,
             success: function (msg) {
-                alert(msg);
-
+                window.location.href = "/teamDashboard";
             }
         });
+        setTimeout(function () {
+            window.location.href = '/team/teamDashboard';
+        }, 2000);
     } else {
         alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
+                    window.location.href = '/team/teamDashboard';
     }
 });
 

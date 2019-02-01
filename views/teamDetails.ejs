@@ -6,17 +6,18 @@
     <th>Skills</th> 
     <th>Leader</th>
   </tr>
-  <% console.log(typeof team.members)%>
-  <% [...team.members].forEach(function(member){%>
+  <% team.members.forEach(function(member){%>
     <tr>
       <td><%= member.name %></td>
       <td><%= member.year %></td>
       <td>
         <ul>
           <% for(var i = 0; i < member.skills.length; i++){ %>
-            <li>
+             <% if(member.skills[i]!=="") {%>
+             <li>
               <%= member.skills[i];%>
             </li>
+              <% } %>
           <% } %>
         </ul> 
       </td>
@@ -28,5 +29,16 @@
       </td>
     </tr>
   <% }); %>
-</table>   
+</table>
+<div>
+  
+</div>   
+<div>
+  <form action="/mentor/<%= mentorid%>/view/<%= challengeid%>/<%= username%>/accept" method="POST">
+    <button class="btn btn-lg btn-info btn-block">Accept</button>
+  </form>
+</div>
+<form action="/mentor/<%= mentorid%>/view/<%= challengeid%>/<%= username%>/reject" method="POST">
+    <button class="btn btn-lg btn-warning btn-block">Reject</button>
+  </form>
 <% include ./partials/footer%>
