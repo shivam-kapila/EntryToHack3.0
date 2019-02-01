@@ -151,8 +151,12 @@ router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
           // console.log(applicant);
           Team.find({username: applicant}, function(err, team) {
             // console.log(JSON.stringify(team));
-            arr.push(team[0].username);
-            arr.push(team[0].mentor);
+            // arr.push(team[0].username);
+            if(team[0].mentor.trim() !== "") {
+              arr.push(team[0].mentor);
+            } else {
+              arr.push('');
+            }
           });
         });
       });
