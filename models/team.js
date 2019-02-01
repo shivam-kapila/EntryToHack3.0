@@ -56,6 +56,9 @@ var teamSchema = mongoose.Schema({
         description: {
             type: String
         }
+    },
+    mentor: {
+        type: String
     }
 });
 
