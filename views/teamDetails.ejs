@@ -6,9 +6,8 @@
               <th>Skills</th>
               <th>Leader</th>
             </tr>
-                <% team.members.forEach(function(member){
-                challenge.mentorChallenges.forEach(function(chall) {
-                    console.log(chall);%>
+            <% console.log(typeof team.members)%>
+                <% team.members.forEach(function(member){%>
                 <tr>
                   <td><%= member.name %></td>
                   <td><%= member.year %></td>
@@ -29,6 +28,5 @@
                   </td>
                   </tr>
                   <% }); %>
-        <% }); %>
           </table>   
 <% include ./partials/footer%>

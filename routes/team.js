@@ -20,24 +20,30 @@ router.post("/login", passport.authenticate("team",
         // successRedirect: "/team/teamDashboard",
         failureRedirect: "/team/login", 
 }),function(req, res) {
-  console.log(req.user);
-  res.redirect("/team/teamDashboard")
+  // console.log(req.user);
+  res.redirect("/team/teamDashboard");
 });
 
 router.get("/teamDashboard", isTeamLoggedIn, function(req, res){
-  res.render("teamDashboard");
+  Team.findOne({username: req.user.username}, function(err, team){
+    if(err){
+      console.log(err);
+    } else if(team.members.length < 4) {
+      res.render("teamRegistration");
+    } else {
+    res.render("teamDashboard", {team: JSON.parse(JSON.stringify(team))});
+    }    
+  });
 });
 
-router.get('/student', isTeamLoggedIn, function(req, res){
-  // res.render("student1")
-  res.render("teamRegistration");
+router.get("/student", isTeamLoggedIn, function(req, res){
+  res.render('teamRegistration');
 });
 
 router.post('/student', isTeamLoggedIn, function(req, res){
-  console.log(req.body);
   req.body.members[0]["isLeader"] = true;
 Team.findOne({username: req.user.username}, function(err, team){
-  console.log(team);
+  // console.log(team);
   team.members = req.body.members;
   team.save();
   res.redirect("/team/allMentorChallenges");
@@ -130,10 +136,10 @@ function isTeamLoggedIn(req, res, next){
     if(req.isAuthenticated() && req.user.role === "team"){
       // console.log("Displayttt");
        // console.log(req.user)
-      console.log("Yes")
+      console.log("Yes");
         return next();
     }
-    console.log("No")
+    console.log("No");
     req.flash("error", "You need to be logged in to do that");
     res.redirect("/team/login");
 }

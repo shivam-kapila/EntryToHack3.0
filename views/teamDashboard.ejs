@@ -1,2 +1,23 @@
-<h1>TEAM</h1>
-<a href="/team/student">Click</a>
+<% include ./partials/header %>
+          <table class="table-striped table table-bordered">
+            <tr class="thead-dark">
+              <th>Name</th>
+              <th>Roll No.</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Skills</th>
+            </tr>
+                <% [...team.members].forEach(function (member) { 
+                    var skills = '';%>
+                    <tr>
+                            <td><%= member.name %></td>
+                            <td><%= member.rollNumber %></td>
+                            <td><%= member.email %></td>
+                            <td><%= member.phone %></td>
+                            <% member.skills.forEach(function (skill) { 
+                                skills += skill + ","; }); 
+                                skills = skills.slice(0, skills.length - 1)%>
+                            <td><%= skills %></td>
+                <% }); %>
+          </table>   
+<% include ./partials/footer%>

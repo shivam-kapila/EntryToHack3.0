@@ -45,7 +45,7 @@ router.get("/dashboard", isAdminLoggedIn, function(req, res){
     } else{
   res.render("adminDashboard", {mentors: mentors});
     }
-  })
+  });
 });
 
 router.post("/:id/verify", isAdminLoggedIn, function(req, res){
@@ -68,10 +68,10 @@ function isAdminLoggedIn(req, res, next){
       console.log("Display");
        console.log(req.user);
     if(req.isAuthenticated() && req.user.role === "admin"){
-      console.log("Yes")
+      console.log("Yes");
         return next();
     }
-    console.log("No")
+    console.log("No");
     req.flash("error", "You need to be logged in to do that");
     res.redirect("/admin/login");
 }
