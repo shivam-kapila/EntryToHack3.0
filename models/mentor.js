@@ -30,13 +30,13 @@ var mentorSchema = mongoose.Schema({
     password: {
         type: String,
     },
-    area: { 
+    area: {
         type: String,
     },
     skills: {
-       type: [],
-    required: true
-},
+        type: [],
+        required: true
+    },
     isVerified: {
         type: String,
         required: true
@@ -45,26 +45,26 @@ var mentorSchema = mongoose.Schema({
         type: String,
         default: "mentor"
     },
-    mentorChallenges: 
-       [
-        {
-            title: {
-                type: String,
-            },
-            category: {
-                type: String,
-            },
-            description: {
-                type: String,
-            },
-            teamusername: {
-                type: String,
-            },
-            applicants:{
-                type: [],
+    mentorChallenges:
+        [
+            {
+                title: {
+                    type: String,
+                },
+                category: {
+                    type: String,
+                },
+                description: {
+                    type: String,
+                },
+                teamusername: {
+                    type: String,
+                },
+                applicants: {
+                    type: [],
+                }
             }
-            }
-       ]
+        ]
 });
 
 // PASSWORD HASHING ADDED
