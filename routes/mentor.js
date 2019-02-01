@@ -59,8 +59,10 @@ router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
             console.log(err);
             res.redirect("back");
           } 
-          var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
-          res.render("teamDetails", { team: JSON.parse(s) });
+          console.log(team);
+          // var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
+          res.render("teamDetails", { team: team[0], mentorid: req.params.id, 
+                                      challengeid: req.params.challengeid, username: req.params.username });
         });
       }
     });
