@@ -43,10 +43,14 @@ router.get("/student", isTeamLoggedIn, function (req, res) {
 router.post('/student', isTeamLoggedIn, function (req, res) {
   req.body.members[0]["isLeader"] = true;
   Team.findOne({ username: req.user.username }, function (err, team) {
+    console.log('Team found!');
     // console.log(team);
     team.members = req.body.members;
-    team.save();
-    res.redirect("/team/allMentorChallenges");
+    team.save().then((data) => {
+      console.log('Data saved!');
+      res.sendStatus(200);
+    }).catch((e) => res.sendStatus(501));
+    
   });
 });
 
