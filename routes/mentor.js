@@ -97,7 +97,54 @@ var addTeamChallenge = (username, chall, user, res) => {
     console.log(err)
     res.redirect("back");
   }
-  else {
+   async.waterfall([
+    function(token, user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail', 
+        auth: {
+            type: "login",
+          user: 'csechack3.0@gmail.com',
+          pass: process.env.PASS
+        }
+      });
+      var userMail = {
+        to: team[0].members[0].email,
+        from: 'csechack3.0@gmail.com',
+        subject: 'Challenge Request Accepted',
+        text: 'Dear '+  team[0].members[0].name + '\n \n This is to inform you that ' + user +' has accepted your challenge request. Further updates will be sent to you \n\n Regards \n Team CSEC'
+      };
+      smtpTransport.sendMail(userMail, function(err) {
+      });
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/mentor/dashboard');
+  });
+
+  async.waterfall([
+    function(token, user, done) {
+      var smtpTransport2 = nodemailer.createTransport({
+        service: 'Gmail', 
+        auth: {
+            type: "login",
+          user: 'csechack3.0@gmail.com',
+          pass: process.env.PASS
+        }
+      });
+      var userMail2 = {
+        to: req.user.email,
+        from: 'csechack3.0@gmail.com',
+        subject: 'Challenge Request Accepted',
+        text: 'Dear '+  req.user.name + '\n \n This is to inform you that you have selected ' + team[0].username +' for your challenge. Further updates will be sent to you \n\n Regards \n Team CSEC'
+      };
+      smtpTransport2.sendMail(userMail2, function(err) {
+      });
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/mentor/dashboard');
+  });
+
    var challenge = {
         mentorname : user,
         title : chall.title,
@@ -106,7 +153,6 @@ var addTeamChallenge = (username, chall, user, res) => {
     };
     team[0].mentorchallenge = challenge;
     team[0].save();
-  }
 }).then(() => {
                 removeTeamMentorChallenges(username, res);
                 console.log('Redirected, route successfully executed');
@@ -156,6 +202,35 @@ Mentor.findById(req.params.id, function(err, mentor){
 
 router.post("/challenge", isLoggedIn, isVerified, function (req, res) {
   Mentor.findOne({ username: req.user.username }, function (err, mentor) {
+    if(err){
+      console.log(err);
+      res.redirect("back");
+    }
+    async.waterfall([
+    function(token, user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail', 
+        auth: {
+            type: "login",
+          user: 'csechack3.0@gmail.com',
+          pass: process.env.PASS
+        }
+      });
+      console.log(req.user.username);
+      var userMail = {
+        to: req.user.email,
+        from: 'csechack3.0@gmail.com',
+        subject: 'Challenge Posted',
+        text: 'Dear '+  req.user.name + '\n \n This is to inform you that your challenge has been successfully posted. Further updates will be sent to you \n\n Regards \n Team CSEC'
+      };
+      smtpTransport.sendMail(userMail, function(err) {
+      });
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/mentor/dashboard');
+
+  });
     mentor.mentorChallenges.push(req.body.challenge);
     req.user.mentorChallenges.push(req.body.challenge);
     mentor.save(function (err) {
@@ -194,8 +269,32 @@ router.post("/signup", function (req, res) {
       console.log(err);
       return res.render("mentor", { error: err.message });
     }
-    passport.authenticate("mentor")(req, res, function () {
+    async.waterfall([
+    function(token, user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail', 
+        auth: {
+            type: "login",
+          user: 'csechack3.0@gmail.com',
+          pass: process.env.PASS
+        }
 
+      });
+      var userMail = {
+        to: req.body.email,
+        from: 'csechack3.0@gmail.com',
+        subject: 'Thankyou for Registering',
+        text: 'Dear '+  req.body.name + '\n \n This is to inform you that your registration as mentor is successful. You will be notified when we verify your account. We shall get in contact with you soon. \n\n Regards \n Team CSEC'
+      };
+      smtpTransport.sendMail(userMail, function(err) {
+      });
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/mentor/dashboard');
+
+  });
+    passport.authenticate("mentor")(req, res, function () {
       res.redirect("/mentor/dashboard");
     });
   });

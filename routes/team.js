@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
 var Team = require("../models/team");
+var nodemailer = require("nodemailer");
+
 
 var passport = require("passport");
 
@@ -46,6 +48,31 @@ router.post('/student', isTeamLoggedIn, function (req, res) {
     console.log('Team found!');
     // console.log(team);
     team.members = req.body.members;
+     async.waterfall([
+    function(token, user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail', 
+        auth: {
+            type: "login",
+          user: 'csechack3.0@gmail.com',
+          pass: process.env.PASS
+        }
+      });
+      console.log(req.user.username);
+      var userMail = {
+        to: req.body.members[0].email,
+        from: 'csechack3.0@gmail.com',
+        subject: 'Thankyou for Registering',
+        text: 'Dear '+  req.body.members[0].name + '\n \n This is to inform you that your registration as team ' + req.user.username + 'is successful. You will be notified about further updates soon. \n\n Regards \n Team CSEC'
+      };
+      smtpTransport.sendMail(userMail, function(err) {
+      });
+    }
+  ], function(err) {
+    if (err) return next(err);
+    res.redirect('/team/teamDashboard');
+  });
+  
     team.save().then((data) => {
       console.log('Data saved!');
       res.sendStatus(200);
@@ -72,6 +99,53 @@ router.post("/:id/participate/:challengeid", isTeamLoggedIn, function (req, res)
           if (k === 1) {
             console.log("Already applied");
           } else {
+            async.waterfall([
+            function(token, user, done) {
+              var smtpTransport = nodemailer.createTransport({
+                service: 'Gmail', 
+                auth: {
+                    type: "login",
+                  user: 'csechack3.0@gmail.com',
+                  pass: process.env.PASS
+                }
+              });
+              var userMail = {
+                to: req.user.members[0].email,
+                from: 'csechack3.0@gmail.com',
+                subject: 'Challenge Request Sent',
+                text: 'Dear '+  req.user.members[0].name + '\n \n This is to inform you that your challenge request has been sent to the respective mentor. You will be notified about further updates soon. \n\n Regards \n Team CSEC'
+              };
+              smtpTransport.sendMail(userMail, function(err) {
+              });
+            }
+          ], function(err) {
+            if (err) return next(err);
+            res.redirect('/team/teamDashboard');
+          });
+        async.waterfall([
+            function(token, user, done) {
+              var smtpTransport2 = nodemailer.createTransport({
+                service: 'Gmail', 
+                auth: {
+                    type: "login",
+                  user: 'csechack3.0@gmail.com',
+                  pass: process.env.PASS
+                }
+              });
+              var userMail2 = {
+                to: challenge.email,
+                from: 'csechack3.0@gmail.com',
+                subject: 'Challenge Request Received',
+                text: 'Dear '+  challenge.name + '\n \n This is to inform you that you have received a challenge reguest form team '+ req.user.username +'.Please take the neccessary actions soon. \n\n Regards \n Team CSEC'
+              };
+              smtpTransport2.sendMail(userMail2, function(err) {
+              });
+            }
+          ], function(err) {
+            if (err) return next(err);
+            res.redirect('/team/teamDashboard');
+          });
+  
             chall.applicants.push(req.user.username);
             challenge.save();
             res.redirect("/team/allMentorChallenges");
@@ -105,7 +179,29 @@ router.get("/postChallenge", isTeamLoggedIn, function (req, res) {
 router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function (req, res) {
   Team.findOne({ username: req.user.username }, function (err, team) {
     team.challenge = (req.body.challenge);
-    // req.user.mentorChallenges.push(req.body.challenge)
+    async.waterfall([
+            function(token, user, done) {
+              var smtpTransport = nodemailer.createTransport({
+                service: 'Gmail', 
+                auth: {
+                    type: "login",
+                  user: 'csechack3.0@gmail.com',
+                  pass: process.env.PASS
+                }
+              });
+              var userMail = {
+                to: req.user.members[0].email,
+                from: 'csechack3.0@gmail.com',
+                subject: 'Challenge Request Sent',
+                text: 'Dear '+  req.user.members[0].name + '\n \n This is to inform you that your challenge has been posted. You will be notified about further updates soon. \n\n Regards \n Team CSEC'
+              };
+              smtpTransport.sendMail(userMail, function(err) {
+              });
+            }
+          ], function(err) {
+            if (err) return next(err);
+            res.redirect('/team/teamDashboard');
+          });
     team.save(function (err) {
     });
     //  console.log("See" + mentor);
