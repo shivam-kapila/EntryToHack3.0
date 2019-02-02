@@ -52,24 +52,24 @@ router.post("/login", passport.authenticate("admin",
   }), function (req, res) {
   });
 
-router.get("/signup", function (req, res) {
-  res.render("admin");
-});
+// router.get("/signup", function (req, res) {
+//   res.render("admin");
+// });
 
-router.post("/signup", function (req, res) {
-  var newAdmin = new Admin({
-    username: req.body.username,
-  });
-  Admin.register(newAdmin, req.body.password, function (err, user) {
-    if (err) {
-      console.log(err);
-      return res.render("admin", { error: err.message });
-    }
-    passport.authenticate("admin")(req, res, function () {
-      res.redirect("/admin/dashboard");
-    });
-  });
-});
+// router.post("/signup", function (req, res) {
+//   var newAdmin = new Admin({
+//     username: req.body.username,
+//   });
+//   Admin.register(newAdmin, req.body.password, function (err, user) {
+//     if (err) {
+//       console.log(err);
+//       return res.render("admin", { error: err.message });
+//     }
+//     passport.authenticate("admin")(req, res, function () {
+//       res.redirect("/admin/dashboard");
+//     });
+//   });
+// });
 
 router.get("/dashboard", isAdminLoggedIn, function (req, res) {
     res.render("adminDashboard");
