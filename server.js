@@ -19,7 +19,7 @@ var indexRoutes = require("./routes/index");
 var mentorRoutes = require("./routes/mentor");
 var teamRoutes = require("./routes/team");
 var adminRoutes = require("./routes/admin");
-var url = process.env.DATABSEURL;
+var url = process.env.DATABASEURL;
 // || "mongodb://localhost/entry_to_hack3";
 mongoose.connect(url, {
     useNewUrlParser: true
