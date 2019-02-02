@@ -252,6 +252,10 @@ router.post("/login", passport.authenticate("mentor",
 
 router.post("/signup", function (req, res) {
 
+  if(req.body.year === 'year-error') {
+    return res.render("mentor");
+  }
+
   var newMentor = new Mentor({
     name: req.body.name,
     rollNumber: req.body.rollno,
