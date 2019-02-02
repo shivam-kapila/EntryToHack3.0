@@ -52,11 +52,11 @@ jQuery('#saveDetails').on('click', function () {
 submitForm.on('click', function (e) {
     console.log('fourMember: ', fourMember);
     console.log(fourMember.prop('checked'));
-    // if (fourMember.prop('checked')) {
+    if (fourMember.prop('checked')) {
         console.log("Entered in checkbox attribute");
         var memberInput = takeInputValues(memberNumber);
         teamDetails.push(memberInput);      // Otherwise it will make the POST request just with the 3 members
-    // }
+    }
     // console.log(memberInput.skill0+ "qwwqwqwqqw");
 
     console.log('Team Details in submitForm: ', teamDetails);
@@ -214,7 +214,6 @@ function validateMemberYear(member) {
 }
 
 function updateYear() {
-    console.log('Hello');
     var roll = $('#roll').val();
     if (roll.toLowerCase().search('iiitu') !== -1) {
         $('#year').val(19 - parseInt(roll.split('')[5] + roll.split('')[6]));
