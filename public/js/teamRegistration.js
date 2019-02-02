@@ -22,6 +22,7 @@ fourMember.on('click', function () {
 });
 
 jQuery('#saveDetails').on('click', function () {
+    jQuery('#saveDetails').prop('disabled', true);
     var memberInput = takeInputValues(memberNumber);
     memberNumber++;
     if (validateData()) {
@@ -40,6 +41,7 @@ jQuery('#saveDetails').on('click', function () {
                 fourMember.css('display', 'block');
                 label4member.css('display', 'block');
             }
+            jQuery('#saveDetails').prop('disabled', false);
         } else {
             memberNumber--;
             alert("Roll Number and Year do not match! Enter member details again.");
@@ -70,21 +72,19 @@ submitForm.on('click', function (e) {
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
-            success: function (msg) {
-                window.location.href = "/teamDashboard";
+            complete: function (msg) {
+                console.log('Post request made successfully');
+                window.location.href = '/team/teamDashboard';
             }
         });
-        setTimeout(function () {
-            window.location.href = '/team/teamDashboard';
-        }, 2000);
     } else {
         alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
                     window.location.href = '/team/teamDashboard';
     }
 });
 
-function validateForm() {
-    if (memberNumber < 3) {                                  // Just in case anyone tries to change style properties in inspect element and enables submit button
+function validateForm() {  
+    if(memberNumber < 3 || memberNumber > 4) {                                  // Just in case anyone tries to change style properties in inspect element and enables submit button
         console.log("Member Number: ", memberNumber);
         return false;
     }
@@ -211,7 +211,6 @@ function validateMemberYear(member) {
             return false;
         }
     }
-
 }
 
 function updateYear() {
