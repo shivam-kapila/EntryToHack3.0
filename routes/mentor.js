@@ -72,11 +72,12 @@ router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
 });
 
 router.post("/:id/view/:challengeid/:username/accept", isLoggedIn, function (req, res) {
-var user;
+var user, chall;
 Mentor.findById(req.params.id, function(err, mentor){
   for(var i = 0; i < mentor.mentorChallenges.length; i++){
     if(mentor.mentorChallenges[i].id == req.params.challengeid){
 user = mentor.username;
+chall = mentor.mentorChallenges[i];
 var challenge = mentor.mentorChallenges[i];
   mentor.mentorChallenges[i].teamusername = req.params.username;
   mentor.mentorChallenges[i].applicants = [];
@@ -92,7 +93,13 @@ if(err){
 }
 else {
   console.log(team)
-  team[0].mentor = user;
+  var challenge = {
+        mentorname : user,
+        title : chall.title,
+        category : chall.category,
+        description : chall.description
+  };
+  team[0].mentorchallenge = challenge;
   console.log(team[0]);
   team[0].save();
     res.redirect("/mentor/mentorChallengeList");

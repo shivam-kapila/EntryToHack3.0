@@ -59,9 +59,20 @@ var teamSchema = mongoose.Schema({
             type: String
         }
     },
-    mentor: {
-        type: String,
-        default: ""
+    mentorchallenge: {
+        mentorname: {
+            type: String
+        },
+        title: {
+            type:String,
+            default: ""
+        },
+        category: {
+            type: String
+        },
+        description: {
+            type: String
+        }
     }
 });
 

@@ -45,15 +45,14 @@
     <td>
       <ul>
         <% for(var i = 0; i < chall.applicants.length; i++){ 
-          if(!uniqTeamSel.includes(chall.applicants[i]) && chall.teamusername === "") {
-            uniqTeamSel.push(chall.applicants[i]);%>
+          %>
         <li>
           <%= chall.applicants[i];%>
           <form action="/mentor/<%= challenge._id%>/view/<%=chall._id%>/<%=chall.applicants[i]%>" method="GET">
             <button class="btn btn-info btn-sm">View</button>
           </form>
         </li>
-        <% }} %>
+        <% } %>
       </ul>
     </td>
   </tr>
