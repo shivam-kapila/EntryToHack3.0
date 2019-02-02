@@ -92,7 +92,7 @@ if(err){
   res.redirect("back");
 }
 else {
-  console.log(team)
+  console.log(chall)
   var challenge = {
         mentorname : user,
         title : chall.title,
