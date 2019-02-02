@@ -85,13 +85,8 @@ submitForm.on('click', function (e) {
     }
 });
 
-<<<<<<< HEAD
 function validateForm() {  
     if(memberNumber < 3 || memberNumber > 4) {                                  // Just in case anyone tries to change style properties in inspect element and enables submit button
-=======
-function validateForm() {
-    if (memberNumber < 3) {                                  // Just in case anyone tries to change style properties in inspect element and enables submit button
->>>>>>> 4035874c33257ed748c2e55316ba22eab7f7aa23
         console.log("Member Number: ", memberNumber);
         return false;
     }
@@ -218,10 +213,6 @@ function validateMemberYear(member) {
             return false;
         }
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 4035874c33257ed748c2e55316ba22eab7f7aa23
 }
 
 function updateYear() {
