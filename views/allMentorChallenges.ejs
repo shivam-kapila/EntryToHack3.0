@@ -42,29 +42,27 @@
     </td>
     <td>
       <form action="/team/<%= challenge._id%>/participate/<%= chall._id%>" method="POST">
-        <% 
-                      if(chall.teamusername != null && chall.teamusername == team){ %>
+        <% if(chall.teamusername != null && chall.teamusername == team.username){ %>
         <button class="btn btn-info" disabled>You're Selected</button>
-        <% } else if(chall.teamusername != null && chall.teamusername != team){ %>
+        <% } else if(chall.teamusername != null && chall.teamusername != team.username){ %>
         <button class="btn btn-warning" disabled>Team Finalised</button>
-                     <%} else {
-
+                      <% } else if(team.mentorchallenge.title == "") {
                     var k = 0;
-                      for( var j = 0; j != chall.applicants.length; j++){     
-                            if(team == chall.applicants[j])
+                      for( var j = 0; j != chall.applicants.length; j++){   
+                      console.log("SEEEEE")  
+                            if(team.username == chall.applicants[j])
                               {
                               k = 1;
+                              console.log(chall.title + "yes");
                               break;
-                              console.log("yes");
                               }
                           }
-                          if(k === 1)
+                          if(k != 0)
                           { %>
-        <button class="btn btn-success" disabled>Applied</button>
-        <% } else { %>
-        <button class="btn btn-primary">Apply</button>
-        <% }
-                      } %>
+        <button class="btn btn-success" disabled>Applied</button>     
+                     <% } else { %>
+                      <button class="btn btn-primary">Apply</button>
+                  <% } }%>
       </form>
     </td>
   </tr>

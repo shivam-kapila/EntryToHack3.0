@@ -60,8 +60,8 @@ router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
             console.log(err);
             res.redirect("back");
           } 
-          console.log("dekh");
-  console.log("start" + req.params +" finish");
+
+
           // var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
           res.render("teamDetails", { team: team[0], mentorid: req.params.id, 
                                       challengeid: req.params.challengeid, username: req.params.username });
@@ -71,41 +71,70 @@ router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
   // });
 });
 
-router.post("/:id/view/:challengeid/:username/accept", isLoggedIn, function (req, res) {
+router.post("/:id/view/:challengeid/:username/accept", isLoggedIn,function (req, res) {
 var user, chall;
 Mentor.findById(req.params.id, function(err, mentor){
   for(var i = 0; i < mentor.mentorChallenges.length; i++){
     if(mentor.mentorChallenges[i].id == req.params.challengeid){
-user = mentor.username;
-chall = mentor.mentorChallenges[i];
-var challenge = mentor.mentorChallenges[i];
-  mentor.mentorChallenges[i].teamusername = req.params.username;
-  mentor.mentorChallenges[i].applicants = [];
-    mentor.save();
-        }
+        user = mentor.username;
+        chall = mentor.mentorChallenges[i];
+        var challenge = mentor.mentorChallenges[i];
+        mentor.mentorChallenges[i].teamusername = req.params.username;
+        mentor.mentorChallenges[i].applicants = [];
+        mentor.save()
+        console.log('Mentor Saved');
+      }
   }
+}).then(() => {
+            addTeamChallenge(req.params.username, chall, user, res);
+          }).catch((e) => console.log('Failed to save mentor\'s team', e));
+
 });
 
-Team.find({username: req.params.username}, function(err, team){
-if(err){
-  console.log(err)
-  res.redirect("back");
-}
-else {
-  console.log(chall)
-  var challenge = {
+var addTeamChallenge = (username, chall, user, res) => {
+  Team.find({username}, function(err, team){
+  if(err){
+    console.log(err)
+    res.redirect("back");
+  }
+  else {
+   var challenge = {
         mentorname : user,
         title : chall.title,
         category : chall.category,
         description : chall.description
-  };
-  team[0].mentorchallenge = challenge;
-  console.log(team[0]);
-  team[0].save();
-    res.redirect("/mentor/mentorChallengeList");
-}
+    };
+    team[0].mentorchallenge = challenge;
+    team[0].save();
+  }
+}).then(() => {
+                removeTeamMentorChallenges(username, res);
+                console.log('Redirected, route successfully executed');
+              })
+              .catch((e) => console.log('Failed to add Team Challenge', e));
+};
+
+var removeTeamMentorChallenges = (username, res) => {
+  Mentor.find({}, function(err, mentors){
+  if(err){
+    res.redirect("back");
+  } else {
+  mentors.forEach(function(mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+      var appl = mentor.mentorChallenges[i].applicants;
+      mentor.mentorChallenges[i].applicants = [];
+      for(var j = 0; j < appl.length; j++){
+        if(appl[j] != username){
+          mentor.mentorChallenges[i].applicants.push(appl[j]);
+        }
+      }
+    mentor.save();              
+   }
+  });
+     res.redirect("/mentor/mentorChallengeList");
+  }  
 });
-});
+};
 
 router.post("/:id/view/:challengeid/:username/reject", isLoggedIn, function (req, res) {
 Mentor.findById(req.params.id, function(err, mentor){
@@ -131,7 +160,6 @@ router.post("/challenge", isLoggedIn, isVerified, function (req, res) {
     req.user.mentorChallenges.push(req.body.challenge);
     mentor.save(function (err) {
     });
-    console.log("See" + mentor);
     res.redirect("/mentor/dashboard");
   });
 });
@@ -148,7 +176,7 @@ router.post("/login", passport.authenticate("mentor",
 
 
 router.post("/signup", function (req, res) {
-  console.log(req.body.skills);
+
   var newMentor = new Mentor({
     name: req.body.name,
     rollNumber: req.body.rollno,
@@ -160,14 +188,14 @@ router.post("/signup", function (req, res) {
     skills: req.body.skills
   });
   newMentor.isVerified = "NotVerified";
-  console.log(newMentor); 
+
   Mentor.register(newMentor, req.body.password, function (err, user) {
     if (err) {
       console.log(err);
       return res.render("mentor", { error: err.message });
     }
     passport.authenticate("mentor")(req, res, function () {
-      console.log("qwertyuiirrffesed");
+
       res.redirect("/mentor/dashboard");
     });
   });
@@ -222,7 +250,7 @@ router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() && req.user.role === "mentor") {
-    console.log(req.user);
+
     return next();
   }
   req.flash("error", "You need to be logged in to do that");

@@ -92,7 +92,8 @@ router.get("/allMentorChallenges", isTeamLoggedIn, function (req, res) {
       if (allMentorChallenges.length < 1) {
         noMatch = "No Challenges have yet been posted.";
       }
-      res.render("allMentorChallenges", { challenges: allMentorChallenges, noMatch: noMatch, team: req.user.username });
+      // console.log(JSON.stringify(req.user, undefined, 2))
+      res.render("allMentorChallenges", { challenges: allMentorChallenges, noMatch: noMatch, team: req.user});
     }
   });
 });
@@ -136,10 +137,10 @@ router.post("/signup", function (req, res) {
 
 function isTeamLoggedIn(req, res, next) {
   if (req.isAuthenticated() && req.user.role === "team") {
-    console.log("Yes");
+    // console.log("Yes");
     return next();
   }
-  console.log("No");
+  // console.log("No");
   req.flash("error", "You need to be logged in to do that");
   res.redirect("/team/login");
 }
