@@ -10,8 +10,8 @@ var adminSchema = mongoose.Schema({
         type: String,
     },
     role: {
-    	type: String,
-    	default: "admin"
+        type: String,
+        default: "admin"
     }
 });
 adminSchema.plugin(passportLocalMongoose);

@@ -1,8 +1,8 @@
 <form id="teamRegistration">
-  <input type="text" name="name" placeholder="Name" required autofocus class="form-control">
-  <input type="text" onfocusout="updateYear()" id="roll" name="rollNumber" placeholder="Roll No." required class="form-control">
-  <input type="email" name="email" placeholder="Email" required class="form-control">
-  <input type="text" name="phone" placeholder="Phone No." class="form-control" required pattern="[0-9]{10}">
+  <input type="text" name="name" placeholder="Name" autofocus class="form-control">
+  <input type="text" onfocusout="updateYear()" id="roll" name="rollNumber" placeholder="Roll No." class="form-control">
+  <input type="email" name="email" placeholder="Email" class="form-control">
+  <input type="text" name="phone" placeholder="Phone No." class="form-control">
   <p class="mt-2"><strong>Year of study:</strong></p>
   <select class="form-control" name="year" id="year" disabled>
     <option value=""></option>
@@ -13,10 +13,11 @@
     <option value="5">5th</option>
   </select>
   <p class="mt-2"><strong>Enter your skills:</strong></p>
-  <input type="text" name="skills0" placeholder="Skill 1" required class="form-control">
+  <input type="text" name="skills0" placeholder="Skill 1" class="form-control">
   <input type="text" name="skills1" placeholder="Skill 2" class="form-control">
   <input type="text" name="skills2" placeholder="Skill 3" class="form-control">
   <input type="text" name="skills3" placeholder="Skill 4" class="form-control">
-  <input type="checkbox" name="member-four" value="member-4"><label for="member-four" id="label4member">I have a 4 member team only</label><br>
+  <input type="checkbox" name="member-four" value="member-4"><label for="member-four" id="label4member">I have a 4
+    member team only</label><br>
   <input type="submit" name="Register" class="ui primary button">
 </form>

@@ -1,34 +1,45 @@
 <% include ./partials/header%>
-          <table class="table-striped table table-bordered">
-            <tr class="thead-dark">
-              <th>Name</th>
-              <th>Year</th>
-              <th>Skills</th>
-              <th>Leader</th>
-            </tr>
-                <% team.members.forEach(function(member){
-                challenge.mentorChallenges.forEach(function(chall) {
-                    console.log(chall);%>
-                <tr>
-                  <td><%= member.name %></td>
-                  <td><%= member.year %></td>
-                  <td>
-                    <ul>
-                        <% for(var i = 0; i < applicant.skills.length; i++){ %>
-                          <li>
-                            <%= member.skills[i];%>
-                          </li>
-                          <% } %>
-                    </ul> 
-                  </td>
-                  <td><% if(member.isLeader) { %>
-                  	Yes
-                  	<% } else { %>
-                  	No
-                  	<% } %>
-                  </td>
-                  </tr>
-                  <% }); %>
-        <% }); %>
-          </table>   
+<% include ./partials/mentorGoHome%>
+<table class="table-striped table table-bordered">
+  <tr class="thead-dark">
+    <th>Name</th>
+    <th>Year</th>
+    <th>Skills</th> 
+    <th>Leader</th>
+  </tr>
+  <% team.members.forEach(function(member){%>
+    <tr>
+      <td><%= member.name %></td>
+      <td><%= member.year %></td>
+      <td>
+        <ul>
+          <% for(var i = 0; i < member.skills.length; i++){ %>
+             <% if(member.skills[i]!=="") {%>
+             <li>
+              <%= member.skills[i];%>
+            </li>
+              <% } %>
+          <% } %>
+        </ul> 
+      </td>
+      <td><% if(member.isLeader) { %>
+        Yes
+      <% } else { %>
+        No
+      <% } %>
+      </td>
+    </tr>
+  <% }); %>
+</table>
+<div>
+  
+</div>   
+<div>
+  <form action="/mentor/<%= mentorid%>/view/<%= challengeid%>/<%= username%>/accept" method="POST">
+    <button class="btn btn-lg btn-info btn-block">Accept</button>
+  </form>
+</div>
+<form action="/mentor/<%= mentorid%>/view/<%= challengeid%>/<%= username%>/reject" method="POST">
+    <button class="btn btn-lg btn-warning btn-block">Reject</button>
+  </form>
 <% include ./partials/footer%>

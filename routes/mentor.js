@@ -1,28 +1,36 @@
 var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
-var Team  = require("../models/team");
+var Team = require("../models/team");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var passport = require("passport"),
-    LocalStrategy = require('passport-local').Strategy;
+  LocalStrategy = require('passport-local').Strategy;
 
 router.get("/signup", function (req, res) {
-  res.render("mentor"); 
+  res.render("mentor");
 });
 
 //show login form 
-router.get("/login", function(req, res){
-	res.render("mentorLogin");
+router.get("/login", function (req, res) {
+  res.render("mentorLogin");
 });
 
-router.get("/challenge", isLoggedIn, isVerified, function(req, res){
-	res.render("mentorChallenge");
+router.get("/challenge", isLoggedIn, isVerified, function (req, res) {
+  res.render("mentorChallenge");
 });
 
-router.get("/dashboard", isLoggedIn, function(req, res){
-  console.log(res.locals.mentorid);
-  res.render("mentorDashboard", {mentor: req.user});          
+router.get("/dashboard", isLoggedIn, function (req, res) {
+  Mentor.find({ username: req.user.username }, function (err, mentor) {
+    if (err) {
+      console.log(err);
+      res.redirect("back");
+    }
+    // else {
+    //   // req.user.mentorChallenges = (mentor.mentorChallenges[0]);
+    // }
+    res.render("mentorDashboard", { mentor: req.user });
+  });
 });
 
 // router.get("/update", isLoggedIn, function(req, res){
@@ -35,104 +43,198 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 // });
 // })
 
-router.get("/:id/view/:challengeid/:username", function(req, res){
-  Mentor.findById(req.params.id, function(err, mentor){
-    mentor.mentorChallenges.forEach(function(chall){
-      var k = 0;
-      for(var i = 0; i < chall.applicants.length; i ++){
-        if(chall.applicants[i] == req.params.username){
-          k = 1;
-          break;
-        }
-      }
-      if(k === 1){
-        Team.find({username: req.params.username}, function(err, team){
-          console.log(team);
-          res.render("teamDetails", {team: team, mentorId: req.params.id, challengeid: req.params.challengeid});
+router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
+  // console.log("start" + req.params +" finish");
+  // Mentor.findById(req.params.id, function (err, mentor) {
+  //   mentor.mentorChallenges.forEach(function (chall) {
+  //     var k = 0;
+  //     for (var i = 0; i < chall.applicants.length; i++) {
+  //       if (chall.applicants[i] == req.params.username) {
+  //         k = 1;
+  //         break;
+  //       }
+  //     }
+  //     if (k === 1) {
+        Team.find({ username: req.params.username }, function (err, team) {
+          if (err) {
+            console.log(err);
+            res.redirect("back");
+          } 
+          console.log("dekh");
+  console.log("start" + req.params +" finish");
+          // var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
+          res.render("teamDetails", { team: team[0], mentorid: req.params.id, 
+                                      challengeid: req.params.challengeid, username: req.params.username });
         });
-      }
-    });
-
-  });
+      // }
+  //   });
+  // });
 });
 
-router.post("/challenge", isLoggedIn, isVerified, function(req, res){
-  Mentor.findOne({username: req.user.username}, function(err, mentor){
+router.post("/:id/view/:challengeid/:username/accept", isLoggedIn, function (req, res) {
+var user, chall;
+Mentor.findById(req.params.id, function(err, mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+    if(mentor.mentorChallenges[i].id == req.params.challengeid){
+user = mentor.username;
+chall = mentor.mentorChallenges[i];
+var challenge = mentor.mentorChallenges[i];
+  mentor.mentorChallenges[i].teamusername = req.params.username;
+  mentor.mentorChallenges[i].applicants = [];
+    mentor.save();
+        }
+  }
+});
+
+Team.find({username: req.params.username}, function(err, team){
+if(err){
+  console.log(err)
+  res.redirect("back");
+}
+else {
+  console.log(team)
+  var challenge = {
+        mentorname : user,
+        title : chall.title,
+        category : chall.category,
+        description : chall.description
+  };
+  team[0].mentorchallenge = challenge;
+  console.log(team[0]);
+  team[0].save();
+    res.redirect("/mentor/mentorChallengeList");
+}
+});
+});
+
+router.post("/:id/view/:challengeid/:username/reject", isLoggedIn, function (req, res) {
+Mentor.findById(req.params.id, function(err, mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+    if(mentor.mentorChallenges[i].id == req.params.challengeid){
+      var appl = mentor.mentorChallenges[i].applicants;
+      mentor.mentorChallenges[i].applicants = [];
+      for(var j = 0; j < appl.length; j++){
+        if(appl[j] != req.params.username){
+          mentor.mentorChallenges[i].applicants.push(appl[j]);
+        }
+      }
+    mentor.save();      
+    res.redirect("/mentor/mentorChallengeList");
+        }
+  }
+});
+});
+
+router.post("/challenge", isLoggedIn, isVerified, function (req, res) {
+  Mentor.findOne({ username: req.user.username }, function (err, mentor) {
     mentor.mentorChallenges.push(req.body.challenge);
-     mentor.save(function(err) {
-        });
-     res.redirect("/mentor/dashboard");
+    req.user.mentorChallenges.push(req.body.challenge);
+    mentor.save(function (err) {
+    });
+    console.log("See" + mentor);
+    res.redirect("/mentor/dashboard");
   });
 });
 
 //handling login logic
 router.post("/login", passport.authenticate("mentor",
-    {
-        successRedirect:  "/mentor/dashboard",
-        failureRedirect: "/mentor/login",
+  {
+    successRedirect: "/mentor/dashboard",
+    failureRedirect: "/mentor/login",
 
-}),function(req, res) {
-          mentor: req.body.username; 
-});
+  }), function (req, res) {
+    mentor: req.body.username;
+  });
 
 
-router.post("/signup", function(req, res) {
+router.post("/signup", function (req, res) {
   console.log(req.body.skills);
-    var newMentor = new Mentor({
-            name: req.body.name,
-            rollNumber: req.body.rollno,
-            email: req.body.email,
-            phone: req.body.phone,
-            username: req.body.username,
-            area: req.body.area,
-            year: req.body.year,
-            skills: req.body.skills
-        });
-        newMentor.isVerified = "NotVerified";
-        console.log(newMentor);
-    Mentor.register(newMentor, req.body.password, function(err, user){
-       if(err){
-           console.log(err);
-           return res.render("mentor", {error: err.message});
-       }
-       passport.authenticate("mentor")(req, res, function(){
-        console.log("qwertyuiirrffesed");
-           res.redirect("/mentor/dashboard");
-       });
-   }); 
-});
-
-router.get("/mentorChallengeList", isLoggedIn, function(req, res){
-      var noMatch = null;
-      Mentor.find({username: req.user.username}, function(err, mentor){
-      if(err){
-        console.log(err);
-      } else {
-        allMentorChallenges = mentor;
-         if(allMentorChallenges.length < 1){
-           noMatch ="No Challenges have yet been posted.";
-       }
-  res.render("mentorChallengeList", {challenges: allMentorChallenges, noMatch: noMatch});    
-   }
+  var newMentor = new Mentor({
+    name: req.body.name,
+    rollNumber: req.body.rollno,
+    email: req.body.email,
+    phone: req.body.phone,
+    username: req.body.username,
+    area: req.body.area,
+    year: req.body.year,
+    skills: req.body.skills
+  });
+  newMentor.isVerified = "NotVerified";
+  console.log(newMentor); 
+  Mentor.register(newMentor, req.body.password, function (err, user) {
+    if (err) {
+      console.log(err);
+      return res.render("mentor", { error: err.message });
+    }
+    passport.authenticate("mentor")(req, res, function () {
+      console.log("qwertyuiirrffesed");
+      res.redirect("/mentor/dashboard");
+    });
   });
 });
 
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated() && req.user.role === "mentor"){
-      console.log(req.user);
-        return next();
+router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
+  var noMatch = null;
+  Mentor.find({ username: req.user.username }, function (err, mentor) {
+    if (err) {
+      console.log(err);
+    } else {
+      allMentorChallenges = mentor;
+      if (allMentorChallenges.length < 1) {
+        noMatch = "No Challenges have yet been posted.";
+      }
+      res.render("mentorChallengeList", { challenges: allMentorChallenges, noMatch: noMatch });
     }
-    req.flash("error", "You need to be logged in to do that");
-    res.redirect("/mentor/login");
+  });
+});
+
+// router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
+//   var noMatch = null;
+//   Mentor.find({ username: req.user.username }, function (err, mentor) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       allMentorChallenges = mentor;
+//       // console.log(JSON.stringify(allMentorChallenges));
+//       if (allMentorChallenges.length < 1) {
+//         noMatch = "No Challenges have yet been posted.";
+//       }
+//       var arr = [];
+//       allMentorChallenges[0].mentorChallenges.forEach((challenge) => {
+//         // console.log("Challenge" + challenge);
+//         challenge.applicants.forEach((applicant) => {
+//           // console.log(applicant);
+//           Team.findOne({username: applicant}, function(err, team) {
+//             // console.log(JSON.stringify(team));
+//             // arr.push(team[0].username);
+//             if(team.mentor === "") {
+//               arr.push('');
+//             } else {
+//               arr.push(team.mentor);
+//             }
+//           });
+//         });
+//       });
+//       res.render("mentorChallengeList", { challenges: allMentorChallenges, applicantArr: arr, noMatch: noMatch });
+//     }
+//   });
+// });
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated() && req.user.role === "mentor") {
+    console.log(req.user);
+    return next();
+  }
+  req.flash("error", "You need to be logged in to do that");
+  res.redirect("/mentor/login");
 }
 
-function isVerified(req, res, next){
-    if(req.user.isVerified == "Verified"){
-        return next();
-    }
-    req.flash("error", "You need to be logged in to do that");
-    res.redirect("/mentor/dashboard");
+function isVerified(req, res, next) {
+  if (req.user.isVerified == "Verified") {
+    return next();
+  }
+  req.flash("error", "You need to be logged in to do that");
+  res.redirect("/mentor/dashboard");
 }
 module.exports = router;
 
