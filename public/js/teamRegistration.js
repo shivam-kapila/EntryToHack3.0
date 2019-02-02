@@ -214,7 +214,6 @@ function validateMemberYear(member) {
 }
 
 function updateYear() {
-    console.log('Hello');
     var roll = $('#roll').val();
     if (roll.toLowerCase().search('iiitu') !== -1) {
         $('#year').val(19 - parseInt(roll.split('')[5] + roll.split('')[6]));
