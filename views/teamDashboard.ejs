@@ -50,7 +50,7 @@
   <br />
   <strong>Description:</strong> <%= team.challenge.description%>
   <br />
-  <strong>Category:</strong> <%= team.challenge.category%>
+  <strong>Category:</strong> <%= team.challenge.category.split('_').join(' ');%>
   </p>
   <% }%>
 
