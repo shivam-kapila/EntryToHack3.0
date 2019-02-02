@@ -11,11 +11,22 @@
     <input type="text" name="username" placeholder="User Name" required class="form-control">
     <input type="password" name="password" placeholder="Password" required class="form-control">
     <p class="mt-2"><strong>Year of study:</strong></p>
-    <select class="form-control" id="year" name="year" onfocusout="updateYear()">
-      <option value="5th">5th</option>
-      <option value="4th">4th</option>
-      <option value="3rd">3rd</option>
-    </select>
+    <select class="form-control" id="year" disabled>
+        <option value=""></option>
+        <option value="year-error">Mentors can not be from 1st or 2nd year</option>
+        <option value="check-roll">Check your roll number</option>
+        <option value="5th">5th</option>
+        <option value="4th">4th</option>
+        <option value="3rd">3rd</option>
+      </select>
+      <select class="form-control" id="year-hidden" name="year" hidden>
+          <option value=""></option>
+          <option value="year-error">Mentors can not be from 1st or 2nd year</option>
+          <option value="check-roll">Check your roll number</option>
+          <option value="5th">5th</option>
+          <option value="4th">4th</option>
+          <option value="3rd">3rd</option>
+        </select>
     <p class="mt-2"><strong>Enter your field of interest:</strong></p>
     <!-- <select class="form-control" name="area">
       <option value="android_app_development">Android App Development</option>
@@ -46,15 +57,19 @@
   function updateYear() {
     var roll = $('#roll').val();
     var map = new Map();
+    map.set(1, 'year-error');
+    map.set(2, 'year-error');
     map.set(3, '3rd');
     map.set(4, '4th');
     map.set(5, '5th');
     if (roll.toLowerCase().search('iiitu') !== -1) {
         $('#year').val(map.get(19 - parseInt(roll.split('')[5] + roll.split('')[6])));
+        $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[5] + roll.split('')[6])));
     } else if (roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
         $('#year').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
+        $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
     } else {
-        $('#year').val('');
+        $('#year').val('check-roll');
     }
 }
 </script>
