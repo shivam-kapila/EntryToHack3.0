@@ -62,7 +62,7 @@
     map.set(3, '3rd');
     map.set(4, '4th');
     map.set(5, '5th');
-    if (roll.toLowerCase().search('iiitu') !== -1) {
+    if ((roll.toLowerCase().search('iiitu') !== -1) && (roll.length === 10)) {
         $('#year').val(map.get(19 - parseInt(roll.split('')[5] + roll.split('')[6])));
         $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[5] + roll.split('')[6])));
     } else if (roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
