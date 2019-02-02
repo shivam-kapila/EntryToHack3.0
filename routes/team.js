@@ -36,9 +36,9 @@ router.get("/teamDashboard", isTeamLoggedIn, function (req, res) {
   });
 });
 
-router.get("/student", isTeamLoggedIn, function (req, res) {
-  res.render('teamRegistration');
-});
+// router.get("/student", isTeamLoggedIn, function (req, res) {
+//   res.render('teamRegistration');
+// });
 
 router.post('/student', isTeamLoggedIn, function (req, res) {
   req.body.members[0]["isLeader"] = true;
@@ -129,7 +129,7 @@ router.post("/signup", function (req, res) {
     }
     passport.authenticate("team")(req, res, function () {
       console.log("qwertyujkl");
-      res.redirect("/team/student");
+      res.redirect("/team/teamDashboard");
     });
   });
 });
