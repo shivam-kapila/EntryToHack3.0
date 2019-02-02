@@ -2,6 +2,7 @@
 <form action="/team/allMentorChallenges" method="GET">
   <button class="btn btn-info btn-sm">See all mentor challenges</button>
 </form>
+<div class = "scrollit">
 <table class="table-striped table table-bordered">
   <tr class="thead-dark">
     <th>Name</th>
@@ -36,8 +37,10 @@
         <% } %>
       </ul> 
     </td>
+  </tr>
     <% }); %>
 </table>
+</div>
 <% if(!team.challenge) { %>
 <form action="/team/postChallenge" method="GET">
   <button class="btn btn-info btn-sm">Self challenge</button>

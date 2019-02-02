@@ -1,5 +1,6 @@
 <% include ./partials/header%>
 <% include ./partials/mentorGoHome%>
+<div class = "scrollit">
 <table class="table-striped table table-bordered">
   <tr class="thead-dark">
     <th>Name</th>
@@ -31,9 +32,8 @@
     </tr>
   <% }); %>
 </table>
-<div>
-  
-</div>   
+</div>
+   
 <div>
   <form action="/mentor/<%= mentorid%>/view/<%= challengeid%>/<%= username%>/accept" method="POST">
     <button class="btn btn-lg btn-info btn-block">Accept</button>

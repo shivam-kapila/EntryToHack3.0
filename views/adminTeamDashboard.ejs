@@ -1,5 +1,6 @@
 <% include ./partials/header %>
 <% include ./partials/adminGoHome%>
+<div class = "scrollit">
 <table class="table-striped table table-bordered">
   <tr class="thead-dark">
     <th>Name</th>
@@ -35,7 +36,9 @@
       </ul> 
     </td>
     <% }); %>
+</tr>    
 </table>
+</div>
 <% if(!team.challenge) { %>
 <p>No Challenge Posted </p>
 <% } else {%>

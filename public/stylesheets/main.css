@@ -7,3 +7,9 @@
 input {
     margin: 40px;
 }
+
+.scrollit {
+    overflow:scroll;
+    /*height:100px;*/
+    width: 100%;
+}
