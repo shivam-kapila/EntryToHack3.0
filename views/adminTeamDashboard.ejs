@@ -1,7 +1,5 @@
 <% include ./partials/header %>
-<form action="/team/allMentorChallenges" method="GET">
-  <button class="btn btn-info btn-sm">See all mentor challenges</button>
-</form>
+<% include ./partials/adminGoHome%>
 <table class="table-striped table table-bordered">
   <tr class="thead-dark">
     <th>Name</th>
@@ -38,11 +36,9 @@
     </td>
     <% }); %>
 </table>
-<% if(!team.challenge && team.mentor === '') { %>
-<form action="/team/postChallenge" method="GET">
-  <button class="btn btn-info btn-sm">Self challenge</button>
-</form>
-<% } else if(team.mentor !== ''){} else {%>
+<% if(!team.challenge) { %>
+<p>No Challenge Posted </p>
+<% } else {%>
 <p>
   Challenge posted:
   <br />

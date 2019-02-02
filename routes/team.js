@@ -5,7 +5,7 @@ var Team = require("../models/team");
 
 var passport = require("passport");
 
-router.get("/", function (req, res) {
+router.get("/signup", function (req, res) {
   res.render("team");
 });
 
@@ -112,9 +112,15 @@ router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function (req, res
   });
 });
 
-router.post("/", function (req, res) {
+router.post("/signup", function (req, res) {
   var newTeam = new Team({
     username: req.body.username,
+    mentorchallenge: {
+      mentorname: "",
+        title : "",
+        category : "",
+        description : ""
+    }
   });
   Team.register(newTeam, req.body.password, function (err, user) {
     if (err) {

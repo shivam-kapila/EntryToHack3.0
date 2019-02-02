@@ -33,6 +33,8 @@ jQuery('#saveDetails').on('click', function () {
             if (memberNumber === 4) {
                 submitForm.css('display', 'block');
                 jQuery('#saveDetails').css('display', 'none');
+                fourMember.css('display', 'none');
+                label4member.css('display', 'none');
             }
             if (memberNumber === 3) {
                 fourMember.css('display', 'block');

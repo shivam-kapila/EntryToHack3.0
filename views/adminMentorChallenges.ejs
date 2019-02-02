@@ -1,0 +1,34 @@
+<% include ./partials/header%>
+<% include ./partials/adminGoHome%>
+<table class="table-striped table table-bordered">
+  <tr class="thead-dark">
+    <th>Name</th>
+    <th>Title</th>
+    <th>Category</th>
+    <th>Description</th>
+    <th>Applicants</th>
+  </tr>
+  <% mentors.forEach(function(mentor){ 
+      mentor.mentorChallenges.forEach(function(challenge) {%>
+        <tr><td>
+            <%=mentor.name%>
+            
+        </td><td>
+                <%=challenge.title %>
+            </td><td>
+                    <%=challenge.category %>
+            
+                </td><td>
+                        <%=challenge.description %>
+            
+                    </td>
+                    <td><ul>
+                    <% challenge.applicants.forEach(function(applicant) { %>
+                        <li><%= applicant %></li>
+                    <% }); %>
+                </ul></td>
+                </tr>
+  <% }); %>
+<%}); %>
+</table>
+<% include ./partials/footer%>

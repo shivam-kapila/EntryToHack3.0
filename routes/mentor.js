@@ -44,30 +44,85 @@ router.get("/dashboard", isLoggedIn, function (req, res) {
 // })
 
 router.get("/:id/view/:challengeid/:username", isLoggedIn, function (req, res) {
-  Mentor.findById(req.params.id, function (err, mentor) {
-    mentor.mentorChallenges.forEach(function (chall) {
-      var k = 0;
-      for (var i = 0; i < chall.applicants.length; i++) {
-        if (chall.applicants[i] == req.params.username) {
-          k = 1;
-          break;
-        }
-      }
-      if (k === 1) {
+  // console.log("start" + req.params +" finish");
+  // Mentor.findById(req.params.id, function (err, mentor) {
+  //   mentor.mentorChallenges.forEach(function (chall) {
+  //     var k = 0;
+  //     for (var i = 0; i < chall.applicants.length; i++) {
+  //       if (chall.applicants[i] == req.params.username) {
+  //         k = 1;
+  //         break;
+  //       }
+  //     }
+  //     if (k === 1) {
         Team.find({ username: req.params.username }, function (err, team) {
           if (err) {
             console.log(err);
             res.redirect("back");
           } 
-          console.log(team);
+          console.log("dekh");
+  console.log("start" + req.params +" finish");
           // var s = JSON.stringify(team).slice(1, JSON.stringify(team).length - 1);
           res.render("teamDetails", { team: team[0], mentorid: req.params.id, 
                                       challengeid: req.params.challengeid, username: req.params.username });
         });
-      }
-    });
+      // }
+  //   });
+  // });
+});
 
-  });
+router.post("/:id/view/:challengeid/:username/accept", isLoggedIn, function (req, res) {
+var user, chall;
+Mentor.findById(req.params.id, function(err, mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+    if(mentor.mentorChallenges[i].id == req.params.challengeid){
+user = mentor.username;
+chall = mentor.mentorChallenges[i];
+var challenge = mentor.mentorChallenges[i];
+  mentor.mentorChallenges[i].teamusername = req.params.username;
+  mentor.mentorChallenges[i].applicants = [];
+    mentor.save();
+        }
+  }
+});
+
+Team.find({username: req.params.username}, function(err, team){
+if(err){
+  console.log(err)
+  res.redirect("back");
+}
+else {
+  console.log(team)
+  var challenge = {
+        mentorname : user,
+        title : chall.title,
+        category : chall.category,
+        description : chall.description
+  };
+  team[0].mentorchallenge = challenge;
+  console.log(team[0]);
+  team[0].save();
+    res.redirect("/mentor/mentorChallengeList");
+}
+});
+});
+
+router.post("/:id/view/:challengeid/:username/reject", isLoggedIn, function (req, res) {
+Mentor.findById(req.params.id, function(err, mentor){
+  for(var i = 0; i < mentor.mentorChallenges.length; i++){
+    if(mentor.mentorChallenges[i].id == req.params.challengeid){
+      var appl = mentor.mentorChallenges[i].applicants;
+      mentor.mentorChallenges[i].applicants = [];
+      for(var j = 0; j < appl.length; j++){
+        if(appl[j] != req.params.username){
+          mentor.mentorChallenges[i].applicants.push(appl[j]);
+        }
+      }
+    mentor.save();      
+    res.redirect("/mentor/mentorChallengeList");
+        }
+  }
+});
 });
 
 router.post("/challenge", isLoggedIn, isVerified, function (req, res) {
@@ -105,7 +160,7 @@ router.post("/signup", function (req, res) {
     skills: req.body.skills
   });
   newMentor.isVerified = "NotVerified";
-  console.log(newMentor);
+  console.log(newMentor); 
   Mentor.register(newMentor, req.body.password, function (err, user) {
     if (err) {
       console.log(err);
@@ -133,6 +188,37 @@ router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
   });
 });
 
+// router.get("/mentorChallengeList", isLoggedIn, function (req, res) {
+//   var noMatch = null;
+//   Mentor.find({ username: req.user.username }, function (err, mentor) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       allMentorChallenges = mentor;
+//       // console.log(JSON.stringify(allMentorChallenges));
+//       if (allMentorChallenges.length < 1) {
+//         noMatch = "No Challenges have yet been posted.";
+//       }
+//       var arr = [];
+//       allMentorChallenges[0].mentorChallenges.forEach((challenge) => {
+//         // console.log("Challenge" + challenge);
+//         challenge.applicants.forEach((applicant) => {
+//           // console.log(applicant);
+//           Team.findOne({username: applicant}, function(err, team) {
+//             // console.log(JSON.stringify(team));
+//             // arr.push(team[0].username);
+//             if(team.mentor === "") {
+//               arr.push('');
+//             } else {
+//               arr.push(team.mentor);
+//             }
+//           });
+//         });
+//       });
+//       res.render("mentorChallengeList", { challenges: allMentorChallenges, applicantArr: arr, noMatch: noMatch });
+//     }
+//   });
+// });
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() && req.user.role === "mentor") {
