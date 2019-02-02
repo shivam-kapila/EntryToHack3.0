@@ -18,10 +18,9 @@
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 LOG IN
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" id="ddown">
                 <a href="mentor/login" class="dropdown-item">Mentor</a>
                 <a href="/team/login" class="dropdown-item">Team</a>
-                <a href="/admin/login" class="dropdown-item">Admin</a>
             </div>
         </div>
         </div>
@@ -41,5 +40,10 @@
                         <a href="/team/signup" class="ui positive basic button btn-block">Team Registration</a>
                     </p>
                 </div>
+                <script>
+                        $(document).on('ready' ,{
+                            $('.dropdown-menu').click();
+                        });
+                    </script>
                 <% include ./partials/footer %>
 
