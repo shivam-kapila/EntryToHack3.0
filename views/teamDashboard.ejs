@@ -38,11 +38,11 @@
     </td>
     <% }); %>
 </table>
-<% if(!team.challenge && team.mentor === '') { %>
+<% if(!team.challenge) { %>
 <form action="/team/postChallenge" method="GET">
   <button class="btn btn-info btn-sm">Self challenge</button>
 </form>
-<% } else if(team.mentor !== ''){} else {%>
+<% } else {%>
 <p>
   Challenge posted:
   <br />
