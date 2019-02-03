@@ -1,43 +1,43 @@
 <% include ./partials/header %>
 <% include ./partials/adminGoHome%>
-<div class = "scrollit">
-<table class="table-striped table table-bordered">
-  <tr class="thead-dark">
-    <th>Name</th>
-    <th>Roll No.</th>
-    <th>Email</th>
-    <th>Phone</th>
-    <th>Skills</th>
-  </tr>
-  <% [...team.members].forEach(function (member) { 
-      var skills = '';%>
-  <tr>
-    <td>
-      <%= member.name %>
-    </td>
-    <td>
-      <%= member.rollNumber %>
-    </td>
-    <td>
-      <%= member.email %>
-    </td>
-    <td>
-      <%= member.phone %>
-    </td>
-    <td>
-      <ul>
-        <% for(var i = 0; i < member.skills.length; i++){ %>
-          <li>
-            <% if(member.skills[i] !== '') {%>
-            <%= member.skills[i];%>
-            <% } %>
-          </li>
-        <% } %>
-      </ul> 
-    </td>
-    <% }); %>
-</tr>    
-</table>
+<div class = "ml-5">
+  <table class="">
+    <tr class="thead-dark">
+      <th class="col-3">Name</th>
+      <th class="col-2">Roll No.</th>
+      <th class="col-3">Email</th>
+      <th class="col-2">Phone</th>
+      <th class="col-2">Skills</th>
+    </tr>
+    <% [...team.members].forEach(function (member) { 
+        var skills = '';%>
+    <tr class="table-row">
+      <td class="col-1">
+        <%= member.name %>
+      </td>
+      <td class="col-1">
+        <%= member.rollNumber %>container
+      </td>
+      <td class="col-1">
+        <%= member.email %>
+      </td>
+      <td class="col-1">
+        <%= member.phone %>
+      </td>
+      <td class="col-1">
+        <ul>
+          <% for(var i = 0; i < member.skills.length; i++){ %>
+            <li>
+              <% if(member.skills[i] !== '') {%>
+              <%= member.skills[i];%>
+              <% } %>
+            </li>
+          <% } %>
+        </ul> 
+      </td>
+      <% }); %></h2>
+  </tr>    
+  </table>
 </div>
 <% if(!team.challenge) { %>
 <p>No Challenge Posted </p>

@@ -3,17 +3,17 @@
   <button class="btn btn-info btn-sm">See all mentor challenges</button>
 </form>
 <div class = "scrollit">
-<table class="table-striped table table-bordered">
+<table class="">
   <tr class="thead-dark">
     <th>Name</th>
     <th>Roll No.</th>
     <th>Email</th>
     <th>Phone</th>
-    <th>Skills</th>
+    <th style="min-width:200px;">Skills</th>
   </tr>
   <% [...team.members].forEach(function (member) { 
       var skills = '';%>
-  <tr>
+  <tr class="table-row">
     <td>
       <%= member.name %>
     </td>
@@ -26,7 +26,7 @@
     <td>
       <%= member.phone %>
     </td>
-    <td>
+    <td style="min-width:200px;">
       <ul>
         <% for(var i = 0; i < member.skills.length; i++){ %>
           <li>

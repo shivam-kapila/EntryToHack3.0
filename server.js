@@ -21,7 +21,7 @@ var mentorRoutes = require("./routes/mentor");
 var teamRoutes = require("./routes/team");
 var adminRoutes = require("./routes/admin");
 var studentRoutes = require("./routes/student");
-var url =  "mongodb://localhost/entry_to_hack3";
+var url =  "mongodb://CSECHack3:csechack3@ds119795.mlab.com:19795/entry_to_hack3";
 mongoose.connect(url, {
     useNewUrlParser: true
 });
