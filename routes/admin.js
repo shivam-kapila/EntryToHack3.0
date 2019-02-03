@@ -89,6 +89,29 @@ router.get("/mentors", isAdminLoggedIn, function (req, res) {
 router.post("/:id/verify", isAdminLoggedIn, function (req, res) {
   Mentor.findById(req.params.id, function (err, mentor) {
     mentor.isVerified = "Verified";
+    async.waterfall([
+            function(token, user, done) {
+              var smtpTransport = nodemailer.createTransport({
+                service: 'Gmail', 
+                auth: {
+                    type: "login",
+                  user: 'csechack3.0@gmail.com',
+                  pass: process.env.PASS
+                }
+              });
+              var userMail = {
+                to: mentor.email,
+                from: 'csechack3.0@gmail.com',
+                subject: 'Challenge Request Sent',
+                text: 'Dear '+  mentor.name + '\n \n This is to inform you that your mentor status has been verified. You will be notified about further updates soon. \n\n Regards \n Team CSEC'
+              };
+              smtpTransport.sendMail(userMail, function(err) {
+              });
+            }
+          ], function(err) {
+            if (err) return next(err);
+            res.redirect('/admin/dashboard');
+          });
     mentor.save();
     res.redirect("/admin/mentors");
   });
@@ -97,6 +120,29 @@ router.post("/:id/verify", isAdminLoggedIn, function (req, res) {
 router.post("/:id/reject", isAdminLoggedIn, function (req, res) {
   Mentor.findById(req.params.id, function (err, mentor) {
     mentor.isVerified = "Rejected";
+    async.waterfall([
+            function(token, user, done) {
+              var smtpTransport = nodemailer.createTransport({
+                service: 'Gmail', 
+                auth: {
+                    type: "login",
+                  user: 'csechack3.0@gmail.com',
+                  pass: process.env.PASS
+                }
+              });
+              var userMail = {
+                to: mentor.email,
+                from: 'csechack3.0@gmail.com',
+                subject: 'Challenge Request Sent',
+                text: 'Dear '+  mentor.name + '\n \n This is to inform you that your mentorship has been rejected.Please contact the organisers for further details. \n\n Regards \n Team CSEC'
+              };
+              smtpTransport.sendMail(userMail, function(err) {
+              });
+            }
+          ], function(err) {
+            if (err) return next(err);
+            res.redirect('/team/teamDashboard');
+          });
     mentor.save();
     res.redirect("/admin/mentors");
   });
