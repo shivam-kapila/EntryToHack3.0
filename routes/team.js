@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
 var Team = require("../models/team");
+var Student = require("../models/student");
 var nodemailer = require("nodemailer");
 
 
@@ -30,8 +31,8 @@ router.get("/teamDashboard", isTeamLoggedIn, function (req, res) {
   Team.findOne({ username: req.user.username }, function (err, team) {
     if (err) {
       console.log(err);
-    } else if (team.members.length < 4) {
-      res.render("teamRegistration");
+    } else if (team.members.length < 1) {
+      res.render("teamLeaderSignup");
     } else {
       res.render("teamDashboard", { team: JSON.parse(JSON.stringify(team)) });
     }
@@ -41,6 +42,49 @@ router.get("/teamDashboard", isTeamLoggedIn, function (req, res) {
 // router.get("/student", isTeamLoggedIn, function (req, res) {
 //   res.render('teamRegistration');
 // });
+
+router.post('/leaderSignup', isTeamLoggedIn, function(req, res) {
+  Team.findOne({ username: req.user.username }, function (err, team) {
+    var newStudent = new Student({
+      area: req.body.area,
+      name: req.body.name,
+      team: req.user.username,
+      rollNumber: req.body.rollno,
+      email: req.body.email,
+      phone: req.body.phone,
+      username: req.body.username,
+      area: req.body.area,
+      year: req.body.year,
+      skills: req.body.skills
+    });
+
+  Student.register(newStudent, req.body.password, function (err, user) {
+  if (err) {
+      console.log(err);
+      return res.render("teamLeaderSignup");
+  }
+  
+  delete newStudent.username;
+  delete newStudent.team;
+  newStudent = newStudent.toObject();
+  newStudent.isLeader = true;
+
+  console.log(JSON.stringify(newStudent));
+
+  team.members.push(newStudent);
+  team.save(function (err) {
+  });
+
+  return res.render("index");
+  });
+
+  //   console.log(newStudent);
+    JSON.parse(JSON.stringify(team)).members.push(newStudent);
+    
+  //   console.log(JSON.parse(JSON.stringify(team)).members);
+    team.save();
+  });
+});
 
 router.post('/student', isTeamLoggedIn, function (req, res) {
   req.body.members[0]["isLeader"] = true;
@@ -210,8 +254,17 @@ router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function (req, res
 });
 
 router.post("/signup", function (req, res) {
+
+  var showTeam;
+  if(req.body.showTeam === "on") {
+    showTeam = false;
+  } else {
+    showTeam = true;
+  }
+
   var newTeam = new Team({
     username: req.body.username,
+    showTeam: showTeam,
     mentorchallenge: {
       mentorname: "",
         title : "",
