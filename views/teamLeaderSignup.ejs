@@ -1,0 +1,65 @@
+<% include ./partials/header %>
+
+<div class="col-md-12 text-center form">
+  <h1 class="text-uppercase">Team Leader Registration</h1>
+
+  <form action="/team/leaderSignup" method="POST">
+    <input type="text" name="name" placeholder="Name" required autofocus class="form-control">
+    <input type="text" id="roll" name="rollno" onfocusout="updateYear()" placeholder="Roll No." required class="form-control">
+    <input type="email" name="email" placeholder="Email" required class="form-control">
+    <input type="text" name="phone" placeholder="Phone No." class="form-control" required pattern="[0-9]{10}">
+    <input type="text" name="username" placeholder="User Name" required class="form-control">
+    <input type="password" name="password" placeholder="Password" required class="form-control">
+    <p class="mt-2"><strong>Year of study:</strong></p>
+    <select class="form-control" name="year" id="year" disabled>
+        <option value=""></option>
+        <option value="check-roll">Check your roll number</option>
+        <option value="5">5th</option>
+        <option value="4">4th</option>
+        <option value="3">3rd</option>
+        <option value="2">2nd</option>
+        <option value="1">1st</option>
+      </select>
+      <select class="form-control" id="year-hidden" name="year" hidden>
+          <option value=""></option>
+          <option value="check-roll">Check your roll number</option>
+          <option value="5">5th</option>
+          <option value="4">4th</option>
+          <option value="3">3rd</option>
+          <option value="2">2nd</option>
+          <option value="1">1st</option>
+        </select>
+    <!-- <p class="mt-2"><strong>Enter your team username:</strong></p>
+    <input type="text" name="team" placeholder="Team Username (Case sensitive)" class="form-control"> -->
+    <p class="mt-2"><strong>Enter your field of interest:</strong></p>
+    
+    <input type="text" name="area" placeholder="Field of Interest" class="form-control">
+    <p class="mt-2"><strong>Enter your skills:</strong></p>
+    <input type="text" name="skills[0]" placeholder="Skill 1" required class="form-control">
+    <input type="text" name="skills[1]" placeholder="Skill 2" class="form-control">
+    <input type="text" name="skills[2]" placeholder="Skill 3" class="form-control">
+    <input type="text" name="skills[3]" placeholder="Skill 4" class="form-control">
+    <input type="submit" name="Register" class="ui primary button">
+  </form>
+</div>
+<script>
+  function updateYear() {
+    var roll = $('#roll').val();
+    var map = new Map();
+    map.set(1, '1');
+    map.set(2, '2');
+    map.set(3, '3');
+    map.set(4, '4');
+    map.set(5, '5');
+    if ((roll.toLowerCase().search('iiitu') !== -1) && (roll.length === 10)) {
+        $('#year').val(map.get(19 - parseInt(roll.split('')[5] + roll.split('')[6])));
+        $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[5] + roll.split('')[6])));
+    } else if (roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
+        $('#year').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
+        $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
+    } else {
+        $('#year').val('check-roll');
+    }
+}
+</script>
+<% include ./partials/footer %>
