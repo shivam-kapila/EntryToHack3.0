@@ -1,12 +1,28 @@
 <% include ./partials/header %>
 <div class="row">
-    <div class="col-md-12">
-        <form class="form-signin" action="/admin/login" method="post">
-            <h1 class="h3 mb-3 font-weight-normal">Admin sign in</h1>
-            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+    <div class="col-md-12" style="background-image: url('/images/bg-01.jpg');">
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+        <form class="form-signin" action="/admin/login" method="post">
+
+            <h1 class="h3 mb-3 font-weight-normal">Admin sign in</h1>
+
+					<div class="wrap-form-control validate-input" data-validate = "Enter username">
+						<input class="form-control" type="text" name="username" placeholder="User name" required autofocus>
+						<span class="focus-form-control" data-placeholder="&#xe82a;"></span>
+
+					</div>
+
+           <div class="wrap-form-control validate-input" data-validate="Enter password">
+						<input class="form-control" type="password" name="password" placeholder="Password" required>
+						<span class="focus-form-control" data-placeholder="&#xe80f;"></span>
+					</div>
+<div class="container-login100-form-btn m-t-32">
+						<button class="btn btn-lg btn-primary btn-block" type="submit">
+							Sign In
+						</button>
+					</div>
+
+            
         </form>
     </div>
 </div>
