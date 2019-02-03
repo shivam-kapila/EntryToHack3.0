@@ -41,6 +41,8 @@
     Rejected
     <% } %>
   </p>
+
+
   <% if(mentor.isVerified == "Verified") {%>
   <form action="/mentor/challenge" method="GET">
     <button class="btn btn-lg btn-success btn-block"> Post Challenge</button>
@@ -56,7 +58,8 @@
   </form>
   <% } %>
   <%} else if(mentor.isVerified == "NotVerified"){%>
-  <button class="btn btn-lg btn-success btn-block" disabled> Post Challenge</button>
+    <p style="color:red;"><strong>NOTE: Please wait for your account to be verified in order to post challenges</strong></p>
+    <button class="btn btn-lg btn-secondary btn-block" disabled> Post Challenge</button>
   <% } %>
 
 </div>

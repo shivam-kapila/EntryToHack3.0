@@ -7,3 +7,30 @@
 input {
     margin: 40px;
 }
+
+.scrollit {
+    overflow:scroll;
+    /*height:100px;*/
+    width: 100%;
+}
+
+.mainButtons {
+    min-width: 200px; 
+}
+
+#loginContainer {
+    width: 400px;
+    margin: auto;
+    background: rgba(255,255,255,0.8);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px black;
+}
+
+#signInBackground {
+    width: 100%;
+    height: 100%;
+    background-image: url("http://backgroundcheckall.com/wp-content/uploads/2017/12/tech-background-image-6.jpg");
+    background-size: cover;
+    padding-top: 200px;
+}

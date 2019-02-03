@@ -9,19 +9,20 @@
   <% } %>
 </div>
 <% include ./partials/teamGoHome%>
-<table class="table-striped table table-bordered">
+<div class = "">
+<table class="container">
   <tr class="thead-dark">
-    <th>Title</th>
-    <th>Category</th>
-    <th>Description</th>
-    <th>Mentor Name</th>
-    <th>Mentor Username</th>
-    <th> No. of Applicants</th>
-    <th>Apply For It</th>
+    <th class="col-2">Title</th>
+    <th class="col-1">Category</th>
+    <th class="col-3">Description</th>
+    <th class="col-2">Mentor Name</th>
+    <th class="col-2">Mentor Username</th>
+    <th class="col-1"> No. of Applicants</th>
+    <th class="col-1">Apply For It</th>
   </tr>
   <% challenges.forEach(function(challenge){
                 challenge.mentorChallenges.forEach(function(chall) { %>
-  <tr>
+  <tr class="table-row">
     <td>
       <%= chall.title %>
     </td>
@@ -42,33 +43,32 @@
     </td>
     <td>
       <form action="/team/<%= challenge._id%>/participate/<%= chall._id%>" method="POST">
-        <% 
-                      if(chall.teamusername != null && chall.teamusername == team){ %>
+        <% if(chall.teamusername != null && chall.teamusername == team.username){ %>
         <button class="btn btn-info" disabled>You're Selected</button>
-        <% } else if(chall.teamusername != null && chall.teamusername != team){ %>
+        <% } else if(chall.teamusername != null && chall.teamusername != team.username){ %>
         <button class="btn btn-warning" disabled>Team Finalised</button>
-                     <%} else {
-
+                      <% } else if(team.mentorchallenge.title == "") {
                     var k = 0;
-                      for( var j = 0; j != chall.applicants.length; j++){     
-                            if(team == chall.applicants[j])
+                      for( var j = 0; j != chall.applicants.length; j++){   
+                      console.log("SEEEEE")  
+                            if(team.username == chall.applicants[j])
                               {
                               k = 1;
+                              console.log(chall.title + "yes");
                               break;
-                              console.log("yes");
                               }
                           }
-                          if(k === 1)
+                          if(k != 0)
                           { %>
-        <button class="btn btn-success" disabled>Applied</button>
-        <% } else { %>
-        <button class="btn btn-primary">Apply</button>
-        <% }
-                      } %>
+        <button class="btn btn-success" disabled>Applied</button>     
+                     <% } else { %>
+                      <button class="btn btn-primary">Apply</button>
+                  <% } }%>
       </form>
     </td>
   </tr>
   <% }); %>
   <% }); %>
 </table>
+</div>
 <% include ./partials/footer%>

@@ -1,7 +1,7 @@
 <% include ./partials/header %>
-<form action="/team/allMentorChallenges" method="GET">
+<!-- <form action="/team/allMentorChallenges" method="GET">
   <button class="btn btn-info btn-sm">See all mentor challenges</button>
-</form>
+</form> -->
 <div class = "scrollit">
 <table class="">
   <tr class="thead-dark">
@@ -9,7 +9,8 @@
     <th>Roll No.</th>
     <th>Email</th>
     <th>Phone</th>
-    <th style="min-width:200px;">Skills</th>
+    <th>Skills</th>
+    <th style="min-width: 200px">Leader</th>
   </tr>
   <% [...team.members].forEach(function (member) { 
       var skills = '';%>
@@ -26,7 +27,7 @@
     <td>
       <%= member.phone %>
     </td>
-    <td style="min-width:200px;">
+    <td>
       <ul>
         <% for(var i = 0; i < member.skills.length; i++){ %>
           <li>
@@ -37,14 +38,13 @@
         <% } %>
       </ul> 
     </td>
+    <td style="min-width: 200px"><%=member.isLeader %></td>
   </tr>
     <% }); %>
 </table>
 </div>
 <% if(!team.challenge) { %>
-<form action="/team/postChallenge" method="GET">
-  <button class="btn btn-info btn-sm">Self challenge</button>
-</form>
+  No challenge posted yet
 <% } else {%>
 <p>
   Challenge posted:

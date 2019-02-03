@@ -72,13 +72,11 @@ submitForm.on('click', function (e) {
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
-            success: function (msg) {
+            complete: function (msg) {
                 console.log('Post request made successfully');
+                window.location.href = '/team/teamDashboard';
             }
         });
-        setTimeout(function () {
-            window.location.href = '/team/teamDashboard';
-        }, 2000);
     } else {
         alert("This team formation is not allowed. Please refer to the rules again! http://csec.nith.ac.in/hack/");
                     window.location.href = '/team/teamDashboard';
@@ -216,9 +214,8 @@ function validateMemberYear(member) {
 }
 
 function updateYear() {
-    console.log('Hello');
     var roll = $('#roll').val();
-    if (roll.toLowerCase().search('iiitu') !== -1) {
+    if ((roll.toLowerCase().search('iiitu') !== -1) && (roll.length === 10)) {
         $('#year').val(19 - parseInt(roll.split('')[5] + roll.split('')[6]));
     } else if (roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
         $('#year').val(19 - parseInt(roll.split('')[0] + roll.split('')[1]));

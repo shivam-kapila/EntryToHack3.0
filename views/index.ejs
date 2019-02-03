@@ -18,10 +18,10 @@
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 LOG IN
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" id="ddown">
                 <a href="mentor/login" class="dropdown-item">Mentor</a>
                 <a href="/team/login" class="dropdown-item">Team</a>
-                <a href="/admin/login" class="dropdown-item">Admin</a>
+                <a href="/student/login" class="dropdown-item">Student</a>
             </div>
         </div>
         </div>
@@ -30,15 +30,20 @@
 
         <div class="row">
 
-            <div class="col-md-12 text-center form">
-                <h1 class="text-uppercase">Welcome to
-                    <p><strong>HACK 3.0</strong>
-                        <p> Registrations</h1>
-                <p>
-                    <a href="/mentor/signup" class="ui primary basic button btn-block">Mentor Registration</a>
-                </p>
-                <p>
-                    <a href="/team" class="ui positive basic button btn-block">Team Registration</a>
-                </p>
-            </div>
-            <% include ./partials/footer %>
+                <div class="col-md-12 text-center form">
+                    <h1>Welcome to Hack 3.0</h1>
+                    <p>
+                        <a href="/mentor/signup" class="btn btn-outline-primary btn-lg mainButtons">Mentor Registration</a>
+                    </p>
+                    <p>
+                        <a href="/team/signup" class="btn btn-outline-success btn-lg mainButtons">Team Registration</a>
+                    </p>
+                    <p>
+                        <a href="/student/signup" class="btn btn-outline-success btn-lg mainButtons">Student Registration</a>
+                    </p>
+                    <p>
+                        <a href="/viewAllTeams" class="btn btn-outline-success btn-lg mainButtons">View All Teams</a>
+                    </p>
+                </div>
+                <% include ./partials/footer %>
+
