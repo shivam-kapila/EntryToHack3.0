@@ -1,30 +1,33 @@
 <% include ./partials/header%>
 <% include ./partials/adminGoHome%>
-<div class = "scrollit">
-<table class="table-striped table table-bordered">
+<div class = "container scrollit">
+<table>
   <tr class="thead-dark">
-    <th>Team Name</th>
-    <th>Member 1</th>
-    <th>Member 2</th>
-    <th>Member 3</th>
-    <th>Member 4</th>
-    <th>Member 5</th>
-    <th>View</th>
+    <th >Team Name</th>
+    <th >Member 1</th>
+    <th >Member 2</th>
+    <th >Member 3</th>
+    <th >Member 4</th>
+    <th >Member 5</th>
+    <th style="min-width: 100px">View</th>
   </tr>
   <% teams.forEach(function(team){ %>
-  <tr>
-    <td>
+  <tr class="table-row">
+    <td >
       <%= team.username %>
     </td>
     <% team.members.forEach((member) => { %>
-        <td>
+        <td >
             <%=member.name %>
         </td>
     <% }); 
-    if(team.members.length !== 5) { %>
-        <td></td>
-    <% } %>
-    <td>
+    if(team.members.length !== 5) { 
+        for(var j = 0; j < 5 - team.members.length; j ++){ %>
+            <td ></td>
+
+           <%   }
+        } %>
+    <td style="min-width: 100px">
         <form action="/admin/team/<%= team._id%>" method="GET">
             <button class="btn btn-info btn-sm">View</button>
         </form>

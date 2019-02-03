@@ -10,7 +10,7 @@
   <% } %>
 </div>
 <div class = "scrollit">
-<table class="table-striped table table-bordered">
+<table class="">
   <tr class="thead-dark">
     <th>Title</th>
     <th>Category</th>
@@ -18,7 +18,7 @@
     <th>Mentor Name</th>
     <th>Mentor Username</th>
     <th>Accepted Team</th>
-    <th>Applicants</th>
+    <th style="min-width: 200px;">Applicants</th>
   </tr>
   <% challenges.forEach(function(challenge){
                 challenge.mentorChallenges.forEach(function(chall) { %>
@@ -41,7 +41,7 @@
     <td>
       <%= chall.teamusername %>
     </td>
-    <td>
+    <td style="min-width: 200px;">
       <ul>
 
         <% for(var i = 0; i < chall.applicants.length; i++){ %>

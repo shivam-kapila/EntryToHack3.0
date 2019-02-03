@@ -1,43 +1,43 @@
 <% include ./partials/header%>
 <% include ./partials/adminGoHome%>
 <div class = "scrollit">
-    <table class="table-striped table table-bordered">
+    <table class="container">
     <tr class="thead-dark">
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Roll No.</th>
-      <th>Year</th>
-      <th>Username</th>
-      <th>Area of Interest</th>
-      <th>Skills</th>
-      <th>Verification Status</th>
-      <th>Action</th>
+      <th >Name</th>
+      <th >Email</th>
+      <th >Phone</th>
+      <th >Roll No.</th>
+      <th >Year</th>
+      <th >Username</th>
+      <th >Area of Interest</th>
+      <th >Skills</th>
+      <th >Verification Status</th>
+      <th style="min-width: 100px">Action</th>
     </tr>
     <% mentors.forEach(function(mentor){ %>
-    <tr>
-      <td>
+    <tr class="table-row">
+      <td >
         <%= mentor.name %>
       </td>   
       <td>
         <%= mentor.email %>
       </td>
-      <td>
+      <td >
         <%= mentor.phone %>
       </td>
-      <td>
+      <td >
         <%= mentor.rollNumber %>
       </td>
-      <td>
+      <td >
         <%= mentor.year %>
       </td>
-      <td>
+      <td >
         <%= mentor.username %>
       </td>
       <td>
         <%= mentor.area %>
       </td>
-      <td>
+      <td >
         <ul>
           <% for(var i =0; i < mentor.skills.length; i++){%>
           <li>
@@ -46,10 +46,10 @@
           <% } %>
         </ul>
       </td>
-      <td>
+      <td >
         <%= mentor.isVerified %>
       </td>
-      <td>
+      <td style="min-width: 100px">
         <% if(mentor.isVerified == "NotVerified") { %>
         <form action="/admin/<%= mentor._id%>/verify" method="POST">
           <button class="btn btn-info btn-sm">Verify</button>
