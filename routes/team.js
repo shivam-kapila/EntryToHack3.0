@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var Mentor = require("../models/mentor");
+var async = require("async");
 var Team = require("../models/team");
+var Student = require("../models/student");
 var nodemailer = require("nodemailer");
 
 
@@ -30,8 +32,8 @@ router.get("/teamDashboard", isTeamLoggedIn, function (req, res) {
   Team.findOne({ username: req.user.username }, function (err, team) {
     if (err) {
       console.log(err);
-    } else if (team.members.length < 4) {
-      res.render("teamRegistration");
+    } else if (team.members.length < 1) {
+      res.render("teamLeaderSignup");
     } else {
       res.render("teamDashboard", { team: JSON.parse(JSON.stringify(team)) });
     }
@@ -41,6 +43,49 @@ router.get("/teamDashboard", isTeamLoggedIn, function (req, res) {
 // router.get("/student", isTeamLoggedIn, function (req, res) {
 //   res.render('teamRegistration');
 // });
+
+router.post('/leaderSignup', isTeamLoggedIn, function(req, res) {
+  Team.findOne({ username: req.user.username }, function (err, team) {
+    var newStudent = new Student({
+      area: req.body.area,
+      name: req.body.name,
+      team: req.user.username,
+      rollNumber: req.body.rollno,
+      email: req.body.email,
+      phone: req.body.phone,
+      username: req.body.username,
+      area: req.body.area,
+      year: req.body.year,
+      skills: req.body.skills
+    });
+
+  Student.register(newStudent, req.body.password, function (err, user) {
+  if (err) {
+      console.log(err);
+      return res.render("teamLeaderSignup");
+  }
+  
+  delete newStudent.username;
+  delete newStudent.team;
+  newStudent = newStudent.toObject();
+  newStudent.isLeader = true;
+
+  console.log(JSON.stringify(newStudent));
+
+  team.members.push(newStudent);
+  team.save(function (err) {
+  });
+
+  return res.render("index");
+  });
+
+  //   console.log(newStudent);
+    JSON.parse(JSON.stringify(team)).members.push(newStudent);
+    
+  //   console.log(JSON.parse(JSON.stringify(team)).members);
+    team.save();
+  });
+});
 
 router.post('/student', isTeamLoggedIn, function (req, res) {
   req.body.members[0]["isLeader"] = true;
@@ -179,29 +224,29 @@ router.get("/postChallenge", isTeamLoggedIn, function (req, res) {
 router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function (req, res) {
   Team.findOne({ username: req.user.username }, function (err, team) {
     team.challenge = (req.body.challenge);
-    async.waterfall([
-            function(token, user, done) {
-              var smtpTransport = nodemailer.createTransport({
-                service: 'Gmail', 
-                auth: {
-                    type: "login",
-                  user: 'csechack3.0@gmail.com',
-                  pass: process.env.PASS
-                }
-              });
-              var userMail = {
-                to: req.user.members[0].email,
-                from: 'csechack3.0@gmail.com',
-                subject: 'Challenge Request Sent',
-                text: 'Dear '+  req.user.members[0].name + '\n \n This is to inform you that your challenge has been posted. You will be notified about further updates soon. \n\n Regards \n Team CSEC'
-              };
-              smtpTransport.sendMail(userMail, function(err) {
-              });
-            }
-          ], function(err) {
-            if (err) return next(err);
-            res.redirect('/team/teamDashboard');
-          });
+    // async.waterfall([
+    //         function(token, user, done) {
+    //           var smtpTransport = nodemailer.createTransport({
+    //             service: 'Gmail', 
+    //             auth: {
+    //                 type: "login",
+    //               user: 'csechack3.0@gmail.com',
+    //               pass: process.env.PASS
+    //             }
+    //           });
+    //           var userMail = {
+    //             to: req.user.members[0].email,
+    //             from: 'csechack3.0@gmail.com',
+    //             subject: 'Challenge Request Sent',
+    //             text: 'Dear '+  req.user.members[0].name + '\n \n This is to inform you that your challenge has been posted. You will be notified about further updates soon. \n\n Regards \n Team CSEC'
+    //           };
+    //           smtpTransport.sendMail(userMail, function(err) {
+    //           });
+    //         }
+    //       ], function(err) {
+    //         if (err) return next(err);
+    //         res.redirect('/team/teamDashboard');
+    //       });
     team.save(function (err) {
     });
     //  console.log("See" + mentor);
@@ -210,8 +255,17 @@ router.post("/postChallenge", isTeamLoggedIn, isTeamLoggedIn, function (req, res
 });
 
 router.post("/signup", function (req, res) {
+
+  var showTeam;
+  if(req.body.showTeam === "on") {
+    showTeam = false;
+  } else {
+    showTeam = true;
+  }
+
   var newTeam = new Team({
     username: req.body.username,
+    showTeam: showTeam,
     mentorchallenge: {
       mentorname: "",
         title : "",

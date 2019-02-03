@@ -1,13 +1,16 @@
 <% include ./partials/header %>
-<div class="row">
-    <div class="col-md-12">
-        <form class="form-signin" action="/team/login" method="post">
-            <h1 class="h3 mb-3 font-weight-normal">Team sign in</h1>
-            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-        </form>
+<div id="signInBackground">
+    <div id="loginContainer"> 
+        <div class="row">
+            <div class="col-12">
+                <form class="form-signin" action="/team/login" method="post">
+                    <h1 class="h3 mb-3 font-weight-normal">TEAM SIGN IN</h1>
+                    <input type="text" class="form-control my-3" name="username" placeholder="Username" required autofocus>
+                    <input type="password" class="form-control my-3" name="password" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block my-3" type="submit">Sign In</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 <% include ./partials/footer %>

@@ -1,15 +1,15 @@
 <% include ./partials/header%>
 <% include ./partials/mentorGoHome%>
 <div class = "scrollit">
-<table class="table-striped table table-bordered">
+<table class="">
   <tr class="thead-dark">
     <th>Name</th>
     <th>Year</th>
     <th>Skills</th> 
-    <th>Leader</th>
+    <th style="min-height:200px">Leader</th>
   </tr>
   <% team.members.forEach(function(member){%>
-    <tr>
+    <tr class="table-row">
       <td><%= member.name %></td>
       <td><%= member.year %></td>
       <td>
@@ -23,7 +23,7 @@
           <% } %>
         </ul> 
       </td>
-      <td><% if(member.isLeader) { %>
+      <td style="min-height:200px"><% if(member.isLeader) { %>
         Yes
       <% } else { %>
         No

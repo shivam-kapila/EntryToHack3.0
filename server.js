@@ -13,13 +13,15 @@ var express = require("express"),
     Mentor = require("./models/mentor"),
     Admin = require("./models/admin"),
     Team = require("./models/team");
+    Student = require("./models/student");
 
 //requiring routes
 var indexRoutes = require("./routes/index");
 var mentorRoutes = require("./routes/mentor");
 var teamRoutes = require("./routes/team");
 var adminRoutes = require("./routes/admin");
-var url =  'mongodb://CSECHack3:csechack3@ds119795.mlab.com:19795/entry_to_hack3';
+var studentRoutes = require("./routes/student");
+var url =  "mongodb://CSECHack3:csechack3@ds119795.mlab.com:19795/entry_to_hack3";
 mongoose.connect(url, {
     useNewUrlParser: true
 });
@@ -48,6 +50,9 @@ passport.use('team', new LocalStrategy(usedStrategy = 'team', Team.authenticate(
 // passport.deserializeUser(Team.deserializeUser());
 passport.use('admin', new LocalStrategy(usedStrategy = 'admin', Admin.authenticate()));
 
+passport.use('student', new LocalStrategy(usedStrategy = 'student', Student.authenticate()));
+
+
 passport.serializeUser(
     function(user, done) {
         if (isMentor(user)) {
@@ -62,6 +67,10 @@ passport.serializeUser(
             console.log(user);
             Admin.serializeUser();
             done(null, user);
+        } else if (isStudent(user)) {
+            console.log(user);
+            Student.serializeUser();
+            done(null, user);
         }
     });
 passport.deserializeUser(
@@ -74,6 +83,9 @@ passport.deserializeUser(
             done(null, user);
         } else if (isAdmin(user)) {
             Admin.deserializeUser();
+            done(null, user);
+        } else if (isStudent(user)) {
+            Student.deserializeUser();
             done(null, user);
         }
     });
@@ -97,11 +109,18 @@ function isAdmin(user) {
     return true;
 }
 
+function isStudent(user) {
+    if (user instanceof Student)
+        console.log("Student");
+    return true;
+}
+
 app.use(function(req, res, next) {
     // res.locals.currentTeam = req.username;
     res.locals.mentor = req.user;
     res.locals.team = req.user;
     res.locals.admin = req.user;
+    res.locals.student = req.user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
     next();
@@ -111,6 +130,7 @@ app.use("/", indexRoutes);
 app.use("/mentor", mentorRoutes);
 app.use("/team", teamRoutes);
 app.use("/admin", adminRoutes);
+app.use("/student", studentRoutes);
 
 
 console.log(process.env.PORT);

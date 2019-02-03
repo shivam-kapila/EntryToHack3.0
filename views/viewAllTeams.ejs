@@ -1,25 +1,27 @@
 <% include ./partials/header%>
-<% include ./partials/adminGoHome%>
-<div class = "container scrollit">
-<table>
+<!-- <% include ./partials/adminGoHome%> -->
+<p><strong style="color:blue">The Area of Work for each member is shown in parenthesis</strong></p>
+<div class = "scrollit">
+<table class="table-striped table table-bordered">
   <tr class="thead-dark">
     <th>Team Username</th>
     <th>Member 1</th>
     <th>Member 2</th>
     <th>Member 3</th>
     <th>Member 4</th>
-    <th>Member 5</th>
-    <th style="min-width: 100px">View</th>
+    <th style="min-width:200px">Member 5</th>
   </tr>
   <% teams.forEach(function(team){ 
-      if(team.members.length !== 0){%>
-  <tr class="table-row">
+      if(team.members.length !== 0 && team.showTeam){%>
+  <tr>
     <td>
       <%= team.username %>
     </td>
     <% team.members.forEach((member) => { %>
-        <td >
+        <td>
             <%=member.name %>
+            <% %>
+            (<%= member.area %>)
         </td>
     <% }); 
     if(team.members.length < 5) { 
@@ -27,11 +29,6 @@
         for(var l=0; l< 5-x; l++){%>
             <td></td>
     <% }} %>
-    <td>
-        <form action="/admin/team/<%= team._id%>" method="GET">
-            <button class="btn btn-info btn-sm">View</button>
-        </form>
-    </td>
     </tr>
     <% }}); %>
     

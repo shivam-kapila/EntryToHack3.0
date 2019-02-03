@@ -14,6 +14,9 @@ var teamSchema = mongoose.Schema({
         type: String,
         default: "team"
     },
+    showTeam: {
+        type: Boolean,
+    },
     members: [
         {
             name: {
@@ -27,6 +30,9 @@ var teamSchema = mongoose.Schema({
             email: {
                 type: String,
                 required: true
+            },
+            area: {
+                type: String
             },
             rollNumber: {
                 type: String,
