@@ -1,7 +1,7 @@
 <% include ./partials/header%>
 <% include ./partials/adminGoHome%>
 <div class = "scrollit">
-    <table class="table-striped table table-bordered">
+    <table class="container">
   <tr class="thead-dark">
     <th>Name</th>
     <th>Title</th>
@@ -11,7 +11,7 @@
   </tr>
   <% mentors.forEach(function(mentor){ 
       mentor.mentorChallenges.forEach(function(challenge) {%>
-        <tr><td>
+        <tr class="table-row"><td>
             <%=mentor.name%>
             
         </td><td>

@@ -146,6 +146,9 @@
     } else if (roll.length === 5 || (roll.length === 7 && roll.toLowerCase().search('mi') !== -1)) {
         $('#year').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
         $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
+    } else if (roll.length === 6 && roll.toLowerCase().search('18') === 0) {
+        $('#year').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
+        $('#year-hidden').val(map.get(19 - parseInt(roll.split('')[0] + roll.split('')[1])));
     } else {
         $('#year').val('check-roll');
     }

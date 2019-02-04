@@ -13,12 +13,31 @@ router.get("/signup", function (req, res) {
 });
 
 router.get("/dashboard", isStudentLoggedIn, function(req, res) {
-    res.render("test")
+    Team.findOne({username: req.user.team}, function(err, team) {
+        // console.log(req.user.team);
+        // console.log(JSON.stringify(team));
+        if (err) {
+            console.log(err);
+        } else if (JSON.parse(JSON.stringify(team)).members.length < 1) {
+            res.render("teamLeaderSignup");
+        } else {
+            res.render("studentDashboard", { team: JSON.parse(JSON.stringify(team)) });
+        }
+        });
 });
 
 router.get("/login", function(req, res) {
     res.render("studentLogin");
 });
+
+router.post("/login", passport.authenticate("student",
+  {
+    successRedirect: "/student/dashboard",
+    failureRedirect: "/student/login",
+
+  }), function (req, res) {
+    student: req.body.username;
+  });
 
 router.post("/signup", function (req, res) {
     Team.findOne({username: req.body.team}, function(err, team) {
@@ -57,9 +76,19 @@ router.post("/signup", function (req, res) {
 
         // team.members.push(newStudent);
         
-        JSON.parse(JSON.stringify(team)).members.push(newStudent);
+
+        team.members.push(newStudent);
         team.save(function (err) {
         });
+        //   console.log(newStudent);
+        JSON.parse(JSON.stringify(team)).members.push(newStudent);
+          
+        //   console.log(JSON.parse(JSON.stringify(team)).members);
+          team.save();
+
+        // JSON.parse(JSON.stringify(team)).members.push(newStudent);
+        // team.save(function (err) {
+        // });
         //   console.log(newStudent);
           
         //   console.log(JSON.parse(JSON.stringify(team)).members);

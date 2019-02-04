@@ -1,7 +1,7 @@
 <% include ./partials/header%>
 <% include ./partials/adminGoHome%>
-<div class = "scrollit">
-<table class="table-striped table table-bordered">
+<div class = "container scrollit">
+<table>
   <tr class="thead-dark">
     <th>Team Username</th>
     <th>Member 1</th>
@@ -9,16 +9,16 @@
     <th>Member 3</th>
     <th>Member 4</th>
     <th>Member 5</th>
-    <th>View</th>
+    <th style="min-width: 100px">View</th>
   </tr>
   <% teams.forEach(function(team){ 
       if(team.members.length !== 0){%>
-  <tr>
+  <tr class="table-row">
     <td>
       <%= team.username %>
     </td>
     <% team.members.forEach((member) => { %>
-        <td>
+        <td >
             <%=member.name %>
         </td>
     <% }); 
