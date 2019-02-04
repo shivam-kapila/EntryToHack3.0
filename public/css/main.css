@@ -85,7 +85,7 @@ textarea {
 }
 
 textarea:focus, input:focus {
-  border-color: transparent !important;
+  border-color: green !important;
 }
 
 input:focus::-webkit-input-placeholder { color:transparent; }
@@ -475,5 +475,50 @@ iframe {
   }
 }
 
+.centering{
+ display: flex;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  z-index: 100;
 
+}
 
+.buttoncustom{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:10px;
+}
+
+.padd{
+ padding:5px;
+}
+sup{
+  color:red;
+}
+.container{
+  padding:20px;
+  width:100%;
+  border-radius:4px;
+  background-color: rgba(255,255,255,0.4);
+
+}
+.color{
+  color:white;
+}
+.form-control{
+  padding:3px;
+}
+
+.ball {
+ position: absolute;
+  border-radius: 100%;
+  opacity: 0.7;
+}
+
+.animation
+{
+  position: relative;
+  z-index:1;
+}

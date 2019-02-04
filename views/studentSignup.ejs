@@ -1,26 +1,30 @@
 <% include ./partials/header %>
 
-<div class="col-md-12 text-center form">
-  <h1 class="text-uppercase">Student Registration</h1>
+<div>
+  <div class="signup-form back mt-4 mb-4">
 
   <form action="/student/signup" method="POST">
-    <input type="text" name="name" placeholder="Name" required autofocus class="form-control">
-    <input type="text" id="roll" name="rollno" onfocusout="updateYear()" placeholder="Roll No." required class="form-control">
-    <input type="email" name="email" placeholder="Email" required class="form-control">
-    <input type="text" name="phone" placeholder="Phone No." class="form-control" required pattern="[0-9]{10}">
-    <input type="text" name="username" placeholder="User Name" required class="form-control">
-    <input type="password" name="password" placeholder="Password" required class="form-control">
-    <p class="mt-2"><strong>Year of study:</strong></p>
-    <select class="form-control" name="year" id="year" disabled>
-        <option value=""></option>
-        <option value="check-roll">Check your roll number</option>
-        <option value="5">5th</option>
-        <option value="4">4th</option>
-        <option value="3">3rd</option>
-        <option value="2">2nd</option>
-        <option value="1">1st</option>
-      </select>
-      <select class="form-control" id="year-hidden" name="year" hidden>
+      <div class="centering">
+          <div class="container">
+             <h1 class="text-uppercase text-center mentor">Student Registration</h1>
+                <div class="row">
+         <div class="form-input name col col-12 col-md-6">
+        <label for="first_name" class="required">Name</label>
+         <input type="text" name="name" placeholder="Name" required autofocus class="form-control">
+        </div>
+         <div class="form-input col col-12 col-md-6">
+         <label for="email" class="required">Email</label>
+         <input type="email" name="email" placeholder="Email" required class="form-control">
+        </div>
+      </div>
+   <div class="row">
+            <div class="form-input col col-12 col-md-6">
+        <label for="first_name" class="required">Roll No</label>
+        <input type="text" id="roll" name="rollno" onfocusout="updateYear()" placeholder="Roll No." required class="form-control">
+         </div>
+          <div class="form-input custom col col-12 col-md-6">
+            <label>Year of study<sup>*</sup></label>
+            <select class="form-control" name="year" id="year" disabled>
           <option value=""></option>
           <option value="check-roll">Check your roll number</option>
           <option value="5">5th</option>
@@ -29,19 +33,104 @@
           <option value="2">2nd</option>
           <option value="1">1st</option>
         </select>
-    <p class="mt-2"><strong>Enter your team username:</strong></p>
-    <input type="text" name="team" placeholder="Team Username (Case sensitive)" class="form-control">
-    <p class="mt-2"><strong>Enter your field of interest:</strong></p>
-    
-    <input type="text" name="area" placeholder="Field of Interest" class="form-control">
-    <p class="mt-2"><strong>Enter your skills:</strong></p>
-    <input type="text" name="skills[0]" placeholder="Skill 1" required class="form-control">
-    <input type="text" name="skills[1]" placeholder="Skill 2" class="form-control">
-    <input type="text" name="skills[2]" placeholder="Skill 3" class="form-control">
-    <input type="text" name="skills[3]" placeholder="Skill 4" class="form-control">
-    <input type="submit" name="Register" class="ui primary button">
+        <select class="form-control" id="year-hidden" name="year" hidden>
+            <option value=""></option>
+            <option value="check-roll">Check your roll number</option>
+            <option value="5">5th</option>
+            <option value="4">4th</option>
+            <option value="3">3rd</option>
+            <option value="2">2nd</option>
+            <option value="1">1st</option>
+          </select>
+      </div>
+       </div>
+
+        <div class="row">
+           <div class="form-input col col-md-6">
+         <label for="email" class="required">Username</label>
+         <input type="text" name="username" placeholder="User Name" required class="form-control">
+        </div>
+        <div class="form-input col col-md-6">
+         <label for="email" class="required">Password</label>
+          <input type="password" name="password" placeholder="Password" required class="form-control">
+        </div>
+       </div>
+
+
+
+        <div class="row">
+            <div class="form-input col col-12 col-md-4">
+         <label for="email" class="required">Enter Team Username</label>
+      <input type="text" name="team" placeholder="Team Username (Case sensitive)" class="form-control">
+        </div>
+          <div class="form-input col col-12 col-md-4">
+         <label for="email" class="required">Phone No.</label>
+       <input type="text" name="phone" placeholder="Phone No." class="form-control" required pattern="[0-9]{10}">
+        </div>
+        <div class="form-input col col-12 col-md-4">
+        <label>Field of Interest<sup>*</sup></label>
+          <!-- <select class="form-control" name="area">
+            <option value="android_app_development">Android App Development</option>
+            <option value="web_development">Web Development</option>
+            <option value="deep_learning">Deep Learning</option>
+            <option value="machine_learning">Machine Learning</option>
+            <option value="artificial_intelligence">Artificial Intelligence</option>
+            <option value="data_science">Data Science</option>
+            <option value="cloud_computing">Cloud Computing</option>
+            <option value="embedded_systems">Embedded Systems</option>
+            <option value="game_development">Game Development</option>
+            <option value="blockchain">Blockchain</option>
+            <option value="front_end_development">Front End Development</option>
+            <option value="back_end_development">Back End Development</option>
+            <option value="database_management">Database Management</option>
+          </select> -->
+          
+          <input type="text" name="area" placeholder="Field of Interest" class="form-control">
+      </div>
+         
+         
+     
+      
+        </div>
+
+
+
+
+        <label>Enter your skills<sup>*</sup></label>
+         <div class="row">
+          <div class="form-input col col-12 col-md-6">
+         <input type="text" name="skills[0]" placeholder="Skill 1" required class="form-control">
+          </div>
+          <div class="form-input col col-12 col-md-6">
+          <input type="text" name="skills[1]" placeholder="Skill 2" class="form-control">
+          </div>
+        </div>
+          <div class="row">
+          <div class="form-input col col-12 col-md-6">
+          <input type="text" name="skills[2]" placeholder="Skill 3" class="form-control">
+          </div>
+          <div class="form-input col col-12 col-md-6">
+        <input type="text" name="skills[3]" placeholder="Skill 4" class="form-control">
+          </div>
+        </div>
+ <div class="buttoncustom">
+          <input type="submit" name="Register" value="Register" class="ui bg-dark button text-light myclass">
+        </div>
+    </div>
+  </div>
   </form>
 </div>
+</div>
+
+        <script type="text/javascript">
+          $(".myclass").hover(function(){
+            $(this).toggleClass("bg-dark");
+            $(this).toggleClass("bg-success");
+          });
+
+
+
+        </script>
 <script>
   function updateYear() {
     var roll = $('#roll').val();
