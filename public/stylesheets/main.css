@@ -4,9 +4,13 @@
     padding: 15px;
 }
 
-input {
-    margin: 40px;
+.container{
+	background-color: rgba(255,255,255,1);
 }
+
+input {
+/*    margin: 40px;
+*/}
 
 .scrollit {
     overflow:scroll;
@@ -14,6 +18,19 @@ input {
     width: 100%;
 }
 
+body {
+	padding: 0px;
+	background-color: black;
+}
+.buttoncustom{
+	margin: 0 auto;
+	width: 20rem;
+}
+.mentor{
+	font-weight: 10;
+	padding:10px;
+
+}
 .mainButtons {
     min-width: 200px; 
 }
@@ -33,4 +50,5 @@ input {
     background-image: url("http://backgroundcheckall.com/wp-content/uploads/2017/12/tech-background-image-6.jpg");
     background-size: cover;
     padding-top: 200px;
+
 }

@@ -85,7 +85,7 @@ textarea {
 }
 
 textarea:focus, input:focus {
-  border-color: transparent !important;
+  border-color: green !important;
 }
 
 input:focus::-webkit-input-placeholder { color:transparent; }
@@ -474,5 +474,36 @@ iframe {
   }
 }
 
+.centering{
+ display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0 auto;
 
+}
 
+.buttoncustom{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:10px;
+}
+
+.padd{
+ padding:5px;
+}
+sup{
+  color:red;
+}
+
+.container{
+  padding:20px;
+  border-radius:4px;
+}
+
+.color{
+  color:white;
+}
+.form-control{
+  padding:3px;
+}
