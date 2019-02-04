@@ -1,13 +1,13 @@
 <% include ./partials/header%>
 <% include ./partials/adminGoHome%>
 <div class = "scrollit">
-    <table class="container">
+    <table class="containerTable">
   <tr class="thead-dark">
     <th>Name</th>
     <th>Title</th>
     <th>Category</th>
     <th>Description</th>
-    <th>Applicants</th>
+    <th style="min-height:200px">Applicants</th>
   </tr>
   <% mentors.forEach(function(mentor){ 
       mentor.mentorChallenges.forEach(function(challenge) {%>
@@ -23,7 +23,7 @@
                         <%=challenge.description %>
             
                     </td>
-                    <td><ul>
+                    <td style="min-height:200px"><ul>
                     <% challenge.applicants.forEach(function(applicant) { %>
                         <li><%= applicant %></li>
                     <% }); %>
