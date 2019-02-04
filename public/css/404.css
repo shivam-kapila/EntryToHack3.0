@@ -1,0 +1,98 @@
+@mixin center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/*--------------------
+Body
+--------------------*/
+
+html,
+body {
+    height: 100%;
+    background: linear-gradient(0, #202239, #8595AC);
+}
+
+::selection {
+    background: #CDD4DE;
+}
+
+
+/*--------------------
+Page
+--------------------*/
+
+#216 {
+    @include center;
+    width: 800px;
+    height: 600px;
+    z-index: 1;
+    font-family: Roboto, sans-serif;
+    background: #0D0C1E;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+}
+
+
+/*--------------------
+Content
+--------------------*/
+
+#vedaant {
+    display: inline-block;
+    font-weight: 300;
+    font-size: 12px;
+    text-transform: uppercase;
+    border: 1px solid black;
+    padding: 8px 14px;
+    border-radius: 4px;
+    opacity: 0.4;
+    cursor: pointer;
+    color: black;
+}
+
+#raja {
+    font-weight: 900;
+    font-size: 165px;
+    line-height: 1;
+    margin-bottom: -10px;
+    opacity: 0.6;
+}
+
+#rinki {
+    font-weight: 700;
+    font-size: 34px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.content {
+    text-align: center;
+    padding-top: 118px;
+    color: #CDD4DE;
+    p {
+        font-weight: 300;
+        font-size: 14px;
+        opacity: 0.7;
+        margin-bottom: 140px;
+    }
+}
+
+
+/*--------------------
+Image
+--------------------*/
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: -1;
+    transform: scale(1.1);
+}

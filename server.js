@@ -13,7 +13,7 @@ var express = require("express"),
     Mentor = require("./models/mentor"),
     Admin = require("./models/admin"),
     Team = require("./models/team");
-    Student = require("./models/student");
+Student = require("./models/student");
 
 //requiring routes
 var indexRoutes = require("./routes/index");
@@ -21,7 +21,7 @@ var mentorRoutes = require("./routes/mentor");
 var teamRoutes = require("./routes/team");
 var adminRoutes = require("./routes/admin");
 var studentRoutes = require("./routes/student");
-var url =  "mongodb://CSECHack3:csechack3@ds119795.mlab.com:19795/entry_to_hack3";
+var url = "mongodb://CSECHack3:csechack3@ds119795.mlab.com:19795/entry_to_hack3";
 mongoose.connect(url, {
     useNewUrlParser: true
 });
@@ -131,6 +131,9 @@ app.use("/mentor", mentorRoutes);
 app.use("/team", teamRoutes);
 app.use("/admin", adminRoutes);
 app.use("/student", studentRoutes);
+app.use(function(req, res, next) {
+    res.status(404).render('404', { title: "sorry Page not found" });
+});
 
 
 console.log(process.env.PORT);
