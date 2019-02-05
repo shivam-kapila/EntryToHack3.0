@@ -10,8 +10,8 @@ router.get("/", function (req, res) {
   });
 });
 
-router.get("/test", function (req, res) {
-  res.render("test");
+router.get("/404", function (req, res) {
+  res.render("404");
 });
 
 router.get("/viewAllTeams", function (req, res) {
